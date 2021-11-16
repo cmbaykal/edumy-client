@@ -19,7 +19,7 @@ abstract class BaseViewModel(viewState: ViewState, viewEvent: ViewEvent) : ViewM
     abstract fun setInitialState(): ViewState
 
     private val _viewState: MutableState<ViewState> = mutableStateOf(initialState)
-    val viewState: State<ViewState> = _viewState
+    val state: State<ViewState> = _viewState
 
     private val _event: MutableSharedFlow<ViewEvent> = MutableSharedFlow()
 
@@ -41,7 +41,7 @@ abstract class BaseViewModel(viewState: ViewState, viewEvent: ViewEvent) : ViewM
     }
 
     fun postState(reducer: ViewState.() -> ViewState) {
-        _viewState.value = viewState.value.reducer()
+        _viewState.value = state.value.reducer()
     }
 
     fun postEffect(builder: () -> ViewEffect) {
