@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Edumy Client</string>
+
+    <string name="login_screen">Login</string>
+    <string name="register_screen">Register</string>
+    <string name="home_screen">Home</string>
+    <string name="profile_screen">Profile</string>
+    <string name="classrooms_screen">Classrooms</string>
+    <string name="create_class_screen">Create Class</string>
+    <string name="performances_screen">Performances</string>
+    <string name="add_performance_screen">Add Performance</string>
+    <string name="ask_question_screen">Ask Question</string>
+    <string name="question_detail_screen">Question Detail</string>
+    <string name="questions">Questions</string>
+    <string name="app_usages_screen">App Usages</string>
+    <string name="meetings_screen">Meetings</string>
+    <string name="schedule_meeting_screen">Schedule Meeting</string>
+
 </resources>

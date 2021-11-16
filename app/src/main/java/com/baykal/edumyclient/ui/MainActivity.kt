@@ -1,19 +1,21 @@
 package com.baykal.edumyclient.ui
 
-import android.animation.ObjectAnimator
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.ViewTreeObserver
-import android.view.animation.AnticipateInterpolator
+
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.animation.doOnEnd
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.baykal.edumyclient.ui.navigation.Screen
+import com.baykal.edumyclient.ui.screen.HomeScreen
+import com.baykal.edumyclient.ui.screen.account.login.LoginScreen
+import com.baykal.edumyclient.ui.screen.account.register.RegisterScreen
 
 import com.baykal.edumyclient.ui.theme.EdumyClientTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +27,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EdumyClientTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    EdumyClient()
                 }
             }
         }
@@ -35,14 +36,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun EdumyClient() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "login") {
+        composable(Screen.Login.route) { LoginScreen(navController) }
+        composable(Screen.Register.route) { RegisterScreen(navController) }
+        composable(Screen.Home.route) { HomeScreen()}
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     EdumyClientTheme {
-        Greeting("Android")
+        EdumyClient()
     }
 }
