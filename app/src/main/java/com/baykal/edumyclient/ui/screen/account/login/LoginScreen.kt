@@ -50,12 +50,12 @@ fun LoginScreen(navController: NavController? = null) {
                 label = "E-mail",
                 onChange = { email = it },
                 success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
-                errorText = "Boş olamaz"
             )
             ETextField(
                 label = "Password",
                 onChange = { password = it },
-                success = { it.length in 8..16 }
+                success = { it.length in 8..16 },
+                passwordToggle = true
             )
             EButton(
                 text = "Login",
