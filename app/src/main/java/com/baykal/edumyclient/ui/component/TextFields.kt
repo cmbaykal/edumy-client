@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -38,8 +39,6 @@ fun ETextField(
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
 
     val colors = TextFieldDefaults.textFieldColors(
-        textColor = Color.Black,
-        cursorColor = Color.Black,
         focusedLabelColor = Orange,
         unfocusedLabelColor = Color.Gray,
         errorLabelColor = "#ff6d64".color,
@@ -110,6 +109,64 @@ fun ETextField(
                 text = errorText,
                 color = "#ff6d64".color
             )
+        }
+    }
+}
+
+@Composable
+fun EDateField(
+    label: String,
+    onChange: (InputState) -> Unit
+) {
+    var dialogState by remember { mutableStateOf(false) }
+    var focused by remember { mutableStateOf(false) }
+    var text by remember { mutableStateOf("") }
+
+    val colors = TextFieldDefaults.textFieldColors(
+        focusedLabelColor = Orange,
+        unfocusedLabelColor = Color.Gray,
+        errorLabelColor = "#ff6d64".color,
+        focusedIndicatorColor = Orange,
+        unfocusedIndicatorColor = OrangeVariant,
+        errorIndicatorColor = "#ff6d64".color,
+        errorTrailingIconColor = "#ff6d64".color
+    )
+
+    Box(
+        Modifier
+            .padding(8.dp)
+            .clickable {
+                dialogState = true
+            },
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { focused = it.isFocused },
+            colors = colors,
+            value = text,
+            onValueChange = {
+                text = it
+                onChange(InputState(text = it))
+            },
+            label = {
+                Text(
+                    text = if (focused || text.isNotEmpty()) label.uppercase() else label,
+                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                )
+            },
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable(onClick = { dialogState = true })
+        )
+    }
+
+    if (dialogState) {
+        EDatePicker(onChange = { text = it }) {
+            dialogState = false
         }
     }
 }
