@@ -49,10 +49,7 @@ fun ETextButton(
         shape = RoundedCornerShape(10.dp),
         onClick = { onClick() }
     ) {
-        Text(
-            text = text,
-            color = Color.Black
-        )
+        Text(text = text)
     }
 }
 
