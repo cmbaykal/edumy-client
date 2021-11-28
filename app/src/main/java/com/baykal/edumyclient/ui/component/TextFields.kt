@@ -1,18 +1,21 @@
 package com.baykal.edumyclient.ui.component
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,13 +27,15 @@ import com.baykal.edumyclient.ui.theme.OrangeVariant
 @Composable
 fun ETextField(
     label: String,
+    errorText: String? = null,
     onChange: (InputState) -> Unit,
     success: ((text: String) -> Boolean)? = null,
-    errorText: String? = null
+    passwordToggle: Boolean = false
 ) {
     var focused by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
+    var charVisibility by remember { mutableStateOf(!passwordToggle) }
 
     val colors = TextFieldDefaults.textFieldColors(
         textColor = Color.Black,
@@ -65,13 +70,32 @@ fun ETextField(
                     fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
                 )
             },
+            visualTransformation = if (charVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
-                if (text.isNotEmpty() && !focused && success != null) {
-                    Icon(
-                        imageVector = if (isError) Icons.Default.Close else Icons.Default.Check,
-                        tint = if (isError) "#ff6d64".color else "#66c95b".color,
-                        contentDescription = ""
-                    )
+                Row(
+                    modifier = Modifier.padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (text.isNotEmpty() && !focused && success != null) {
+                        Icon(
+                            imageVector = if (isError) Icons.Default.Close else Icons.Default.Check,
+                            tint = if (isError) "#ff6d64".color else "#66c95b".color,
+                            contentDescription = ""
+                        )
+                    }
+                    if (passwordToggle && focused) {
+                        IconButton(
+                            modifier = Modifier.size(30.dp),
+                            onClick = {
+                                charVisibility = !charVisibility
+                            }) {
+                            Icon(
+                                imageVector = if (charVisibility) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                                tint = Orange,
+                                contentDescription = ""
+                            )
+                        }
+                    }
                 }
             },
             isError = isError && !focused,
