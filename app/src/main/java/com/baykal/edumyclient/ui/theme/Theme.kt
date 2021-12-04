@@ -12,7 +12,7 @@ private val DarkColorPalette = darkColors(
     primary = Orange,
     primaryVariant = OrangeVariant,
     secondary = Color.Black,
-    background = DarkBackground,
+    background = Gray,
 
     )
 
@@ -29,7 +29,7 @@ fun EdumyClientTheme(
     content: @Composable () -> Unit
 ) {
     val systemUI = rememberSystemUiController()
-    systemUI.setStatusBarColor(if (darkTheme) DarkBackground else Color.White, !darkTheme)
+    systemUI.setStatusBarColor(if (darkTheme) Gray else Color.White, !darkTheme)
 
     val colors = if (darkTheme) {
         DarkColorPalette

@@ -61,10 +61,7 @@ fun LoginScreen(navController: NavController? = null) {
                 text = "Login",
             ) {
                 focusManager.clearFocus()
-                Log.d("LoginNavigation","mail : " + email.isError + " pass : " + password.isError)
-                if (!email.isError && !password.isError) {
-                    navController?.navigate(Screen.Home.route)
-                }
+                navController?.navigate(Screen.Home.route)
             }
             ETextButton(
                 text = "Don't you have an Edumy account?",

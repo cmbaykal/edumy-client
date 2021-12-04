@@ -25,4 +25,28 @@ sealed class Screen(
     object AppUsages : Screen("appUsages", R.string.app_usages_screen, Icons.Filled.DateRange)
     object Meetings : Screen("meetings", R.string.meetings_screen, Icons.Filled.PlayArrow)
     object ScheduleMeeting : Screen("scheduleMeeting", R.string.schedule_meeting_screen)
+
+    companion object {
+
+        fun withRoute(route: String?): Screen {
+            return when (route) {
+                Login.route -> Login
+                Register.route -> Register
+                Profile.route -> Profile
+                Classrooms.route -> Classrooms
+                CreateClass.route -> CreateClass
+                Performances.route -> Performances
+                AddPerformance.route -> AddPerformance
+                AskQuestion.route -> AskQuestion
+                QuestionDetail.route -> QuestionDetail
+                Questions.route -> Questions
+                AppUsages.route -> AppUsages
+                Meetings.route -> Meetings
+                ScheduleMeeting.route -> ScheduleMeeting
+                else -> Home
+            }
+        }
+
+    }
+
 }

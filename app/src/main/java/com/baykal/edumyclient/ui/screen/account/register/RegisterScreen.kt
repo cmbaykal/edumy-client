@@ -51,7 +51,6 @@ fun RegisterScreen(navController: NavController? = null) {
             navController?.navigateUp()
         }
     }
-
 }
 
 @Preview
