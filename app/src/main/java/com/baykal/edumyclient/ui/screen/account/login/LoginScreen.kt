@@ -12,19 +12,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.baykal.edumyclient.ui.component.EButton
 import com.baykal.edumyclient.ui.component.ETextButton
 import com.baykal.edumyclient.ui.component.ETextField
 import com.baykal.edumyclient.ui.component.InputState
 import com.baykal.edumyclient.ui.navigation.Screen
+import com.baykal.edumyclient.ui.screen.account.register.RegisterViewModel
 
 @Composable
 fun LoginScreen(navController: NavController? = null) {
 
-    val focusManager = LocalFocusManager.current
-    var email by remember { mutableStateOf(InputState()) }
-    var password by remember { mutableStateOf(InputState()) }
+    val viewModel: LoginViewModel = hiltViewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -48,19 +49,20 @@ fun LoginScreen(navController: NavController? = null) {
         ) {
             ETextField(
                 label = "E-mail",
-                onChange = { email = it },
+                value = uiState.email.text,
+                onChange = viewModel::setEmail,
                 success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
             )
             ETextField(
                 label = "Password",
-                onChange = { password = it },
+                value = uiState.pass.text,
+                onChange = viewModel::setPass,
                 success = { it.length in 8..16 },
                 passwordToggle = true
             )
             EButton(
                 text = "Login",
             ) {
-                focusManager.clearFocus()
                 navController?.navigate(Screen.Home.route)
             }
             ETextButton(

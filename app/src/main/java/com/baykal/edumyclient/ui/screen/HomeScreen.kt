@@ -1,21 +1,33 @@
 package com.baykal.edumyclient.ui.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.ui.navigation.Screen
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileScreen
 import com.baykal.edumyclient.ui.screen.appUsage.AppUsageScreen
@@ -28,11 +40,16 @@ import com.baykal.edumyclient.ui.screen.meeting.MeetingsScreen
 import com.baykal.edumyclient.ui.screen.meeting.scheduleMeeting.ScheduleMeetingScreen
 import com.baykal.edumyclient.ui.screen.performance.addPerformance.AddPerformanceScreen
 import com.baykal.edumyclient.ui.screen.performance.performances.PerformancesScreen
+import com.baykal.edumyclient.ui.theme.Gray
+import com.baykal.edumyclient.ui.theme.Orange
 
 @Composable
 fun HomeScreen() {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val currentRoute = currentDestination?.route ?: Screen.Home.route
 
     val items = listOf(
         Screen.Classrooms,
@@ -44,41 +61,91 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "Class Rooms") },
-                backgroundColor = Color.Black,
-                contentColor = Color.White,
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = null,
-                        modifier = Modifier.clickable {
-                            navController.navigate(Screen.Profile.route)
-                        }
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(60.dp),
+            ) {
+                val (back, title, profile) = createRefs()
+                if (!items.contains(Screen.withRoute(currentRoute))) {
+                    IconButton(
+                        modifier = Modifier
+                            .padding(start = 12.dp)
+                            .size(30.dp)
+                            .constrainAs(back) {
+                                start.linkTo(parent.start)
+                                top.linkTo(parent.top)
+                                bottom.linkTo(parent.bottom)
+                            },
+                        onClick = {
+                            navController.navigateUp()
+                        }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            tint = Gray,
+                            contentDescription = ""
+                        )
+                    }
+                }
+                Text(
+                    modifier = Modifier.constrainAs(title) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    },
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = Screen.withRoute(currentRoute).title)
+                )
+                Card(
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = 4.dp,
+                    modifier = Modifier
+                        .padding(end = 12.dp)
+                        .size(35.dp)
+                        .constrainAs(profile) {
+                            end.linkTo(parent.end)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                        },
+                ) {
+                    Image(
+                        painterResource(R.drawable.test),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                navController.navigate(Screen.Profile.route)
+                            }
                     )
                 }
-            )
+            }
         },
         bottomBar = {
-            BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+            BottomNavigation(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .graphicsLayer {
+                        shape = RoundedCornerShape(10.dp)
+                        shadowElevation = 20f
+                    }
+                    .clip(RoundedCornerShape(10.dp)),
+                backgroundColor = Gray,
+                contentColor = Orange
+            ) {
                 items.forEach { screen ->
                     BottomNavigationItem(
                         icon = { Icon(screen.icon, contentDescription = null) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
                             navController.navigate(screen.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
                                 launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
                                 restoreState = true
                             }
                         }
@@ -99,13 +166,12 @@ fun HomeScreen() {
             composable(Screen.AppUsages.route) { AppUsageScreen() }
             composable(Screen.Profile.route) { ProfileScreen() }
             composable(Screen.CreateClass.route) { CreateClassScreen() }
-            composable(Screen.AddPerformance.route){ AddPerformanceScreen()}
-            composable(Screen.AskQuestion.route){ AskQuestionScreen() }
-            composable(Screen.QuestionDetail.route){ QuestionDetailScreen() }
-            composable(Screen.ScheduleMeeting.route){ ScheduleMeetingScreen()}
+            composable(Screen.AddPerformance.route) { AddPerformanceScreen() }
+            composable(Screen.AskQuestion.route) { AskQuestionScreen() }
+            composable(Screen.QuestionDetail.route) { QuestionDetailScreen() }
+            composable(Screen.ScheduleMeeting.route) { ScheduleMeetingScreen() }
         }
     }
-
 }
 
 @Preview

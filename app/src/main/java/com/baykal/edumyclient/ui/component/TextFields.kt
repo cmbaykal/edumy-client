@@ -28,13 +28,14 @@ import com.baykal.edumyclient.ui.theme.OrangeVariant
 @Composable
 fun ETextField(
     label: String,
+    value: String = "",
     errorText: String? = null,
     onChange: (InputState) -> Unit,
     success: ((text: String) -> Boolean)? = null,
     passwordToggle: Boolean = false
 ) {
+    var text by remember { mutableStateOf(value) }
     var focused by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
 
@@ -145,10 +146,7 @@ fun EDateField(
                 .onFocusChanged { focused = it.isFocused },
             colors = colors,
             value = text,
-            onValueChange = {
-                text = it
-                onChange(InputState(text = it))
-            },
+            onValueChange = { text = it },
             label = {
                 Text(
                     text = if (focused || text.isNotEmpty()) label.uppercase() else label,
@@ -165,7 +163,10 @@ fun EDateField(
     }
 
     if (dialogState) {
-        EDatePicker(onChange = { text = it }) {
+        EDatePicker(onChange = {
+            text = it
+            onChange(InputState(text = it))
+        }) {
             dialogState = false
         }
     }
