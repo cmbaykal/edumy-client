@@ -2,7 +2,6 @@ package com.baykal.edumyclient.ui.screen.account.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.baykal.edumyclient.base.data.BaseResult.*
 import com.baykal.edumyclient.base.data.SuccessResult
 import com.baykal.edumyclient.data.model.account.user.RegisterCredentials
 import com.baykal.edumyclient.data.service.EdumyApi

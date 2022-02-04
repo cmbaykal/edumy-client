@@ -15,5 +15,6 @@
     <string name="app_usages_screen">App Usages</string>
     <string name="meetings_screen">Meetings</string>
     <string name="schedule_meeting_screen">Schedule Meeting</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>
