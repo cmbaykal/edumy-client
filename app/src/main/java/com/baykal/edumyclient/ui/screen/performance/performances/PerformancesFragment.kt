@@ -1,26 +1,31 @@
 package com.baykal.edumyclient.ui.screen.performance.performances
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import com.baykal.edumyclient.base.BaseFragment
-import com.baykal.edumyclient.ui.screen.account.login.LoginViewModel
-import com.baykal.edumyclient.ui.screen.account.register.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterFragment : BaseFragment() {
+class PerformancesFragment : BaseFragment() {
 
-    override val viewModel: ViewModel by viewModels<RegisterViewModel>()
+    override val viewModel: PerformancesViewModel by viewModels()
 
     @Composable
     override fun Content() {
-
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Text(text = "Hello world.")
+        }
     }
+
+    @Preview
+    @Composable
+    override fun Preview() {
+        Content()
+    }
+
 }

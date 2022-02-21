@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.component
+package com.baykal.edumyclient.base.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

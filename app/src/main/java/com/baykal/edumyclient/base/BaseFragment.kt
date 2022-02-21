@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import com.baykal.edumyclient.ui.theme.EdumyClientTheme
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import com.baykal.edumyclient.base.theme.EdumyClientTheme
 
 abstract class BaseFragment : Fragment() {
 
@@ -19,15 +19,27 @@ abstract class BaseFragment : Fragment() {
     @Composable
     abstract fun Content()
 
+    @Composable
+    abstract fun Preview()
+
+    protected fun navigate(direction: NavDirections) = findNavController().run {
+        currentDestination?.getAction(direction.actionId)?.let {
+            navigate(direction)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = ComposeView(requireContext()).apply {
-        if(savedInstanceState == null){
-            setContent{
+    ): View? {
+        val view = ComposeView(requireContext())
+        view.setContent {
+            EdumyClientTheme {
                 Content()
             }
         }
+        return view
     }
+
 }

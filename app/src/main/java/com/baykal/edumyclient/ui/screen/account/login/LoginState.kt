@@ -1,6 +1,6 @@
 package com.baykal.edumyclient.ui.screen.account.login
 
-import com.baykal.edumyclient.ui.component.InputState
+import com.baykal.edumyclient.base.component.InputState
 
 data class LoginState(
     val loading: Boolean = false,

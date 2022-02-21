@@ -1,7 +1,9 @@
-package com.baykal.edumyclient.ui.component
+package com.baykal.edumyclient.base.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -10,11 +12,14 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -22,9 +27,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.color
-import com.baykal.edumyclient.ui.theme.Orange
-import com.baykal.edumyclient.ui.theme.OrangeVariant
+import com.baykal.edumyclient.base.theme.Orange
+import com.baykal.edumyclient.base.theme.OrangeVariant
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ETextField(
     label: String,
@@ -32,12 +38,15 @@ fun ETextField(
     errorText: String? = null,
     onChange: (InputState) -> Unit,
     success: ((text: String) -> Boolean)? = null,
+    imeAction: ImeAction? = null,
+    onAction: (() -> Unit)? = null,
     passwordToggle: Boolean = false
 ) {
     var text by remember { mutableStateOf(value) }
     var focused by remember { mutableStateOf(false) }
     var isError by remember { mutableStateOf(false) }
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
@@ -99,6 +108,15 @@ fun ETextField(
                 }
             },
             isError = isError && !focused,
+            keyboardOptions = KeyboardOptions(imeAction = imeAction ?: ImeAction.None),
+            keyboardActions = onAction?.let {
+                KeyboardActions {
+                    it.invoke()
+                    keyboardController?.hide()
+                }
+            } ?: run {
+                KeyboardActions.Default
+            }
         )
         if (isError && !focused && !errorText.isNullOrEmpty()) {
             Text(

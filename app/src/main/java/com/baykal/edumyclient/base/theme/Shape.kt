@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.theme
+package com.baykal.edumyclient.base.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -1,21 +1,17 @@
 package com.baykal.edumyclient.ui.screen.account.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.baykal.edumyclient.data.model.account.user.LoginCredentials
-import com.baykal.edumyclient.data.service.EdumyApi
-import com.baykal.edumyclient.ui.component.InputState
+import com.baykal.edumyclient.base.component.InputState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val api: EdumyApi
-) : ViewModel() {
+class LoginViewModel @Inject constructor() : ViewModel() {
 
-    val uiState = MutableStateFlow(LoginState())
+    private val uiState = MutableStateFlow(LoginState())
+
     var uiValue
         get() = uiState.value
         set(value) {
@@ -26,13 +22,14 @@ class LoginViewModel @Inject constructor(
         uiValue = uiValue.copy(email = state)
     }
 
-    fun setPass(state:InputState) {
+    fun setPass(state: InputState) {
         uiValue = uiValue.copy(pass = state)
     }
 
-    fun login(credentials: LoginCredentials) {
-        viewModelScope.launch {
-            val response = api.LoginUser(credentials)
+    fun login() {
+        if (!uiValue.email.isError && !uiValue.pass.isError) {
+            Log.d("EdumyTest", "It Worked")
         }
     }
+
 }

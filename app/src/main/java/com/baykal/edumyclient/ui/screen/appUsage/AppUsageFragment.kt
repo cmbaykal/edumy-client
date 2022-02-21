@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.screen.account.profile
+package com.baykal.edumyclient.ui.screen.appUsage
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
@@ -11,9 +11,9 @@ import com.baykal.edumyclient.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment() {
+class AppUsageFragment : BaseFragment() {
 
-    override val viewModel: ProfileViewModel by viewModels()
+    override val viewModel: AppUsageViewModel by viewModels()
 
     @Composable
     override fun Content() {

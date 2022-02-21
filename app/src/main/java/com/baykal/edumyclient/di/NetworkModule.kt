@@ -1,28 +1,21 @@
 package com.baykal.edumyclient.di
 
-import android.util.Log
-import com.baykal.edumyclient.data.service.EdumyApi
-import com.baykal.edumyclient.data.service.EdumyApiImpl
+import com.baykal.edumyclient.data.service.EdumyService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.features.*
-import io.ktor.client.features.DataConversion
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.*
-import io.ktor.client.features.observer.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.util.converters.*
-import java.text.SimpleDateFormat
-import java.util.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val TIME_OUT = 60_000
+const val BASE_URL = ""
+const val TIME_OUT = 60L
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,43 +23,42 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideClient(): HttpClient = HttpClient(Android) {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
+    fun provideGson() = GsonBuilder().create()
 
-            })
+    @Singleton
+    @Provides
+    fun provideGsonConverterFactory(gson: Gson) = GsonConverterFactory.create(gson)
 
-            engine {
-                connectTimeout = TIME_OUT
-                socketTimeout = TIME_OUT
-            }
-        }
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.ALL
-        }
-
-        install(ResponseObserver) {
-            onResponse { response ->
-                Log.d("HTTP status:", "${response.status.value}")
-            }
-        }
-
-        install(DefaultRequest) {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
-        }
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
     @Singleton
     @Provides
-    fun provideAPI(client: HttpClient): EdumyApi = EdumyApiImpl(client)
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
+    ) = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .callTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .build()
 
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ) = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .client(okHttpClient)
+        .build()
 
-    //class UserApi(private val client: HttpClient) {
-//    suspend fun getUserKtor(): User = client.get("http://192.168.192.111:8080/user/info?userId=618bbcf5cd2d2d3beaa4adfd")
-//}
+    @Singleton
+    @Provides
+    fun provideApiService(
+        retrofit: Retrofit
+    ) = retrofit.create(EdumyService::class.java)
 
 }

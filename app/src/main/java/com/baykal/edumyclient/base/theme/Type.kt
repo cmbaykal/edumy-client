@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.theme
+package com.baykal.edumyclient.base.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

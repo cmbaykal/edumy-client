@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.component
+package com.baykal.edumyclient.base.component
 
 import android.widget.DatePicker
 import androidx.appcompat.view.ContextThemeWrapper
@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip

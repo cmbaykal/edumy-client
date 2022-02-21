@@ -5,17 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomsViewModel @Inject constructor(
-
-) : ViewModel() {
-
-
-
-    init {
-
-    }
-
-    fun getClassRooms() {
-
-    }
+class ClassroomsViewModel @Inject constructor() : ViewModel() {
+    // TODO: Implement the ViewModel
 }

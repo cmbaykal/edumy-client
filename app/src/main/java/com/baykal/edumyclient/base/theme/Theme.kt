@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.theme
+package com.baykal.edumyclient.base.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -13,7 +13,6 @@ private val DarkColorPalette = darkColors(
     primaryVariant = OrangeVariant,
     secondary = Color.Black,
     background = Gray,
-
     )
 
 private val LightColorPalette = lightColors(
