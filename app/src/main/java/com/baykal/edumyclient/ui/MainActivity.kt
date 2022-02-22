@@ -1,15 +1,65 @@
 package com.baykal.edumyclient.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baykal.edumyclient.R
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.navigation.compose.rememberNavController
+import com.baykal.edumyclient.base.component.EdumyBottomBar
+import com.baykal.edumyclient.base.component.EdumyToolbar
+import com.baykal.edumyclient.base.menu.BottomNavItem
+import com.baykal.edumyclient.base.nav.NavigationComponent
+import com.baykal.edumyclient.base.theme.EdumyClientTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            EdumyClientTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    EdumyClient()
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun EdumyClient() {
+        val navController = rememberNavController()
+        val mainState = remember { mutableStateOf(MainState()) }
+        Scaffold(
+            topBar = {
+                EdumyToolbar(
+                    title = mainState.value.title,
+                    visibility = mainState.value.topBarVisibility,
+                    navigateUp = { navController.navigateUp() }
+                )
+            },
+            bottomBar = {
+                val items = listOf(
+                    BottomNavItem.Classrooms,
+                    BottomNavItem.Questions,
+                    BottomNavItem.Performances,
+                    BottomNavItem.Usages
+                )
+                EdumyBottomBar(
+                    items = items,
+                    navHostController = navController,
+                    visibility = mainState.value.bottomBarVisibility
+                )
+            }
+        ) {
+            NavigationComponent(navController, mainState, it)
+        }
     }
 }
+
+

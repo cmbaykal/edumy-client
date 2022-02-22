@@ -1,14 +1,17 @@
 package com.baykal.edumyclient.ui.screen.account.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.baykal.edumyclient.base.component.InputState
+import com.baykal.edumyclient.base.nav.RouteNavigator
+import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val routeNavigator: RouteNavigator
+) : ViewModel(), RouteNavigator by routeNavigator {
 
     private val uiState = MutableStateFlow(LoginState())
 
@@ -28,7 +31,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
     fun login() {
         if (!uiValue.email.isError && !uiValue.pass.isError) {
-            Log.d("EdumyTest", "It Worked")
+            navigateToRoute(ClassroomsRoute.route)
         }
     }
 
