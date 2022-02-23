@@ -7,9 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.baykal.edumyclient.ui.MainState
 
-/**
- * A route the app can navigate to.
- */
 interface NavRoute<T : RouteNavigator> {
 
     val title: String
@@ -50,9 +47,6 @@ interface NavRoute<T : RouteNavigator> {
         }
     }
 
-    /**
-     * Navigates to viewState.
-     */
     private fun updateNavigationState(
         navHostController: NavHostController,
         navigationState: NavigationState,

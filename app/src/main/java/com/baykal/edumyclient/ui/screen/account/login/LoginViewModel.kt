@@ -30,9 +30,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login() {
-        if (!uiValue.email.isError && !uiValue.pass.isError) {
-            navigateToRoute(ClassroomsRoute.route)
-        }
+//        if (!uiValue.email.isError && !uiValue.pass.isError) {
+        navigateToRoute(ClassroomsRoute.route, true)
+//        }
     }
 
 }

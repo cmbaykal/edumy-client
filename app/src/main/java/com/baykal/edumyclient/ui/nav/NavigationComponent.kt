@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.base.nav
+package com.baykal.edumyclient.ui.nav
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding

@@ -12,9 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.base.component.EdumyBottomBar
 import com.baykal.edumyclient.base.component.EdumyToolbar
-import com.baykal.edumyclient.base.menu.MenuItem
-import com.baykal.edumyclient.base.nav.NavigationComponent
-import com.baykal.edumyclient.base.theme.EdumyClientTheme
+import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
+import com.baykal.edumyclient.ui.menu.MenuItem
+import com.baykal.edumyclient.ui.nav.NavigationComponent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.base.menu
+package com.baykal.edumyclient.ui.menu
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTimeFilled

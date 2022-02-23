@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.baykal.edumyclient.base.menu.MenuItem
-import com.baykal.edumyclient.base.theme.Orange
-import com.baykal.edumyclient.base.theme.OrangeVariant
+import com.baykal.edumyclient.base.ui.theme.Orange
+import com.baykal.edumyclient.base.ui.theme.OrangeVariant
+import com.baykal.edumyclient.ui.menu.MenuItem
 
 
 @Composable

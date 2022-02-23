@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.base.theme
+package com.baykal.edumyclient.base.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
