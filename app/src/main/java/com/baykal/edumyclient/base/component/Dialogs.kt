@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.baykal.edumyclient.R
+import java.text.DecimalFormat
 import java.util.*
 
 @Composable
@@ -48,6 +49,15 @@ fun EDatePicker(
     onChange: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
+    val decimalFormat = DecimalFormat("00")
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = System.currentTimeMillis()
+    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+    val currentMonth = calendar.get(Calendar.MONTH)
+    val currentYear = calendar.get(Calendar.YEAR)
+
+    onChange("${decimalFormat.format(currentDay)}/${decimalFormat.format(currentMonth)}/$currentYear")
+
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(10.dp)
@@ -59,14 +69,14 @@ fun EDatePicker(
                     },
                     modifier = Modifier.wrapContentSize(),
                     update = { picker ->
-                        val calendar = Calendar.getInstance()
-                        calendar.timeInMillis = System.currentTimeMillis()
                         picker.init(
-                            calendar.get(Calendar.YEAR),
-                            calendar.get(Calendar.MONTH),
-                            calendar.get(Calendar.DAY_OF_MONTH)
+                            currentYear,
+                            currentMonth,
+                            currentDay
                         ) { _, year, month, day ->
-                            onChange("$day.$month.$year")
+                            val dayText = decimalFormat.format(day)
+                            val monthText = decimalFormat.format(month)
+                            onChange("$dayText/$monthText/$year")
                         }
                     }
                 )

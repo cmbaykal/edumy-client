@@ -135,7 +135,8 @@ fun ETextField(
 @Composable
 fun EDateField(
     label: String,
-    onChange: (InputState) -> Unit
+    onChange: (InputState) -> Unit,
+    onDismiss: (() -> Unit) = { }
 ) {
     var dialogState by remember { mutableStateOf(false) }
     var focused by remember { mutableStateOf(false) }
@@ -159,9 +160,15 @@ fun EDateField(
             },
     ) {
         OutlinedTextField(
+            readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged { focused = it.isFocused },
+                .onFocusChanged {
+                    focused = it.isFocused
+                    if (it.isFocused) {
+                        dialogState = true
+                    }
+                },
             colors = colors,
             value = text,
             onValueChange = { text = it },
@@ -185,6 +192,7 @@ fun EDateField(
             text = it
             onChange(InputState(text = it))
         }) {
+            onDismiss.invoke()
             dialogState = false
         }
     }
