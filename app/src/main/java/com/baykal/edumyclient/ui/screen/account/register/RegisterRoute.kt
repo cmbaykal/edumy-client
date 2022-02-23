@@ -8,6 +8,8 @@ object RegisterRoute : NavRoute<RegisterViewModel> {
     override val title = "Register"
     override val route = "register"
 
+    override fun topBarVisibility() = true
+
     @Composable
     override fun Content(viewModel: RegisterViewModel) {
         RegisterScreen(viewModel)
