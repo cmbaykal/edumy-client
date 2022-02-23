@@ -75,7 +75,15 @@ interface NavRoute<T : RouteNavigator> {
     ) {
         when (navigationState) {
             is NavigationState.NavigateToRoute -> {
-                navHostController.navigate(navigationState.route)
+                navHostController.navigate(navigationState.route) {
+                    if (navigationState.singleTop) {
+                        navHostController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
                 onNavigated(navigationState)
             }
             is NavigationState.PopToRoute -> {

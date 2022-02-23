@@ -10,7 +10,7 @@ sealed class NavigationState {
 
     object Idle : NavigationState()
 
-    data class NavigateToRoute(val route: String, val id: String = UUID.randomUUID().toString()) :
+    data class NavigateToRoute(val route: String, val singleTop: Boolean = false, val id: String = UUID.randomUUID().toString()) :
         NavigationState()
 
     /**
