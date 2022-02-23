@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.base.component.EdumyBottomBar
 import com.baykal.edumyclient.base.component.EdumyToolbar
-import com.baykal.edumyclient.base.menu.BottomNavItem
+import com.baykal.edumyclient.base.menu.MenuItem
 import com.baykal.edumyclient.base.nav.NavigationComponent
 import com.baykal.edumyclient.base.theme.EdumyClientTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,14 +45,14 @@ class MainActivity : ComponentActivity() {
             },
             bottomBar = {
                 val items = listOf(
-                    BottomNavItem.Classrooms,
-                    BottomNavItem.Questions,
-                    BottomNavItem.Performances,
-                    BottomNavItem.Usages
+                    MenuItem.Classrooms,
+                    MenuItem.Questions,
+                    MenuItem.Performances,
+                    MenuItem.Usages
                 )
                 EdumyBottomBar(
-                    items = items,
                     navHostController = navController,
+                    items = items,
                     visibility = mainState.value.bottomBarVisibility
                 )
             }

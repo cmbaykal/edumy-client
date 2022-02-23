@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.baykal.edumyclient.base.menu.BottomNavItem
+import com.baykal.edumyclient.base.menu.MenuItem
 import com.baykal.edumyclient.base.theme.Orange
 import com.baykal.edumyclient.base.theme.OrangeVariant
 
@@ -37,7 +37,7 @@ import com.baykal.edumyclient.base.theme.OrangeVariant
 fun EdumyToolbar(
     title: String = "Toolbar",
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
-    navigateUp: (() -> Unit)? = { },
+    navigateUp: (() -> Unit)? = null,
     visibility: Boolean = false
 ) {
     if (visibility) {
@@ -85,8 +85,8 @@ fun EdumyToolbar(
 
 @Composable
 fun EdumyBottomBar(
-    items: List<BottomNavItem> = emptyList(),
     navHostController: NavHostController = rememberNavController(),
+    items: List<MenuItem> = emptyList(),
     visibility: Boolean = false
 ) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
@@ -98,17 +98,18 @@ fun EdumyBottomBar(
         ) {
             items.forEach { item ->
                 BottomNavigationItem(
+                    alwaysShowLabel = currentRoute == item.route,
+                    selected = currentRoute == item.route,
+                    selectedContentColor = Orange,
+                    unselectedContentColor = OrangeVariant,
                     icon = { Icon(item.icon, contentDescription = item.title) },
                     label = {
                         Text(
                             text = item.title,
-                            fontSize = 9.sp
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
                         )
                     },
-                    selectedContentColor = Orange,
-                    unselectedContentColor = OrangeVariant,
-                    alwaysShowLabel = true,
-                    selected = currentRoute == item.route,
                     onClick = {
                         navHostController.navigate(item.route) {
                             launchSingleTop = true
