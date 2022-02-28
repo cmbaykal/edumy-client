@@ -1,7 +1,6 @@
 package com.baykal.edumyclient.di
 
-import com.baykal.edumyclient.base.nav.EdumyNavigator
-import com.baykal.edumyclient.base.nav.RouteNavigator
+import com.baykal.edumyclient.base.nav.EdumyController
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +12,5 @@ import dagger.hilt.android.scopes.ViewModelScoped
 object ViewModelModule {
     @Provides
     @ViewModelScoped
-    fun bindRouteNavigator(): RouteNavigator = EdumyNavigator()
+    fun provideScreenController() = EdumyController()
 }

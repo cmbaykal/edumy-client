@@ -17,4 +17,15 @@ sealed class MenuItem(
     object Questions : MenuItem("Questions", Icons.Filled.QuestionAnswer, "questions")
     object Performances : MenuItem("Performances", Icons.Filled.Leaderboard, "performances")
     object Usages : MenuItem("Usages", Icons.Filled.AccessTimeFilled, "usages")
+
+    companion object {
+        val bottomNavigationItems
+            get() = listOf(
+                MenuItem.Classrooms,
+                MenuItem.Questions,
+                MenuItem.Performances,
+                MenuItem.Usages
+            )
+    }
+
 }

@@ -44,7 +44,7 @@ class RegisterViewModel @Inject constructor() : BaseViewModel(){
     // TODO: Terms and Conditions
 
     fun register() {
-        navigator.navigateUp()
+        controller.navigateUp()
     }
 
 }

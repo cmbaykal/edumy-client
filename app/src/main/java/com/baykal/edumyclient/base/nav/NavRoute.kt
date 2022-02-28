@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.baykal.edumyclient.base.ui.BaseViewModel
+import com.baykal.edumyclient.ui.DialogState
 import com.baykal.edumyclient.ui.MainState
 
 interface NavRoute<T : BaseViewModel> {
@@ -33,7 +34,7 @@ interface NavRoute<T : BaseViewModel> {
     ) {
         builder.composable(route, getArguments()) {
             val viewModel = viewModel()
-            val viewStateAsState by viewModel.navigator.navigationState.collectAsState()
+            val viewStateAsState by viewModel.controller.screenState.collectAsState()
 
             LaunchedEffect(viewStateAsState) {
                 mainState.value = MainState(
@@ -41,7 +42,12 @@ interface NavRoute<T : BaseViewModel> {
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()
                 )
-                updateNavigationState(navHostController, viewStateAsState, viewModel.navigator::onNavigated)
+                updateNavigationState(
+                    navHostController,
+                    viewStateAsState,
+                    mainState,
+                    viewModel.controller::onNavigated
+                )
             }
 
             Content(viewModel)
@@ -50,13 +56,14 @@ interface NavRoute<T : BaseViewModel> {
 
     private fun updateNavigationState(
         navHostController: NavHostController,
-        navigationState: NavigationState,
-        onNavigated: (navState: NavigationState) -> Unit,
+        screenState: ScreenState,
+        mainState: MutableState<MainState>,
+        onNavigated: (screenState: ScreenState) -> Unit,
     ) {
-        when (navigationState) {
-            is NavigationState.NavigateToRoute -> {
-                navHostController.navigate(navigationState.route) {
-                    if (navigationState.singleTop) {
+        when (screenState) {
+            is ScreenState.NavigateToRoute -> {
+                navHostController.navigate(screenState.route) {
+                    if (screenState.singleTop) {
                         navHostController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 inclusive = true
@@ -64,17 +71,31 @@ interface NavRoute<T : BaseViewModel> {
                         }
                     }
                 }
-                onNavigated(navigationState)
+                onNavigated(screenState)
             }
-            is NavigationState.PopToRoute -> {
-                navHostController.popBackStack(navigationState.staticRoute, false)
-                onNavigated(navigationState)
+            is ScreenState.PopToRoute -> {
+                navHostController.popBackStack(screenState.staticRoute, false)
+                onNavigated(screenState)
             }
-            is NavigationState.NavigateUp -> {
+            is ScreenState.NavigateUp -> {
                 navHostController.navigateUp()
             }
-            is NavigationState.Idle -> {
+            is ScreenState.setLoading -> {
+                mainState.value = mainState.value.copy(loading = screenState.visibility)
             }
+            is ScreenState.showDialog -> {
+                mainState.value = mainState.value.copy(
+                    dialog = DialogState(
+                        title = screenState.title,
+                        message = screenState.message,
+                        onDismiss = {
+                            mainState.value = mainState.value.copy(dialog = null)
+                            screenState.onDismiss
+                        }
+                    )
+                )
+            }
+            else -> {} // Idle
         }
     }
 }

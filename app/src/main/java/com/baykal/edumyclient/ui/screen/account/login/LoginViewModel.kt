@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
             ).collect { response ->
                 response?.result?.let {
                     if (it.success == true) {
-                        navigator.navigateToRoute(ClassroomsRoute.route, true)
+                        controller.navigateToRoute(ClassroomsRoute.route, true)
 
                     }
                 }
