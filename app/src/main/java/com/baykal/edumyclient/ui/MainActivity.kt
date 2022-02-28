@@ -15,6 +15,10 @@ import com.baykal.edumyclient.base.component.EdumyToolbar
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.ui.menu.MenuItem
 import com.baykal.edumyclient.ui.nav.NavigationComponent
+import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
+import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
+import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
+import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,9 +42,15 @@ class MainActivity : ComponentActivity() {
         Scaffold(
             topBar = {
                 EdumyToolbar(
+                    navHostController = navController,
                     title = mainState.value.title,
                     visibility = mainState.value.topBarVisibility,
-                    navigateUp = { navController.navigateUp() }
+                    topLevelScreen = setOf(
+                        ClassroomsRoute.route,
+                        QuestionsRoute.route,
+                        PerformancesRoute.route,
+                        AppUsageRoute.route
+                    )
                 )
             },
             bottomBar = {

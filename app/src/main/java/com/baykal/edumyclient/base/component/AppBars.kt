@@ -35,12 +35,16 @@ import com.baykal.edumyclient.ui.menu.MenuItem
 
 @Composable
 fun EdumyToolbar(
+    navHostController: NavHostController = rememberNavController(),
     title: String = "Toolbar",
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
-    navigateUp: (() -> Unit)? = null,
-    visibility: Boolean = false
+    visibility: Boolean = false,
+    topLevelScreen: Set<String> = setOf()
 ) {
     if (visibility) {
+        val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,14 +58,14 @@ fun EdumyToolbar(
                 .background(Color.White)
                 .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)),
         ) {
-            navigateUp?.let {
+            if (!topLevelScreen.contains(currentRoute)) {
                 Box(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .size(40.dp)
                         .align(Alignment.CenterStart)
                         .clickable(
-                            onClick = { it.invoke() },
+                            onClick = { navHostController.navigateUp() },
                             indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
                             interactionSource = remember { MutableInteractionSource() },
                         )
