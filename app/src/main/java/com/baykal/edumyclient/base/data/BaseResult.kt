@@ -1,19 +1,8 @@
 package com.baykal.edumyclient.base.data
 
 
-//@Serializable
-//sealed class BaseResult<T>{
-//
-//    companion object{
-//        fun <T> success(data:T) = SuccessResult<T>(data)
-//
-//        fun <T> error(message: String?) = ErrorResult<T>(message)
-//    }
-//
-//}
-//
-//@Serializable
-//data class SuccessResult<T>(val data:T) : BaseResult<T>()
-//
-//@Serializable
-//data class ErrorResult<T>(val message: String?) : BaseResult<T>()
+sealed class BaseResult<out T> {
+    data class Success<out T : Any>(val data: T) : BaseResult<T>()
+    data class Error(val error: String?) : BaseResult<Nothing>()
+    object Loading : BaseResult<Nothing>()
+}

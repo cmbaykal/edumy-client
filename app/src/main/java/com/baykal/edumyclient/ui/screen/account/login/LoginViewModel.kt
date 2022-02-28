@@ -1,8 +1,9 @@
 package com.baykal.edumyclient.ui.screen.account.login
 
-import androidx.lifecycle.ViewModel
 import com.baykal.edumyclient.base.component.InputState
-import com.baykal.edumyclient.base.nav.RouteNavigator
+import com.baykal.edumyclient.base.ui.BaseViewModel
+import com.baykal.edumyclient.data.domain.LoginUseCase
+import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val routeNavigator: RouteNavigator
-) : ViewModel(), RouteNavigator by routeNavigator {
+    private val loginUseCase: LoginUseCase
+) : BaseViewModel() {
 
     private val uiState = MutableStateFlow(LoginState())
 
@@ -30,9 +31,17 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login() {
-//        if (!uiValue.email.isError && !uiValue.pass.isError) {
-        navigateToRoute(ClassroomsRoute.route, true)
-//        }
-    }
+        if (!uiValue.email.isError && !uiValue.pass.isError) {
+            loginUseCase.observe(
+                LoginCredentials(uiValue.email.text, uiValue.pass.text)
+            ).collect { response ->
+                response?.result?.let {
+                    if (it.success == true) {
+                        navigator.navigateToRoute(ClassroomsRoute.route, true)
 
+                    }
+                }
+            }
+        }
+    }
 }

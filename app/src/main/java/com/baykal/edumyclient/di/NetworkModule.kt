@@ -1,5 +1,8 @@
 package com.baykal.edumyclient.di
 
+import com.baykal.edumyclient.base.network.AuthInterceptor
+import com.baykal.edumyclient.base.network.NetworkAdapterFactory
+import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.data.service.EdumyService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -14,20 +17,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-const val BASE_URL = ""
+const val BASE_URL = "http://192.168.1.106:8080"
 const val TIME_OUT = 60L
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Singleton
     @Provides
-    fun provideGson() = GsonBuilder().create()
-
-    @Singleton
-    @Provides
-    fun provideGsonConverterFactory(gson: Gson) = GsonConverterFactory.create(gson)
+    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
 
     @Singleton
     @Provides
@@ -37,21 +39,35 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideAuthInterceptor(
+        session: EdumySession
+    ) = AuthInterceptor(session)
+
+    @Singleton
+    @Provides
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ) = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(authInterceptor)
         .callTimeout(TIME_OUT, TimeUnit.SECONDS)
         .build()
 
     @Singleton
     @Provides
+    fun provideCallAdapterFactory() = NetworkAdapterFactory()
+
+    @Singleton
+    @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
-    ) = Retrofit.Builder()
+        gsonConverterFactory: GsonConverterFactory,
+        networkAdapterFactory: NetworkAdapterFactory
+    ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(networkAdapterFactory)
         .client(okHttpClient)
         .build()
 
@@ -59,6 +75,5 @@ object NetworkModule {
     @Provides
     fun provideApiService(
         retrofit: Retrofit
-    ) = retrofit.create(EdumyService::class.java)
-
+    ): EdumyService = retrofit.create(EdumyService::class.java)
 }

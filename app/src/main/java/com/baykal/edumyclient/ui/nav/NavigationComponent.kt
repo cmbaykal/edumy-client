@@ -16,7 +16,11 @@ import com.baykal.edumyclient.ui.screen.performanceSection.performances.Performa
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
 @Composable
-fun NavigationComponent(navHostController: NavHostController, mainState: MutableState<MainState>, paddingValues: PaddingValues) {
+fun NavigationComponent(
+    navHostController: NavHostController,
+    mainState: MutableState<MainState>,
+    paddingValues: PaddingValues
+) {
     NavHost(
         navController = navHostController,
         startDestination = LoginRoute.route,

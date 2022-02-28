@@ -5,9 +5,10 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.ui.MainState
 
-interface NavRoute<T : RouteNavigator> {
+interface NavRoute<T : BaseViewModel> {
 
     val title: String
 
@@ -32,7 +33,7 @@ interface NavRoute<T : RouteNavigator> {
     ) {
         builder.composable(route, getArguments()) {
             val viewModel = viewModel()
-            val viewStateAsState by viewModel.navigationState.collectAsState()
+            val viewStateAsState by viewModel.navigator.navigationState.collectAsState()
 
             LaunchedEffect(viewStateAsState) {
                 mainState.value = MainState(
@@ -40,7 +41,7 @@ interface NavRoute<T : RouteNavigator> {
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()
                 )
-                updateNavigationState(navHostController, viewStateAsState, viewModel::onNavigated)
+                updateNavigationState(navHostController, viewStateAsState, viewModel.navigator::onNavigated)
             }
 
             Content(viewModel)

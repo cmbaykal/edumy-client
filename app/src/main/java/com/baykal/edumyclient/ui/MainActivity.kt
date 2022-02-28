@@ -68,6 +68,7 @@ class MainActivity : ComponentActivity() {
             }
         ) {
             NavigationComponent(navController, mainState, it)
+//            DialogComponent(mainState)
         }
     }
 }

@@ -16,11 +16,11 @@ class MainViewModel @Inject constructor() : ViewModel() {
             uiState.value = value
         }
 
-    fun setBottomBarVisibility(visibility: Boolean) {
+    fun setMainState(visibility: Boolean) {
         uiValue = uiValue.copy(bottomBarVisibility = visibility)
     }
 
-    fun setTopBarVisibility(visibility: Boolean) {
+    fun setDialog(visibility: Boolean) {
         uiValue = uiValue.copy(topBarVisibility = visibility)
     }
 

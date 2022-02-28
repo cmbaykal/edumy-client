@@ -1,16 +1,13 @@
 package com.baykal.edumyclient.ui.screen.account.register
 
-import androidx.lifecycle.ViewModel
 import com.baykal.edumyclient.base.component.InputState
-import com.baykal.edumyclient.base.nav.RouteNavigator
+import com.baykal.edumyclient.base.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private val routeNavigator: RouteNavigator
-) : ViewModel(), RouteNavigator by routeNavigator {
+class RegisterViewModel @Inject constructor() : BaseViewModel(){
 
     private val uiState = MutableStateFlow(RegisterState())
 
@@ -47,7 +44,7 @@ class RegisterViewModel @Inject constructor(
     // TODO: Terms and Conditions
 
     fun register() {
-        navigateUp()
+        navigator.navigateUp()
     }
 
 }

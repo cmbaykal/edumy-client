@@ -11,7 +11,6 @@ import dagger.hilt.android.scopes.ViewModelScoped
 @Module
 @InstallIn(ViewModelComponent::class)
 object ViewModelModule {
-
     @Provides
     @ViewModelScoped
     fun bindRouteNavigator(): RouteNavigator = EdumyNavigator()
