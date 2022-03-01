@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.baykal.edumyclient.base.color
+import com.baykal.edumyclient.base.extension.color
 
 @Composable
 fun LoadingIndicator() {

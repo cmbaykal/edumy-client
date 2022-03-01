@@ -80,7 +80,7 @@ fun EDatePicker(
                         }
                     }
                 )
-                EButton(text = "Tamam") {
+                EButton(text = "Okay") {
                     onDismiss.invoke()
                 }
             }

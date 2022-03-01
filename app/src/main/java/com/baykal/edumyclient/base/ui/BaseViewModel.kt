@@ -2,6 +2,7 @@ package com.baykal.edumyclient.base.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.nav.EdumyController
 import kotlinx.coroutines.Job
@@ -26,14 +27,17 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun <T> Flow<BaseResult<T>>.collect(onSuccess: (T?) -> Unit): Job {
-        controller.setLoading(true)
+    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (ApiResponse<T>?) -> Unit): Job {
+        setLoading(true)
         return onEach {
+            setLoading(false)
             if (it is BaseResult.Success) {
-                controller.setLoading(false)
-                onSuccess.invoke(it.data)
+                if (it.response.success) {
+                    onSuccess.invoke(it.response)
+                } else {
+                    showError(it.response.error)
+                }
             } else if (it is BaseResult.Error) {
-                controller.setLoading(false)
                 showError(it.error)
             }
         }.launchIn(scope)

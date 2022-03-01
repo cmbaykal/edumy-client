@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.base
+package com.baykal.edumyclient.base.extension
 
 import androidx.compose.ui.graphics.Color
 

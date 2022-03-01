@@ -35,10 +35,9 @@ class LoginViewModel @Inject constructor(
             loginUseCase.observe(
                 LoginCredentials(uiValue.email.text, uiValue.pass.text)
             ).collect { response ->
-                response?.result?.let {
-                    if (it.success == true) {
+                response?.let {
+                    if (it.success) {
                         controller.navigateToRoute(ClassroomsRoute.route, true)
-
                     }
                 }
             }

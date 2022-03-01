@@ -1,6 +1,5 @@
 package com.baykal.edumyclient.base.network
 
-import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.data.BaseResult
 import okhttp3.Request
 import okio.Timeout
@@ -15,17 +14,17 @@ class NetworkCall<R>(
     override fun enqueue(callback: Callback<BaseResult<R>>) {
         delegate.enqueue(object : Callback<R> {
             override fun onResponse(call: Call<R>, response: Response<R>) {
-                val result = response.body()?.let {
-                    when (response.code()) {
-                        in 200..299 -> {
+                val result = when (response.code()) {
+                    in 200 until 300 -> {
+                        response.body()?.let {
                             BaseResult.Success(it)
-                        }
-                        else -> {
-                            BaseResult.Error(response.message())
+                        } ?: run {
+                            BaseResult.Error("Null Response")
                         }
                     }
-                } ?: run {
-                    BaseResult.Error("Null Response")
+                    else -> {
+                        BaseResult.Error(response.message())
+                    }
                 }
                 callback.onResponse(this@NetworkCall, Response.success(result))
             }
