@@ -27,13 +27,13 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (ApiResponse<T>?) -> Unit): Job {
+    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (T) -> Unit): Job {
         setLoading(true)
         return onEach {
             setLoading(false)
             if (it is BaseResult.Success) {
                 if (it.response.success) {
-                    onSuccess.invoke(it.response)
+                    onSuccess.invoke(it.response.data)
                 } else {
                     showError(it.response.error)
                 }

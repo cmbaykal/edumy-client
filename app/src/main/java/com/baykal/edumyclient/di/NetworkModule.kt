@@ -1,9 +1,10 @@
 package com.baykal.edumyclient.di
 
-import com.baykal.edumyclient.base.network.AuthInterceptor
 import com.baykal.edumyclient.base.network.NetworkAdapterFactory
-import com.baykal.edumyclient.base.preference.EdumySession
+import com.baykal.edumyclient.base.network.auth.AuthInterceptor
+import com.baykal.edumyclient.base.network.auth.EdumyAuthenticator
 import com.baykal.edumyclient.data.service.EdumyService
+import com.baykal.edumyclient.data.service.auth.AuthService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -15,6 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 const val BASE_URL = "http://192.168.1.106:8080"
@@ -25,7 +27,9 @@ const val TIME_OUT = 60L
 object NetworkModule {
     @Singleton
     @Provides
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideGson(): Gson = GsonBuilder()
+        .setDateFormat("dd.mm.yyyy HH.mm.ss")
+        .create()
 
     @Singleton
     @Provides
@@ -37,20 +41,46 @@ object NetworkModule {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    @Named("AuthClient")
     @Singleton
     @Provides
-    fun provideAuthInterceptor(
-        session: EdumySession
-    ) = AuthInterceptor(session)
+    fun provideAuthOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+    ) = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .callTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .build()
+
+    @Named("AuthRetrofit")
+    @Singleton
+    @Provides
+    fun provideAuthRetrofit(
+        @Named("AuthClient") okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
+        networkAdapterFactory: NetworkAdapterFactory
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(networkAdapterFactory)
+        .client(okHttpClient)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideAuthService(
+        @Named("AuthRetrofit") retrofit: Retrofit
+    ): AuthService = retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor
+        authInterceptor: AuthInterceptor,
+        edumyAuthenticator: EdumyAuthenticator
     ) = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .addInterceptor(authInterceptor)
+        .authenticator(edumyAuthenticator)
         .callTimeout(TIME_OUT, TimeUnit.SECONDS)
         .build()
 

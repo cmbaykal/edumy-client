@@ -12,7 +12,6 @@ import com.baykal.edumyclient.data.model.usage.UsageData
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
-import com.baykal.edumyclient.data.model.user.response.AuthTokenResponse
 import com.baykal.edumyclient.data.model.user.response.User
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -20,12 +19,6 @@ import retrofit2.http.*
 interface EdumyService {
 
     // region User
-    @Headers("No-Auth:true")
-    @GET("/user/auth/token")
-    suspend fun getAuthToken(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<AuthTokenResponse>>
-
     @Headers("No-Auth:true")
     @POST("/user/register")
     suspend fun registerUser(
@@ -36,7 +29,7 @@ interface EdumyService {
     @POST("/user/login")
     suspend fun loginUser(
         @Body loginCredentials: LoginCredentials
-    ): BaseResult<ApiResponse<Unit>>
+    ): BaseResult<ApiResponse<User>>
 
     @POST("/user/update")
     suspend fun updateUser(

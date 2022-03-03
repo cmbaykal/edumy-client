@@ -1,6 +1,7 @@
 package com.baykal.edumyclient.ui.screen.account.login
 
 import com.baykal.edumyclient.base.component.InputState
+import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.LoginUseCase
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
@@ -11,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val session: EdumySession
 ) : BaseViewModel() {
 
     private val uiState = MutableStateFlow(LoginState())
@@ -35,10 +37,9 @@ class LoginViewModel @Inject constructor(
             loginUseCase.observe(
                 LoginCredentials(uiValue.email.text, uiValue.pass.text)
             ).collect { response ->
-                response?.let {
-                    if (it.success) {
-                        controller.navigateToRoute(ClassroomsRoute.route, true)
-                    }
+                response.id?.let {
+                    session.saveUserId(it)
+                    controller.navigateToRoute(ClassroomsRoute.route, true)
                 }
             }
         }

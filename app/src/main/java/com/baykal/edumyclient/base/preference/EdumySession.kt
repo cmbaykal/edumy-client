@@ -15,6 +15,13 @@ class EdumySession(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
+    fun saveUserId(userId: String) {
+        preferences.edit {
+            putString(USER_ID, userId)
+            commit()
+        }
+    }
+
     fun saveToken(authToken: AuthTokenResponse) {
         preferences.edit {
             putString(TOKEN_KEY, authToken.token)
@@ -22,10 +29,13 @@ class EdumySession(context: Context) {
         }
     }
 
+    val userId get() = preferences.getString(USER_ID, null)
+
     val token get() = preferences.getString(TOKEN_KEY, null)
 
     companion object {
         const val FILE_NAME = "edumy_auth"
+        const val USER_ID = "edumy_user_id"
         const val TOKEN_KEY = "edumy_token"
     }
 }

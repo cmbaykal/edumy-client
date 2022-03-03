@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.base.network
+package com.baykal.edumyclient.base.network.auth
 
 import com.baykal.edumyclient.base.preference.EdumySession
 import okhttp3.Interceptor
