@@ -44,7 +44,7 @@ fun ETextField(
 ) {
     var text by remember { mutableStateOf(value) }
     var focused by remember { mutableStateOf(false) }
-    var isError by remember { mutableStateOf(false) }
+    var isSuccess by remember { mutableStateOf(false) }
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -70,8 +70,8 @@ fun ETextField(
             value = text,
             onValueChange = {
                 text = it
-                isError = success != null && !success(it) && it.isNotEmpty()
-                onChange(InputState(it, isError))
+                isSuccess = success != null && success(it)
+                onChange(InputState(it, isSuccess))
             },
             label = {
                 Text(
@@ -87,8 +87,8 @@ fun ETextField(
                 ) {
                     if (text.isNotEmpty() && !focused && success != null) {
                         Icon(
-                            imageVector = if (isError) Icons.Default.Close else Icons.Default.Check,
-                            tint = if (isError) "#ff6d64".color else "#66c95b".color,
+                            imageVector = if (isSuccess) Icons.Default.Check else Icons.Default.Close,
+                            tint = if (isSuccess) "#66c95b".color else "#ff6d64".color,
                             contentDescription = ""
                         )
                     }
@@ -107,7 +107,7 @@ fun ETextField(
                     }
                 }
             },
-            isError = isError && !focused,
+            isError = !isSuccess && !focused && text.isNotEmpty(),
             keyboardOptions = KeyboardOptions(imeAction = imeAction ?: ImeAction.None),
             keyboardActions = onAction?.let {
                 KeyboardActions {
@@ -118,7 +118,7 @@ fun ETextField(
                 KeyboardActions.Default
             }
         )
-        if (isError && !focused && !errorText.isNullOrEmpty()) {
+        if (!isSuccess && !focused && !errorText.isNullOrEmpty()) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -200,7 +200,7 @@ fun EDateField(
 
 data class InputState(
     var text: String = "",
-    var isError: Boolean = true
+    var isSuccess: Boolean = false
 )
 
 @Preview(showBackground = true)

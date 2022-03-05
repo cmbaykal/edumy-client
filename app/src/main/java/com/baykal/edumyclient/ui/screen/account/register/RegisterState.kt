@@ -10,4 +10,7 @@ data class RegisterState(
     val birth: InputState = InputState(),
     val pass: InputState = InputState(),
     val passConfirm: InputState = InputState(),
-) : UIState()
+) : UIState() {
+    val isFormValid get() = name.isSuccess && surname.isSuccess && mail.isSuccess && birth.isSuccess && pass.isSuccess && passConfirm.isSuccess
+    val birthDate get() = "${birth.text} 00.00.00"
+}

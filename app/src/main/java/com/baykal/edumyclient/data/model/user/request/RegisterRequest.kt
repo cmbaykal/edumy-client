@@ -1,15 +1,18 @@
 package com.baykal.edumyclient.data.model.user.request
 
+import com.baykal.edumyclient.data.model.user.UserRole
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class RegisterCredentials(
     @SerializedName("role")
-    val role: String? = null,
+    val role: UserRole? = null,
     @SerializedName("mail")
     val mail: String? = null,
     @SerializedName("birth")
-    val birth: Date? = null,
+    val birth: String? = null,
+    @SerializedName("pass")
+    val pass: String? = null,
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("bio")

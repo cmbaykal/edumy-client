@@ -3,15 +3,14 @@ package com.baykal.edumyclient.data.domain
 import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.data.BaseUseCase
-import com.baykal.edumyclient.data.model.user.request.LoginCredentials
-import com.baykal.edumyclient.data.model.user.response.User
+import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.repository.AccountRepository
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+class RegisterUseCase @Inject constructor(
     private val accountRepository: AccountRepository
-) : BaseUseCase<LoginCredentials, BaseResult<ApiResponse<User>>>() {
+) : BaseUseCase<RegisterCredentials, BaseResult<ApiResponse<Unit>>>() {
 
-    override fun build(params: LoginCredentials) = accountRepository.loginUser(params)
+    override fun build(params: RegisterCredentials) = accountRepository.registerUser(params)
 
 }

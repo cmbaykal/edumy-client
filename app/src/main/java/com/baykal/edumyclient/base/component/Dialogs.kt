@@ -56,7 +56,7 @@ fun EDatePicker(
     val currentMonth = calendar.get(Calendar.MONTH)
     val currentYear = calendar.get(Calendar.YEAR)
 
-    onChange("${decimalFormat.format(currentDay)}/${decimalFormat.format(currentMonth)}/$currentYear")
+    onChange("${decimalFormat.format(currentDay)}.${decimalFormat.format(currentMonth)}.$currentYear")
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -76,7 +76,7 @@ fun EDatePicker(
                         ) { _, year, month, day ->
                             val dayText = decimalFormat.format(day)
                             val monthText = decimalFormat.format(month)
-                            onChange("$dayText/$monthText/$year")
+                            onChange("$dayText.$monthText.$year")
                         }
                     }
                 )

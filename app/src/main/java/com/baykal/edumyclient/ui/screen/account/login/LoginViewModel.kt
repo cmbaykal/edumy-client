@@ -33,11 +33,11 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login() {
-        if (!uiValue.email.isError && !uiValue.pass.isError) {
+        if (uiValue.email.isSuccess && uiValue.pass.isSuccess) {
             loginUseCase.observe(
                 LoginCredentials(uiValue.email.text, uiValue.pass.text)
             ).collect { response ->
-                response.id?.let {
+                response?.id?.let {
                     session.saveUserId(it)
                     controller.navigateToRoute(ClassroomsRoute.route, true)
                 }
