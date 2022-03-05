@@ -90,7 +90,7 @@ interface NavRoute<T : BaseViewModel> {
                         message = screenState.message,
                         onDismiss = {
                             mainState.value = mainState.value.copy(dialog = null)
-                            screenState.onDismiss
+                            screenState.onDismiss.invoke()
                         }
                     )
                 )

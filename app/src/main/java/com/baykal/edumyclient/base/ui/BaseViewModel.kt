@@ -27,7 +27,7 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (T) -> Unit): Job {
+    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (T?) -> Unit): Job {
         setLoading(true)
         return onEach {
             setLoading(false)

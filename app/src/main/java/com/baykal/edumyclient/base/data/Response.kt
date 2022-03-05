@@ -9,5 +9,5 @@ open class BaseResponse(
 )
 
 data class ApiResponse<out T>(
-    @SerializedName("data") val data: T
+    @SerializedName("data") val data: T?
 ) : BaseResponse()
