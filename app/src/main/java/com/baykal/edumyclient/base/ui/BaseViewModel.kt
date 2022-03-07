@@ -2,6 +2,7 @@ package com.baykal.edumyclient.base.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.baykal.edumyclient.EdumyApp
 import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.nav.EdumyController
@@ -9,13 +10,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 abstract class BaseViewModel : ViewModel() {
     protected val scope = viewModelScope
 
-    @Inject
-    lateinit var controller: EdumyController
+    val controller: EdumyController = EdumyApp.screenController
 
     protected fun setLoading(visibility: Boolean) {
         controller.setLoading(visibility)

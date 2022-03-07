@@ -3,10 +3,9 @@ package com.baykal.edumyclient.ui.screen.account.register
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.baykal.edumyclient.base.component.InputState
 import com.baykal.edumyclient.base.ui.BaseViewModel
-import com.baykal.edumyclient.data.domain.RegisterUseCase
+import com.baykal.edumyclient.data.domain.account.RegisterUseCase
 import com.baykal.edumyclient.data.model.user.UserRole
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
-import com.google.gson.Gson
 import com.toxicbakery.bcrypt.Bcrypt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase,
-    private val gson: Gson
+    private val registerUseCase: RegisterUseCase
 ) : BaseViewModel() {
 
     private val uiState = MutableStateFlow(RegisterState())

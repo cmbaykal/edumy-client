@@ -16,24 +16,16 @@ class EdumyAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        return if (response.request.header("No-Auth").isNullOrEmpty()) {
-            var token = session.token
-
-            if (token == null) {
-                session.userId?.let {
-                    runBlocking {
-                        authenticationRepository.fetchToken(it)
-                    }
-                }?.let {
-                    session.saveToken(it)
-                    token = it.token
-                }
+        return session.userId?.let {
+            runBlocking {
+                authenticationRepository.fetchToken(it)
             }
-
+        }?.let {
+            session.saveToken(it)
             response.request.newBuilder()
-                .header("Authorization", "Bearer $token")
+                .header("Authorization", "Bearer ${it.token}")
                 .build()
-        } else {
+        } ?: run {
             null
         }
     }

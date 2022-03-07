@@ -44,6 +44,7 @@ interface EdumyService {
     // endregion
 
     // region Classrooms
+
     @POST("/class/add")
     suspend fun addClassroom(
         @Body classroom: ClassroomBody
@@ -61,10 +62,20 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/class/info")
+    @POST("/class/info")
     suspend fun getClassroomInformation(
         @Query("classId") classId: String
     ): BaseResult<ApiResponse<Classroom>>
+
+    @POST("/class/user")
+    suspend fun getUserClassrooms(
+        @Query("userId") userId: String
+    ): BaseResult<ApiResponse<MutableList<Classroom>>>
+
+    @GET("/class/delete")
+    suspend fun deleteClassroom(
+        @Query("classId") classId: String
+    ): BaseResult<ApiResponse<Unit>>
 
     // endregion
 

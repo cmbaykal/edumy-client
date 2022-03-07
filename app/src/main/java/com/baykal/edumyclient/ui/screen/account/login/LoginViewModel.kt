@@ -3,7 +3,7 @@ package com.baykal.edumyclient.ui.screen.account.login
 import com.baykal.edumyclient.base.component.InputState
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.ui.BaseViewModel
-import com.baykal.edumyclient.data.domain.LoginUseCase
+import com.baykal.edumyclient.data.domain.account.LoginUseCase
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel

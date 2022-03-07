@@ -1,4 +1,10 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.createClass
 
-class CreateClassScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun CreateClassScreen(
+    viewModel: CreateClassViewModel? = null
+) {
+
 }

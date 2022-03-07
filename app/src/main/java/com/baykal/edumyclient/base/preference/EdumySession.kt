@@ -22,10 +22,22 @@ class EdumySession(context: Context) {
         }
     }
 
+    fun deleteUser() {
+        preferences.edit {
+            remove(USER_ID)
+        }
+    }
+
     fun saveToken(authToken: AuthTokenResponse) {
         preferences.edit {
             putString(TOKEN_KEY, authToken.token)
             commit()
+        }
+    }
+
+    fun deleteToken() {
+        preferences.edit {
+            remove(TOKEN_KEY)
         }
     }
 

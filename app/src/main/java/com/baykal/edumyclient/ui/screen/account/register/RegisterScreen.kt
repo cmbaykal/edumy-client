@@ -23,7 +23,6 @@ import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 fun RegisterScreen(
     viewModel: RegisterViewModel? = null
 ) {
-    val viewState = viewModel?.uiValue
     val scrollState = rememberScrollState()
 
     Surface(
