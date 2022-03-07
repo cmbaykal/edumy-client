@@ -26,7 +26,7 @@ import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import com.google.accompanist.insets.ProvideWindowInsets
 
 @Composable
-fun EdumyComponent() {
+fun EdumyComponent(startRoute: String) {
     val navController = rememberNavController()
     val mainState = remember { mutableStateOf(MainState()) }
 
@@ -56,7 +56,7 @@ fun EdumyComponent() {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = LoginRoute.route,
+                    startDestination = startRoute,
                     modifier = Modifier.padding(it)
                 ) {
                     LoginRoute.composable(this, navController, mainState)

@@ -7,7 +7,7 @@ import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
 import com.baykal.edumyclient.data.repository.ClassroomsRepository
 import javax.inject.Inject
 
-class AddClassroomUseCase @Inject constructor(
+class CreateClassroomUseCase @Inject constructor(
     private val classroomsRepository: ClassroomsRepository
 ) : BaseUseCase<ClassroomBody, BaseResult<ApiResponse<Unit>>>() {
 

@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 
@@ -84,9 +85,11 @@ fun EFab(
 @Preview(showBackground = true)
 @Composable
 fun ButtonsPreview() {
-    Column {
-        EButton(text = "Edumy Button")
-        ETextButton(text = "Edumy Button")
-        EFab(onClick = { })
+    EdumyClientTheme {
+        Column {
+            EButton(text = "Edumy Button")
+            ETextButton(text = "Edumy Button")
+            EFab(onClick = { })
+        }
     }
 }

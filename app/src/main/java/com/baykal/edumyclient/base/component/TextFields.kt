@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.extension.color
+import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
@@ -285,6 +286,77 @@ fun EDateField(
     }
 }
 
+@Composable
+fun EDropDown(
+    label: String,
+    items: MutableList<String>,
+    onChange: (InputState) -> Unit
+) {
+    var text by remember { mutableStateOf("") }
+    var focused by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+
+    val colors = TextFieldDefaults.textFieldColors(
+        focusedLabelColor = Orange,
+        unfocusedLabelColor = Color.Gray,
+        errorLabelColor = "#ff6d64".color,
+        focusedIndicatorColor = Orange,
+        unfocusedIndicatorColor = OrangeVariant,
+        errorIndicatorColor = "#ff6d64".color,
+        errorTrailingIconColor = "#ff6d64".color
+    )
+
+    Box(
+        Modifier
+            .padding(8.dp)
+            .clickable {
+                expanded = true
+            },
+    ) {
+        OutlinedTextField(
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged {
+                    focused = it.isFocused
+                    if (it.isFocused) {
+                        expanded = true
+                    }
+                },
+            colors = colors,
+            value = text,
+            onValueChange = { text = it },
+            label = {
+                Text(
+                    text = if (focused || text.isNotEmpty()) label.uppercase() else label,
+                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                )
+            },
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable(onClick = { expanded = true })
+        )
+    }
+
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        items.forEach {
+            DropdownMenuItem(onClick = {
+                text = it
+                onChange.invoke(InputState(it, true))
+                expanded = false
+            }) {
+                Text(text = it)
+            }
+        }
+    }
+}
+
 data class InputState(
     var text: String = "",
     var isSuccess: Boolean = false
@@ -293,10 +365,27 @@ data class InputState(
 @Preview(showBackground = true)
 @Composable
 fun TextFieldsPreview() {
-    ETextField(
-        label = "Edumy Text Field",
-        onChange = { },
-        success = { it.isEmpty() },
-        errorText = "Cannot be empty"
-    )
+    EdumyClientTheme {
+        Column {
+            ETextField(
+                label = "Edumy Text Field",
+                onChange = { },
+                success = { it.isEmpty() },
+                errorText = "Cannot be empty"
+            )
+            ESearchView(
+                label = "Search View",
+                onChange = {}
+            )
+            EDateField(
+                label = "Date Field",
+                onChange = {}
+            )
+            EDropDown(
+                label = "Select",
+                items = mutableListOf(),
+                onChange = {}
+            )
+        }
+    }
 }
