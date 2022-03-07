@@ -27,7 +27,7 @@ class ClassroomsViewModel @Inject constructor(
         getClassrooms()
     }
 
-    private fun getClassrooms() {
+    fun getClassrooms() {
         session.userId?.let { id ->
             userClassroomsUseCase.observe(id)
                 .collect { classList ->

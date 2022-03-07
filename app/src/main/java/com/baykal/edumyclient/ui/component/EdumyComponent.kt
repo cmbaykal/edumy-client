@@ -1,9 +1,7 @@
 package com.baykal.edumyclient.ui.component
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,14 +23,15 @@ import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRo
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
 import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
+import com.google.accompanist.insets.ProvideWindowInsets
 
 @Composable
 fun EdumyComponent() {
     val navController = rememberNavController()
     val mainState = remember { mutableStateOf(MainState()) }
 
-    EdumyClientTheme {
-        Surface(color = MaterialTheme.colors.background) {
+    ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+        EdumyClientTheme {
             Scaffold(
                 topBar = {
                     EdumyToolbar(

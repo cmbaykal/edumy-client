@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,58 +24,53 @@ fun RegisterScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Column(
-            modifier = Modifier
-                .padding(32.dp)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            ETextField(
-                label = "Name",
-                onChange = { viewModel?.setName(it) },
-                success = { it.length in 3..30 },
-                imeAction = ImeAction.Next
-            )
-            ETextField(
-                label = "Surname",
-                onChange = { viewModel?.setSurname(it) },
-                success = { it.length in 3..30 },
-                imeAction = ImeAction.Next
-            )
-            ETextField(
-                label = "E-Mail",
-                onChange = { viewModel?.setMail(it) },
-                success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
-                imeAction = ImeAction.Next
-            )
-            EDateField(
-                label = "Birth",
-                onChange = { viewModel?.setBirth(it) },
-            )
-            ETextField(
-                label = "Password",
-                onChange = { viewModel?.setPass(it) },
-                success = { it.length in 8..16 },
-                passwordToggle = true,
-                imeAction = ImeAction.Next
-            )
-            ETextField(
-                label = "Confirm Password",
-                onChange = { viewModel?.setPassConfirm(it) },
-                success = { viewModel?.checkPassword(it) ?: false },
-                passwordToggle = true,
-                imeAction = ImeAction.Done,
-                onAction = { viewModel?.register() }
-            )
-            EButton(text = "Register") {
-                viewModel?.register()
-            }
+        ETextField(
+            label = "Name",
+            onChange = { viewModel?.setName(it) },
+            success = { it.length in 3..30 },
+            imeAction = ImeAction.Next
+        )
+        ETextField(
+            label = "Surname",
+            onChange = { viewModel?.setSurname(it) },
+            success = { it.length in 3..30 },
+            imeAction = ImeAction.Next
+        )
+        ETextField(
+            label = "E-Mail",
+            onChange = { viewModel?.setMail(it) },
+            success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
+            imeAction = ImeAction.Next
+        )
+        EDateField(
+            label = "Birth",
+            onChange = { viewModel?.setBirth(it) },
+        )
+        ETextField(
+            label = "Password",
+            onChange = { viewModel?.setPass(it) },
+            success = { it.length in 8..16 },
+            passwordToggle = true,
+            imeAction = ImeAction.Next
+        )
+        ETextField(
+            label = "Confirm Password",
+            onChange = { viewModel?.setPassConfirm(it) },
+            success = { viewModel?.checkPassword(it) ?: false },
+            passwordToggle = true,
+            imeAction = ImeAction.Done,
+            onAction = { viewModel?.register() }
+        )
+        EButton(text = "Register") {
+            viewModel?.register()
         }
     }
 }

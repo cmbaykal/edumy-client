@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Class
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -22,12 +25,15 @@ import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.ui.screen.classroomSection.classroom.ClassroomRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun ClassroomsScreen(
     viewModel: ClassroomsViewModel? = null
 ) {
     val viewState = viewModel?.uiValue
+    val swipeRefreshState = rememberSwipeRefreshState(false)
 
     Scaffold(
         floatingActionButton = {
@@ -36,20 +42,17 @@ fun ClassroomsScreen(
             })
         }
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Column {
-                ESearchView(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = "Search Classroom",
-                    value = viewState?.searchText ?: "",
-                    onChange = {
-                        viewModel?.filterClasses(it)
-                    },
-                    onAction = { viewModel?.filterClasses() }
-                )
+        Column {
+            ESearchView(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Search Classroom",
+                value = viewState?.searchText ?: "",
+                onChange = {
+                    viewModel?.filterClasses(it)
+                },
+                onAction = { viewModel?.filterClasses() }
+            )
+            SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel?.getClassrooms() }) {
                 LazyColumn {
                     items(viewState?.classrooms ?: emptyList()) { classroom ->
                         ClassroomComponent(classroom) {
@@ -68,12 +71,13 @@ fun ClassroomComponent(classroom: Classroom, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(75.dp)
-            .padding(8.dp)
-            .clickable { onClick.invoke() },
+            .padding(8.dp),
         shape = RoundedCornerShape(10.dp),
         elevation = 4.dp,
     ) {
-        Box {
+        Box(
+            modifier = Modifier.clickable { onClick.invoke() }
+        ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.CenterStart),
