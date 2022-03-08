@@ -1,4 +1,7 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.classroom
 
-class ClassroomState {
-}
+import com.baykal.edumyclient.data.model.classroom.response.Classroom
+
+data class ClassroomState(
+    val classroom: Classroom? = null
+)

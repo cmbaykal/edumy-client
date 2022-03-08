@@ -62,7 +62,7 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @POST("/class/info")
+    @GET("/class/info")
     suspend fun getClassroomInformation(
         @Query("classId") classId: String
     ): BaseResult<ApiResponse<Classroom>>
@@ -72,7 +72,7 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<MutableList<Classroom>>>
 
-    @GET("/class/delete")
+    @POST("/class/delete")
     suspend fun deleteClassroom(
         @Query("classId") classId: String
     ): BaseResult<ApiResponse<Unit>>

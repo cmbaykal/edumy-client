@@ -66,7 +66,7 @@ fun LoginScreen(
             ETextButton(
                 text = "Don't you have an Edumy account?",
             ) {
-                viewModel?.controller?.navigateToRoute(RegisterRoute.route)
+                viewModel?.navigate(RegisterRoute.route)
             }
         }
     }

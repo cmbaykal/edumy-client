@@ -28,5 +28,4 @@ class MainViewModel @Inject constructor(
             startValue = LoginRoute.route
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.base.ui
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baykal.edumyclient.EdumyApp
@@ -13,8 +14,12 @@ import kotlinx.coroutines.flow.onEach
 
 abstract class BaseViewModel : ViewModel() {
     protected val scope = viewModelScope
-
+    var args: Bundle? = null
     val controller: EdumyController = EdumyApp.screenController
+
+    fun setArguments(bundle: Bundle) {
+        args = bundle
+    }
 
     protected fun setLoading(visibility: Boolean) {
         controller.setLoading(visibility)
@@ -24,6 +29,10 @@ abstract class BaseViewModel : ViewModel() {
         error?.let {
             controller.showDialog("Error", error)
         }
+    }
+
+    fun navigate(route: String, singleTop: Boolean = false) {
+        controller.navigateToRoute(route, singleTop)
     }
 
     protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (T?) -> Unit): Job {

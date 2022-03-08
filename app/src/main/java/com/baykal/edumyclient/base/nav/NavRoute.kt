@@ -50,6 +50,9 @@ interface NavRoute<T : BaseViewModel> {
                 )
             }
 
+            it.arguments?.let { bundle ->
+                viewModel.setArguments(bundle)
+            }
             Content(viewModel)
         }
     }

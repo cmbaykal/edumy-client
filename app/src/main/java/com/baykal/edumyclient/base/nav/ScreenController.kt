@@ -9,7 +9,7 @@ interface ScreenController {
     fun onNavigated(state: ScreenState)
     fun navigateUp()
     fun popToRoute(route: String)
-    fun navigateToRoute(route: String, singleTop: Boolean = false)
+    fun navigateToRoute(route: String, singleTop: Boolean)
 
     // dialog
     fun setLoading(visibility: Boolean)

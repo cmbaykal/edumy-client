@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
             ).collect { response ->
                 response?.id?.let {
                     session.saveUserId(it)
-                    controller.navigateToRoute(ClassroomsRoute.route, true)
+                    navigate(ClassroomsRoute.route, true)
                 }
             }
         }

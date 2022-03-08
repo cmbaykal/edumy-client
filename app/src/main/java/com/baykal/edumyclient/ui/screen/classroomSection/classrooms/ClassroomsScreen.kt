@@ -38,7 +38,7 @@ fun ClassroomsScreen(
     Scaffold(
         floatingActionButton = {
             EFab(onClick = {
-                viewModel?.controller?.navigateToRoute(CreateClassRoute.route)
+                viewModel?.navigate(CreateClassRoute.route)
             })
         }
     ) {
@@ -53,10 +53,14 @@ fun ClassroomsScreen(
                 onAction = { viewModel?.filterClasses() }
             )
             SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel?.getClassrooms() }) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     items(viewState?.classrooms ?: emptyList()) { classroom ->
                         ClassroomComponent(classroom) {
-                            viewModel?.controller?.navigateToRoute(ClassroomRoute.route)
+                            classroom.id?.let {
+                                viewModel?.navigate(ClassroomRoute.get(it))
+                            }
                         }
                     }
                 }
@@ -98,7 +102,7 @@ fun ClassroomComponent(classroom: Classroom, onClick: () -> Unit) {
                     )
                     classroom.users?.let {
                         Text(
-                            text = "Mevcut : " + it.size.toString(),
+                            text = "Size : " + it.size.toString(),
                             fontSize = 12.sp
                         )
                     }

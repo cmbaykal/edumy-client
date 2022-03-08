@@ -42,7 +42,7 @@ class CreateClassViewModel @Inject constructor(
                         it
                     )
                 ).collect {
-                    controller.navigateToRoute(ClassroomsRoute.route, true)
+                    navigate(ClassroomsRoute.route, true)
                 }
             }
         }
