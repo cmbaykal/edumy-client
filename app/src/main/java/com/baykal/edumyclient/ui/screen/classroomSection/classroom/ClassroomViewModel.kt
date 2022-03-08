@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.classroom
 
+import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.classroom.ClassroomInformationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,6 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClassroomViewModel @Inject constructor(
+    private val session: EdumySession,
     private val classroomInformationUseCase: ClassroomInformationUseCase
 ) : BaseViewModel() {
 
@@ -19,8 +21,9 @@ class ClassroomViewModel @Inject constructor(
         args?.let { bundle ->
             bundle.getString(ClassroomRoute.CLASS_ID)?.let {
                 classroomInformationUseCase.observe(it).collect { classroom ->
-                    classroom?.let {
-                        _uiState.value = _uiState.value.copy(classroom = classroom)
+                    _uiState.value = _uiState.value.copy(classroom = classroom)
+                    session.userId?.let { id ->
+                        _uiState.value = _uiState.value.copy(owner = id == classroom?.creatorId)
                     }
                 }
             }

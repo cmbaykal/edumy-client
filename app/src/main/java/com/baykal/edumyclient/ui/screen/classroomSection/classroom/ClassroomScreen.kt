@@ -19,10 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ECollapsableLayout
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.GrayLight
 import com.baykal.edumyclient.base.ui.theme.Orange
+import com.baykal.edumyclient.data.model.classroom.response.Classroom
 
 @Composable
 fun ClassroomScreen(
@@ -73,146 +75,166 @@ fun ClassroomScreen(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
-            Card(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp),
-                elevation = 4.dp
-            ) {
-                ECollapsableLayout(
-                    collapsedContent = {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = 10.dp,
-                                    end = 20.dp,
-                                    top = 20.dp,
-                                    bottom = 20.dp,
-                                ),
-                            text = "Users",
-                            textAlign = TextAlign.Start,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    expandedContent = {
-                        Column {
-                            it.users?.let { users ->
-                                users.forEach { user ->
-                                    Box(
-                                        modifier = Modifier.clickable {
-                                            TODO("User Profile Navigation")
-                                        }
-                                    ) {
-                                        Divider(
-                                            color = GrayLight,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(1.dp)
-                                                .padding(start = 10.dp, end = 10.dp)
-                                                .align(Alignment.TopCenter)
-                                        )
-                                        Text(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(10.dp)
-                                                .align(Alignment.CenterStart),
-                                            text = user.name.toString(),
-                                            textAlign = TextAlign.Start,
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Icon(
-                                            modifier = Modifier
-                                                .size(30.dp)
-                                                .align(Alignment.CenterEnd),
-                                            imageVector = Icons.Filled.KeyboardArrowRight,
-                                            tint = Gray,
-                                            contentDescription = ""
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    rotatingContent = {
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Filled.KeyboardArrowDown,
-                            tint = Gray,
-                            contentDescription = ""
-                        )
+            Row {
+                UsersComponent(
+                    modifier = Modifier.weight(8f),
+                    classroom = it
+                ) {
+                    TODO("User Profile Navigation")
+                }
+                EButton(
+                    modifier = Modifier
+                        .padding(top = 8.dp, end = 12.dp)
+                        .weight(2f),
+                    text = "+",
+                    textSize = 25.sp,
+                    onClick = {
+                        TODO("Assign User to Classroom Navigation")
                     }
                 )
             }
-            Card(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp),
-                elevation = 4.dp
-            ) {
-                Box(
-                    modifier = Modifier.clickable {
-                        TODO("Classroom Questions Navigation")
-                    }
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 10.dp,
-                                end = 20.dp,
-                                top = 20.dp,
-                                bottom = 20.dp,
-                            ),
-                        text = "Questions",
-                        textAlign = TextAlign.Start,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterEnd),
-                        imageVector = Icons.Filled.KeyboardArrowRight,
-                        tint = Gray,
-                        contentDescription = ""
-                    )
-                }
+            ScreenButton(text = "Questions") {
+                TODO("Classroom Questions Navigation")
             }
-            Card(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp),
-                elevation = 4.dp
-            ) {
-                Box(
-                    modifier = Modifier.clickable {
-                        TODO("Classroom Performances Navigation")
+            ScreenButton(text = "Performances") {
+                TODO("Classroom Performances Navigation")
+            }
+
+            viewState.value.owner.also { owner ->
+                if (!owner && it.users?.size == 1) {
+                    ScreenButton(text = "Leave Classroom") {
+                        TODO("Leave Classroom Request")
                     }
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 10.dp,
-                                end = 20.dp,
-                                top = 20.dp,
-                                bottom = 20.dp,
-                            ),
-                        text = "Performances",
-                        textAlign = TextAlign.Start,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterEnd),
-                        imageVector = Icons.Filled.KeyboardArrowRight,
-                        tint = Gray,
-                        contentDescription = ""
-                    )
+                } else if (it.users?.size == 1) {
+                    ScreenButton(text = "Delete Classroom") {
+                        TODO("Delete Classroom Request")
+                    }
                 }
             }
         }
     } ?: run {
         viewModel?.getClassroomInformation()
+    }
+}
+
+@Composable
+fun UsersComponent(
+    modifier: Modifier = Modifier,
+    classroom: Classroom,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .padding(start = 20.dp, end = 5.dp, top = 10.dp)
+            .then(modifier),
+        elevation = 4.dp,
+    ) {
+        ECollapsableLayout(
+            collapsedContent = {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = 10.dp,
+                            end = 20.dp,
+                            top = 20.dp,
+                            bottom = 20.dp,
+                        ),
+                    text = "Users",
+                    textAlign = TextAlign.Start,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            expandedContent = {
+                Column {
+                    classroom.users?.let { users ->
+                        users.forEach { user ->
+                            Box(
+                                modifier = Modifier.clickable {
+                                    onClick.invoke()
+                                }
+                            ) {
+                                Divider(
+                                    color = GrayLight,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(1.dp)
+                                        .padding(start = 10.dp, end = 10.dp)
+                                        .align(Alignment.TopCenter)
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(10.dp)
+                                        .align(Alignment.CenterStart),
+                                    text = user.name.toString(),
+                                    textAlign = TextAlign.Start,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Icon(
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .align(Alignment.CenterEnd),
+                                    imageVector = Icons.Filled.KeyboardArrowRight,
+                                    tint = Gray,
+                                    contentDescription = ""
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            rotatingContent = {
+                Icon(
+                    modifier = Modifier.size(30.dp),
+                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    tint = Gray,
+                    contentDescription = ""
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun ScreenButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp),
+        elevation = 4.dp
+    ) {
+        Box(
+            modifier = Modifier.clickable {
+                TODO("Classroom Questions Navigation")
+            }
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 10.dp,
+                        end = 20.dp,
+                        top = 20.dp,
+                        bottom = 20.dp,
+                    ),
+                text = text,
+                textAlign = TextAlign.Start,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Icon(
+                modifier = Modifier
+                    .size(30.dp)
+                    .align(Alignment.CenterEnd),
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                tint = Gray,
+                contentDescription = ""
+            )
+        }
     }
 }
 

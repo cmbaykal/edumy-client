@@ -10,6 +10,8 @@ data class Classroom(
     val lesson: String? = null,
     @SerializedName("name")
     val name: String? = null,
+    @SerializedName("creatorId")
+    val creatorId: String? = null,
     @SerializedName("users")
     val users: MutableList<User>? = ArrayList()
 )
