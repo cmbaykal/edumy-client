@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
@@ -20,8 +21,10 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 
 @Composable
 fun EButton(
-    text: String,
     modifier: Modifier = Modifier,
+    text: String,
+    textColor: Color = Color.White,
+    textSize: TextUnit = TextUnit.Unspecified,
     onClick: () -> Unit = {}
 ) {
     Button(
@@ -39,7 +42,8 @@ fun EButton(
     ) {
         Text(
             text = text,
-            color = Color.White
+            fontSize = textSize,
+            color = textColor
         )
     }
 }
