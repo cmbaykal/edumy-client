@@ -8,6 +8,7 @@ import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.nav.EdumyController
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,14 +39,16 @@ abstract class BaseViewModel : ViewModel() {
     protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collect(onSuccess: (T?) -> Unit): Job {
         setLoading(true)
         return onEach {
-            setLoading(false)
+            delay(200)
             if (it is BaseResult.Success) {
+                setLoading(false)
                 if (it.response.success) {
                     onSuccess.invoke(it.response.data)
                 } else {
                     showError(it.response.error)
                 }
             } else if (it is BaseResult.Error) {
+                setLoading(false)
                 showError(it.error)
             }
         }.launchIn(scope)

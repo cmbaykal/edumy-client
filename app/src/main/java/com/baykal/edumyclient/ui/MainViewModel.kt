@@ -5,7 +5,6 @@ import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -14,14 +13,13 @@ class MainViewModel @Inject constructor(
     session: EdumySession
 ) : ViewModel() {
 
-    private val _mainState = MutableStateFlow(MainState())
-    val mainState = _mainState.asStateFlow()
+    val mainState = MutableStateFlow(MainState())
 
     init {
         session.withUserId {
-            _mainState.update { it.copy(loggedIn = true) }
+            mainState.update { it.copy(loggedIn = true) }
         } ?: run {
-            _mainState.update { it.copy(loggedIn = false) }
+            mainState.update { it.copy(loggedIn = false) }
         }
     }
 }

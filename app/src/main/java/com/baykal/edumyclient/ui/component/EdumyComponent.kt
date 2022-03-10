@@ -1,11 +1,11 @@
 package com.baykal.edumyclient.ui.component
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -26,22 +26,26 @@ import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClass
 import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import com.google.accompanist.insets.ProvideWindowInsets
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
-fun EdumyComponent(state: State<MainState>) {
+fun EdumyComponent(state: MutableStateFlow<MainState>) {
     val navController = rememberNavController()
-    val mainState = remember { mutableStateOf(state.value) }
+    val mainState by state.collectAsState()
 
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-        with(mainState.value) {
-            EdumyClientTheme {
-                Scaffold(
-                    topBar = {
+        EdumyClientTheme {
+            Scaffold(
+                topBar = {
+                    AnimatedVisibility(
+                        visible = mainState.topBarVisibility,
+                        enter = expandVertically(),
+                        exit = shrinkVertically()
+                    ) {
                         EdumyToolbar(
                             navHostController = navController,
-                            title = title,
-                            visibility = topBarVisibility,
-                            login = loggedIn == true,
+                            title = mainState.title,
+                            login = mainState.loggedIn == true,
                             topLevelScreen = setOf(
                                 ClassroomsRoute.route,
                                 QuestionsRoute.route,
@@ -49,41 +53,50 @@ fun EdumyComponent(state: State<MainState>) {
                                 AppUsageRoute.route
                             )
                         )
-                    },
-                    bottomBar = {
+                    }
+                },
+                bottomBar = {
+                    AnimatedVisibility(
+                        visible = mainState.bottomBarVisibility,
+                        enter = expandVertically(),
+                        exit = shrinkVertically()
+                    ) {
                         EdumyBottomBar(
                             navHostController = navController,
                             items = MenuItem.bottomNavigationItems,
-                            visibility = bottomBarVisibility
                         )
-                    }
-                ) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = startRoute,
-                        modifier = Modifier.padding(it)
-                    ) {
-                        LoginRoute.composable(this, navController, mainState)
-                        RegisterRoute.composable(this, navController, mainState)
-                        ProfileRoute.composable(this, navController, mainState)
-                        ClassroomsRoute.composable(this, navController, mainState)
-                        ClassroomRoute.composable(this, navController, mainState)
-                        CreateClassRoute.composable(this, navController, mainState)
-                        QuestionsRoute.composable(this, navController, mainState)
-                        PerformancesRoute.composable(this, navController, mainState)
-                        AppUsageRoute.composable(this, navController, mainState)
-                    }
-                    dialog?.let { dialog ->
-                        GenericDialog(
-                            title = dialog.title,
-                            message = dialog.message,
-                            onDismiss = dialog.onDismiss
-                        )
-                    }
-                    if (loading) {
-                        LoadingIndicator()
                     }
                 }
+            ) {
+                NavHost(
+                    navController = navController,
+                    startDestination = mainState.startRoute,
+                    modifier = Modifier.padding(it)
+                ) {
+                    LoginRoute.composable(this, navController, state)
+                    RegisterRoute.composable(this, navController, state)
+                    ProfileRoute.composable(this, navController, state)
+                    ClassroomsRoute.composable(this, navController, state)
+                    ClassroomRoute.composable(this, navController, state)
+                    CreateClassRoute.composable(this, navController, state)
+                    QuestionsRoute.composable(this, navController, state)
+                    PerformancesRoute.composable(this, navController, state)
+                    AppUsageRoute.composable(this, navController, state)
+                }
+                mainState.dialog?.let { dialog ->
+                    GenericDialog(
+                        title = dialog.title,
+                        message = dialog.message,
+                        onDismiss = dialog.onDismiss
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = mainState.loading,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                LoadingIndicator()
             }
         }
     }

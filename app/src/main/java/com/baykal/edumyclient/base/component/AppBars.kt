@@ -41,11 +41,9 @@ fun EdumyToolbar(
     navHostController: NavHostController = rememberNavController(),
     title: String = "Toolbar",
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
-    visibility: Boolean = false,
     login: Boolean = false,
     topLevelScreen: Set<String> = setOf()
 ) {
-    if (visibility) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -107,19 +105,16 @@ fun EdumyToolbar(
                 }
             }
         }
-    }
 }
 
 @Composable
 fun EdumyBottomBar(
     navHostController: NavHostController = rememberNavController(),
     items: List<MenuItem> = emptyList(),
-    visibility: Boolean = false
 ) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    if (visibility) {
         BottomNavigation(
             backgroundColor = Color.White,
         ) {
@@ -146,7 +141,6 @@ fun EdumyBottomBar(
                 )
             }
         }
-    }
 }
 
 @Preview
