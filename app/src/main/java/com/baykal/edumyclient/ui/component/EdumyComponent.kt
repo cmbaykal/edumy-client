@@ -71,7 +71,8 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                 NavHost(
                     navController = navController,
                     startDestination = mainState.startRoute,
-                    modifier = Modifier.padding(it)
+                    modifier = Modifier
+                        .padding(it)
                 ) {
                     LoginRoute.composable(this, navController, state)
                     RegisterRoute.composable(this, navController, state)

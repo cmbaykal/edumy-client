@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.ui.DialogState
 import com.baykal.edumyclient.ui.MainState
+import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -75,6 +76,9 @@ interface NavRoute<T : BaseViewModel> {
     ) {
         when (screenState) {
             is ScreenState.NavigateToRoute -> {
+                if (screenState.route == ClassroomsRoute.route) {
+                    mainState.update { it.copy(loggedIn = true) }
+                }
                 navHostController.navigate(screenState.route) {
                     if (screenState.singleTop) {
                         navHostController.graph.startDestinationRoute?.let { route ->

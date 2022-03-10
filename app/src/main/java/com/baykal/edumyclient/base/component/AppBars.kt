@@ -1,25 +1,16 @@
 package com.baykal.edumyclient.base.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
+import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 import com.baykal.edumyclient.ui.menu.MenuItem
@@ -44,67 +36,45 @@ fun EdumyToolbar(
     login: Boolean = false,
     topLevelScreen: Set<String> = setOf()
 ) {
-        val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
+    TopAppBar(
+        backgroundColor = Color.White
+    ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(46.dp)
-                .padding(bottom = 4.dp)
-                .shadow(
-                    elevation = 4.dp,
-                    shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp),
-                    clip = true
-                )
-                .background(Color.White)
-                .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)),
+                .fillMaxSize(),
         ) {
             if (!topLevelScreen.contains(currentRoute)) {
-                Box(
+                EIconButton(
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .size(40.dp)
-                        .align(Alignment.CenterStart)
-                        .clickable(
-                            onClick = { navHostController.navigateUp() },
-                            indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
-                            interactionSource = remember { MutableInteractionSource() },
-                        )
+                        .align(Alignment.CenterStart),
+                    icon = navigateIcon,
                 ) {
-                    Icon(
-                        navigateIcon,
-                        contentDescription = "Navigate",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    navHostController.navigateUp()
                 }
             }
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                text = title
+                text = title,
+                color = Gray
             )
-            if (login) {
-                Box(
+            if (login && !currentRoute.toString().contains("profile")) {
+                EIconButton(
                     modifier = Modifier
-                        .padding(start = 8.dp)
-                        .size(40.dp)
-                        .align(Alignment.CenterEnd)
-                        .clickable(
-                            onClick = { navHostController.navigate(ProfileRoute.route) },
-                            indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
-                            interactionSource = remember { MutableInteractionSource() },
-                        )
+                        .padding(end = 8.dp)
+                        .align(Alignment.CenterEnd),
+                    icon = Icons.Filled.AccountCircle
                 ) {
-                    Icon(
-                        Icons.Filled.Person,
-                        contentDescription = "Navigate Profile",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    navHostController.navigate(ProfileRoute.route)
                 }
             }
         }
+    }
 }
 
 @Composable
@@ -115,32 +85,32 @@ fun EdumyBottomBar(
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-        BottomNavigation(
-            backgroundColor = Color.White,
-        ) {
-            items.forEach { item ->
-                BottomNavigationItem(
-                    alwaysShowLabel = currentRoute == item.route,
-                    selected = currentRoute == item.route,
-                    selectedContentColor = Orange,
-                    unselectedContentColor = OrangeVariant,
-                    icon = { Icon(item.icon, contentDescription = item.title) },
-                    label = {
-                        Text(
-                            text = item.title,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    onClick = {
-                        navHostController.navigate(item.route) {
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+    BottomNavigation(
+        backgroundColor = Color.White,
+    ) {
+        items.forEach { item ->
+            BottomNavigationItem(
+                alwaysShowLabel = currentRoute == item.route,
+                selected = currentRoute == item.route,
+                selectedContentColor = Orange,
+                unselectedContentColor = OrangeVariant,
+                icon = { Icon(item.icon, contentDescription = item.title) },
+                label = {
+                    Text(
+                        text = item.title,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                onClick = {
+                    navHostController.navigate(item.route) {
+                        launchSingleTop = true
+                        restoreState = true
                     }
-                )
-            }
+                }
+            )
         }
+    }
 }
 
 @Preview

@@ -40,15 +40,14 @@ abstract class BaseViewModel : ViewModel() {
         setLoading(true)
         return onEach {
             delay(200)
+            setLoading(false)
             if (it is BaseResult.Success) {
-                setLoading(false)
                 if (it.response.success) {
                     onSuccess.invoke(it.response.data)
                 } else {
                     showError(it.response.error)
                 }
             } else if (it is BaseResult.Error) {
-                setLoading(false)
                 showError(it.error)
             }
         }.launchIn(scope)

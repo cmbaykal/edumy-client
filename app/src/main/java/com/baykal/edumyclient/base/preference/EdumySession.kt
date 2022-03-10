@@ -25,7 +25,7 @@ class EdumySession(context: Context, val gson: Gson) {
         }
     }
 
-    fun deleteUser() {
+    private fun deleteUser() {
         preferences.edit {
             remove(USER)
         }
@@ -38,10 +38,15 @@ class EdumySession(context: Context, val gson: Gson) {
         }
     }
 
-    fun deleteToken() {
+    private fun deleteToken() {
         preferences.edit {
             remove(TOKEN)
         }
+    }
+
+    fun drop() {
+        deleteToken()
+        deleteUser()
     }
 
     val user get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
