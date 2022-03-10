@@ -11,6 +11,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,9 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 import com.baykal.edumyclient.ui.menu.MenuItem
+import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 
 
 @Composable
@@ -39,6 +42,7 @@ fun EdumyToolbar(
     title: String = "Toolbar",
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
     visibility: Boolean = false,
+    login: Boolean = false,
     topLevelScreen: Set<String> = setOf()
 ) {
     if (visibility) {
@@ -83,6 +87,25 @@ fun EdumyToolbar(
                 fontWeight = FontWeight.Bold,
                 text = title
             )
+            if (login) {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .size(40.dp)
+                        .align(Alignment.CenterEnd)
+                        .clickable(
+                            onClick = { navHostController.navigate(ProfileRoute.route) },
+                            indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
+                            interactionSource = remember { MutableInteractionSource() },
+                        )
+                ) {
+                    Icon(
+                        Icons.Filled.Person,
+                        contentDescription = "Navigate Profile",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
         }
     }
 }
@@ -128,12 +151,9 @@ fun EdumyBottomBar(
 
 @Preview
 @Composable
-fun EdumyBottomBarPreview() {
-    EdumyBottomBar()
-}
-
-@Preview
-@Composable
-fun EdumyToolbarPreview() {
-    EdumyToolbar()
+fun AppBarsPreview() {
+    EdumyClientTheme {
+        EdumyToolbar()
+        EdumyBottomBar()
+    }
 }

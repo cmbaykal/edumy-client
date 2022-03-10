@@ -276,6 +276,7 @@ fun EDateField(
     }
 
     if (dialogState) {
+        // TODO: Add initialize with selected value
         EDatePicker(onChange = {
             text = it
             onChange(InputState(text = it))

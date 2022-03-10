@@ -1,8 +1,7 @@
 package com.baykal.edumyclient.data.model.user.request
 
-import com.baykal.edumyclient.data.model.user.UserRole
+import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class RegisterCredentials(
     @SerializedName("role")

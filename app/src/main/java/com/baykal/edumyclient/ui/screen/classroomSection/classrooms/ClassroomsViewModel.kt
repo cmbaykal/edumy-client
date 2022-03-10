@@ -1,11 +1,15 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.classrooms
 
-import androidx.compose.runtime.mutableStateOf
 import com.baykal.edumyclient.base.preference.EdumySession
+import com.baykal.edumyclient.base.preference.withUser
+import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.classroom.UserClassroomsUseCase
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,47 +19,45 @@ class ClassroomsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val classroomList: MutableList<Classroom> = mutableListOf()
-    private val uiState = mutableStateOf(ClassroomsState())
-
-    var uiValue
-        get() = uiState.value
-        set(value) {
-            uiState.value = value
-        }
+    private val _uiState = MutableStateFlow(ClassroomsState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         getClassrooms()
     }
 
     fun getClassrooms() {
-        session.userId?.let { id ->
+        session.withUser { user ->
+            _uiState.update { it.copy(userRole = user.role) }
+        }
+        session.withUserId { id ->
             userClassroomsUseCase.observe(id)
                 .collect { classList ->
-                    classList?.let {
+                    classList?.let { list ->
                         classroomList.clear()
-                        classroomList.addAll(it)
-                        uiValue = uiValue.copy(classrooms = classroomList)
+                        classroomList.addAll(list)
+                        _uiState.update { it.copy(classrooms = classroomList) }
                     }
                 }
         }
     }
 
     private fun setSearchText(text: String) {
-        uiValue = uiValue.copy(searchText = text)
+        _uiState.update { it.copy(searchText = text) }
         if (text.isEmpty()) {
-            uiValue = uiValue.copy(classrooms = classroomList)
+            _uiState.update { it.copy(classrooms = classroomList) }
         }
     }
 
-    fun filterClasses(text: String = uiValue.searchText) {
+    fun filterClasses(text: String = uiState.value.searchText) {
         setSearchText(text)
-        val list = if (uiValue.searchText.isEmpty()) {
+        val list = if (uiState.value.searchText.isEmpty()) {
             classroomList
         } else {
             classroomList.filter {
-                it.name?.contains(uiValue.searchText, true) ?: false || it.lesson?.contains(uiValue.searchText, true) ?: false
+                it.name?.contains(uiState.value.searchText, true) ?: false || it.lesson?.contains(uiState.value.searchText, true) ?: false
             }.toMutableList()
         }
-        uiValue = uiValue.copy(classrooms = list)
+        _uiState.update { it.copy(classrooms = list) }
     }
 }

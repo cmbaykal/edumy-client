@@ -10,19 +10,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ETextButton
 import com.baykal.edumyclient.base.component.ETextField
-import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.ui.screen.account.register.RegisterRoute
 
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel? = null
+    viewModel: LoginViewModel
 ) {
     val scrollState = rememberScrollState()
 
@@ -46,36 +44,28 @@ fun LoginScreen(
         Column {
             ETextField(
                 label = "E-mail",
-                onChange = { viewModel?.setEmail(it) },
+                onChange = viewModel::setEmail,
                 success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
                 imeAction = ImeAction.Next
             )
             ETextField(
                 label = "Password",
-                onChange = { viewModel?.setPass(it) },
+                onChange = viewModel::setPass,
                 success = { it.length in 8..16 },
                 passwordToggle = true,
                 imeAction = ImeAction.Done,
-                onAction = { viewModel?.login() }
+                onAction = { viewModel.login() }
             )
             EButton(
                 text = "Login",
             ) {
-                viewModel?.login()
+                viewModel.login()
             }
             ETextButton(
                 text = "Don't you have an Edumy account?",
             ) {
-                viewModel?.navigate(RegisterRoute.route)
+                viewModel.navigate(RegisterRoute.route)
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    EdumyClientTheme {
-        LoginScreen()
     }
 }

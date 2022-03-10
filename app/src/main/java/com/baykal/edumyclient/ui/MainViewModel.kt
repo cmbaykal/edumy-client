@@ -2,10 +2,11 @@ package com.baykal.edumyclient.ui
 
 import androidx.lifecycle.ViewModel
 import com.baykal.edumyclient.base.preference.EdumySession
-import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
-import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
+import com.baykal.edumyclient.base.preference.withUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,19 +14,14 @@ class MainViewModel @Inject constructor(
     session: EdumySession
 ) : ViewModel() {
 
-    private val startState = MutableStateFlow("")
-
-    var startValue
-        get() = startState.value
-        set(value) {
-            startState.value = value
-        }
+    private val _mainState = MutableStateFlow(MainState())
+    val mainState = _mainState.asStateFlow()
 
     init {
-        session.userId?.let {
-            startValue = ClassroomsRoute.route
+        session.withUserId {
+            _mainState.update { it.copy(loggedIn = true) }
         } ?: run {
-            startValue = LoginRoute.route
+            _mainState.update { it.copy(loggedIn = false) }
         }
     }
 }

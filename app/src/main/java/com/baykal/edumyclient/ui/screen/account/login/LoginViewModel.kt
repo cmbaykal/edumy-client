@@ -8,6 +8,8 @@ import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,30 +18,28 @@ class LoginViewModel @Inject constructor(
     private val session: EdumySession
 ) : BaseViewModel() {
 
-    private val uiState = MutableStateFlow(LoginState())
+    private val _uiState = MutableStateFlow(LoginState())
+    private val uiState = _uiState.asStateFlow()
 
-    var uiValue
-        get() = uiState.value
-        set(value) {
-            uiState.value = value
-        }
 
     fun setEmail(state: InputState) {
-        uiValue = uiValue.copy(email = state)
+        _uiState.update { it.copy(email = state) }
     }
 
     fun setPass(state: InputState) {
-        uiValue = uiValue.copy(pass = state)
+        _uiState.update { it.copy(pass = state) }
     }
 
     fun login() {
-        if (uiValue.email.isSuccess && uiValue.pass.isSuccess) {
-            loginUseCase.observe(
-                LoginCredentials(uiValue.email.text, uiValue.pass.text)
-            ).collect { response ->
-                response?.id?.let {
-                    session.saveUserId(it)
-                    navigate(ClassroomsRoute.route, true)
+        with(uiState.value) {
+            if (email.isSuccess && pass.isSuccess) {
+                loginUseCase.observe(
+                    LoginCredentials(email.text, pass.text)
+                ).collect { response ->
+                    response?.let {
+                        session.saveUser(it)
+                        navigate(ClassroomsRoute.route, true)
+                    }
                 }
             }
         }

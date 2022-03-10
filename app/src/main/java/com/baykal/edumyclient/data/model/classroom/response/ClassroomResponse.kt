@@ -14,4 +14,13 @@ data class Classroom(
     val creatorId: String? = null,
     @SerializedName("users")
     val users: MutableList<User>? = ArrayList()
-)
+) {
+    val classSize
+        get() = with(users?.size?.minus(1)) {
+            if (this == 0) {
+                "Empty Class"
+            } else {
+                "Size : $this"
+            }
+        }
+}

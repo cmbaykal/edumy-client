@@ -7,7 +7,7 @@ data class User(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("role")
-    val role: String? = null,
+    val role: UserRole? = null,
     @SerializedName("mail")
     val mail: String? = null,
     @SerializedName("birth")
@@ -20,4 +20,10 @@ data class User(
     val classes: MutableList<String>? = ArrayList()
 )
 
+enum class UserRole {
+    @SerializedName("Student")
+    Student,
 
+    @SerializedName("Teacher")
+    Teacher;
+}

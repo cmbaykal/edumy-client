@@ -18,7 +18,7 @@ import com.baykal.edumyclient.data.model.classroom.Lesson
 
 @Composable
 fun CreateClassScreen(
-    viewModel: CreateClassViewModel? = null
+    viewModel: CreateClassViewModel
 ) {
     val scrollState = rememberScrollState()
 
@@ -32,7 +32,7 @@ fun CreateClassScreen(
     ) {
         ETextField(
             label = "Class Name",
-            onChange = { viewModel?.setClassName(it) },
+            onChange = viewModel::setClassName,
             success = { it.length in 3..30 },
             imeAction = ImeAction.Next
         )
@@ -44,14 +44,13 @@ fun CreateClassScreen(
         EDropDown(
             label = "Lesson",
             items = items,
-            onChange = {
-                viewModel?.setClassLesson(it)
-            }
+            onChange = viewModel::setClassLesson
+
         )
         EButton(
             text = "Create Class",
         ) {
-            viewModel?.createClass()
+            viewModel.createClass()
         }
     }
 }

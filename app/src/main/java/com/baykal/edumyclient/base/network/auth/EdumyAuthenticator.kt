@@ -1,6 +1,7 @@
 package com.baykal.edumyclient.base.network.auth
 
 import com.baykal.edumyclient.base.preference.EdumySession
+import com.baykal.edumyclient.base.preference.withUserId
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -16,7 +17,7 @@ class EdumyAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        return session.userId?.let {
+        return session.withUserId {
             runBlocking {
                 authenticationRepository.fetchToken(it)
             }

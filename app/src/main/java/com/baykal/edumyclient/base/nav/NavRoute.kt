@@ -37,7 +37,7 @@ interface NavRoute<T : BaseViewModel> {
             val viewStateAsState by viewModel.controller.screenState.collectAsState()
 
             LaunchedEffect(viewStateAsState) {
-                mainState.value = MainState(
+                mainState.value = mainState.value.copy(
                     title = title,
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()

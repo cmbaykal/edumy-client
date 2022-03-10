@@ -5,8 +5,10 @@ import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.baykal.edumyclient.data.model.user.response.AuthTokenResponse
+import com.baykal.edumyclient.data.model.user.response.User
+import com.google.gson.Gson
 
-class EdumySession(context: Context) {
+class EdumySession(context: Context, val gson: Gson) {
     private val preferences = EncryptedSharedPreferences.create(
         context,
         FILE_NAME,
@@ -15,39 +17,57 @@ class EdumySession(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun saveUserId(userId: String) {
+    fun saveUser(user: User) {
+        val userData = gson.toJson(user)
         preferences.edit {
-            putString(USER_ID, userId)
+            putString(USER, userData)
             commit()
         }
     }
 
     fun deleteUser() {
         preferences.edit {
-            remove(USER_ID)
+            remove(USER)
         }
     }
 
     fun saveToken(authToken: AuthTokenResponse) {
         preferences.edit {
-            putString(TOKEN_KEY, authToken.token)
+            putString(TOKEN, authToken.token)
             commit()
         }
     }
 
     fun deleteToken() {
         preferences.edit {
-            remove(TOKEN_KEY)
+            remove(TOKEN)
         }
     }
 
-    val userId get() = preferences.getString(USER_ID, null)
+    val user get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
 
-    val token get() = preferences.getString(TOKEN_KEY, null)
+    val token get() = preferences.getString(TOKEN, null)
 
     companion object {
         const val FILE_NAME = "edumy_auth"
-        const val USER_ID = "edumy_user_id"
-        const val TOKEN_KEY = "edumy_token"
+        const val USER = "edumy_user"
+        const val TOKEN = "edumy_token"
     }
 }
+
+fun <T> EdumySession.withUserId(block: (String) -> T): T? {
+    return this.user?.id?.let {
+        block(it)
+    } ?: run {
+        null
+    }
+}
+
+fun <T> EdumySession.withUser(block: (User) -> T): T? {
+    return this.user?.let {
+        block(it)
+    } ?: run {
+        null
+    }
+}
+
