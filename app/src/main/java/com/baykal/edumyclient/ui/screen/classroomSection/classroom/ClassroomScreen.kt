@@ -7,9 +7,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Class
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ECollapsableLayout
+import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.GrayLight
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -90,7 +89,7 @@ fun ClassroomScreen(
                     if (viewState.user?.role == UserRole.Teacher) {
                         EButton(
                             modifier = Modifier
-                                .padding(top = 8.dp, end = 12.dp)
+                                .padding(top = 2.dp, end = 12.dp)
                                 .weight(2f),
                             text = "+",
                             textSize = 25.sp,
@@ -100,10 +99,16 @@ fun ClassroomScreen(
                         )
                     }
                 }
-                ScreenButton(text = "Questions") {
+                ScreenButton(
+                    text = "Questions",
+                    icon = Icons.Filled.QuestionAnswer
+                ) {
                     TODO("Classroom Questions Navigation")
                 }
-                ScreenButton(text = "Performances") {
+                ScreenButton(
+                    text = "Performances",
+                    icon = Icons.Filled.Leaderboard
+                ) {
                     TODO("Classroom Performances Navigation")
                 }
 
@@ -145,8 +150,8 @@ fun StudentsComponent(
                         .padding(
                             start = 10.dp,
                             end = 20.dp,
-                            top = 20.dp,
-                            bottom = 20.dp,
+                            top = 15.dp,
+                            bottom = 15.dp,
                         ),
                     text = "Students",
                     textAlign = TextAlign.Start,
@@ -203,45 +208,5 @@ fun StudentsComponent(
                 )
             }
         )
-    }
-}
-
-@Composable
-fun ScreenButton(
-    text: String,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp),
-        elevation = 4.dp
-    ) {
-        Box(
-            modifier = Modifier.clickable {
-                onClick.invoke()
-            }
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 10.dp,
-                        end = 20.dp,
-                        top = 20.dp,
-                        bottom = 20.dp,
-                    ),
-                text = text,
-                textAlign = TextAlign.Start,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Icon(
-                modifier = Modifier
-                    .size(30.dp)
-                    .align(Alignment.CenterEnd),
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = Gray,
-                contentDescription = ""
-            )
-        }
     }
 }
