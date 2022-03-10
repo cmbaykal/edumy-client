@@ -26,6 +26,7 @@ import com.baykal.edumyclient.base.ui.theme.GrayLight
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
+import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 
 @Composable
 fun ClassroomScreen(
@@ -81,8 +82,10 @@ fun ClassroomScreen(
                     StudentsComponent(
                         modifier = Modifier.weight(8f),
                         classroom = it
-                    ) {
-                        TODO("User Profile Navigation")
+                    ) { userId ->
+                        if (userId != null) {
+                            viewModel.navigate(ProfileRoute.get(userId))
+                        }
                     }
                     if (viewState.user?.role == UserRole.Teacher) {
                         EButton(
@@ -126,7 +129,7 @@ fun ClassroomScreen(
 fun StudentsComponent(
     modifier: Modifier = Modifier,
     classroom: Classroom,
-    onClick: () -> Unit
+    onClick: (String?) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -157,7 +160,7 @@ fun StudentsComponent(
                         users.filter { it.role == UserRole.Student }.forEach { user ->
                             Box(
                                 modifier = Modifier.clickable {
-                                    onClick.invoke()
+                                    onClick.invoke(user.id)
                                 }
                             ) {
                                 Divider(

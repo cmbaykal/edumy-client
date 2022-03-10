@@ -9,8 +9,7 @@ import com.baykal.edumyclient.base.nav.NavRoute
 
 
 object ClassroomRoute : NavRoute<ClassroomViewModel> {
-
-    const val CLASS_ID = "CLASS_ID"
+    const val CLASS_ID = "classId"
 
     override val title = "Classroom"
     override val route = "classroom/{$CLASS_ID}"

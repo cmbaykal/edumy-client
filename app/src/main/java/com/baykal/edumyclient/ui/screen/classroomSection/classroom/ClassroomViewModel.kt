@@ -20,14 +20,12 @@ class ClassroomViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun getClassroomInformation() {
-        args?.let { bundle ->
-            bundle.getString(ClassroomRoute.CLASS_ID)?.let { classId ->
-                classroomInformationUseCase.observe(classId).collect { classroom ->
-                    _uiState.update { it.copy(classroom = classroom) }
-                    session.withUser { user ->
-                        _uiState.update { it.copy(user = user) }
-                        _uiState.update { it.copy(owner = user.id == classroom?.creatorId) }
-                    }
+        args?.getString(ClassroomRoute.CLASS_ID)?.let { classId ->
+            classroomInformationUseCase.observe(classId).collect { classroom ->
+                _uiState.update { it.copy(classroom = classroom) }
+                session.withUser { user ->
+                    _uiState.update { it.copy(user = user) }
+                    _uiState.update { it.copy(owner = user.id == classroom?.creatorId) }
                 }
             }
         }

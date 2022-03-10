@@ -14,5 +14,4 @@ sealed class ScreenState {
     data class showDialog(val title: String, val message: String, val onDismiss: () -> Unit = {}) : ScreenState()
 
     data class setLoading(val visibility: Boolean) : ScreenState()
-
 }

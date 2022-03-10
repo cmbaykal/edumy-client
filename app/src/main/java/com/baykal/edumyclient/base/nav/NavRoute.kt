@@ -1,6 +1,10 @@
 package com.baykal.edumyclient.base.nav
 
-import androidx.compose.runtime.*
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -8,6 +12,8 @@ import androidx.navigation.compose.composable
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.ui.DialogState
 import com.baykal.edumyclient.ui.MainState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 interface NavRoute<T : BaseViewModel> {
 
@@ -30,24 +36,28 @@ interface NavRoute<T : BaseViewModel> {
     fun composable(
         builder: NavGraphBuilder,
         navHostController: NavHostController,
-        mainState: MutableState<MainState>
+        mainStateFlow: MutableStateFlow<MainState>
     ) {
         builder.composable(route, getArguments()) {
             val viewModel = viewModel()
-            val viewStateAsState by viewModel.controller.screenState.collectAsState()
+            val screenState by viewModel.controller.screenState.collectAsState()
 
-            LaunchedEffect(viewStateAsState) {
-                mainState.value = mainState.value.copy(
+            mainStateFlow.update { state ->
+                state.copy(
                     title = title,
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()
                 )
+            }
+
+            LaunchedEffect(screenState) {
                 updateNavigationState(
                     navHostController,
-                    viewStateAsState,
-                    mainState,
+                    screenState,
+                    mainStateFlow,
                     viewModel.controller::onNavigated
                 )
+                Log.d("EdumyTest", "screen state : $screenState")
             }
 
             it.arguments?.let { bundle ->
@@ -60,7 +70,7 @@ interface NavRoute<T : BaseViewModel> {
     private fun updateNavigationState(
         navHostController: NavHostController,
         screenState: ScreenState,
-        mainState: MutableState<MainState>,
+        mainState: MutableStateFlow<MainState>,
         onNavigated: (screenState: ScreenState) -> Unit,
     ) {
         when (screenState) {
@@ -84,19 +94,21 @@ interface NavRoute<T : BaseViewModel> {
                 navHostController.navigateUp()
             }
             is ScreenState.setLoading -> {
-                mainState.value = mainState.value.copy(loading = screenState.visibility)
+                mainState.update { it.copy(loading = screenState.visibility) }
             }
             is ScreenState.showDialog -> {
-                mainState.value = mainState.value.copy(
-                    dialog = DialogState(
-                        title = screenState.title,
-                        message = screenState.message,
-                        onDismiss = {
-                            mainState.value = mainState.value.copy(dialog = null)
-                            screenState.onDismiss.invoke()
-                        }
+                mainState.update { state ->
+                    state.copy(
+                        dialog = DialogState(
+                            title = screenState.title,
+                            message = screenState.message,
+                            onDismiss = {
+                                mainState.update { it.copy(dialog = null) }
+                                screenState.onDismiss.invoke()
+                            }
+                        )
                     )
-                )
+                }
             }
             else -> {} // Idle
         }
