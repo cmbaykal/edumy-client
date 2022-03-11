@@ -3,6 +3,7 @@ package com.baykal.edumyclient.ui.screen.account.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -64,7 +65,11 @@ fun ProfileScreen(
                 Column(
                     modifier = Modifier
                         .layoutId("screenButtons")
-                        .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
+                        .padding(
+                            start = 20.dp,
+                            end = 20.dp,
+                            bottom = 20.dp
+                        )
                 ) {
                     ScreenButton(
                         text = "Classrooms",
@@ -127,6 +132,7 @@ fun ProfileCard(
             .then(
                 modifier
             ),
+        shape = RoundedCornerShape(10.dp),
         elevation = 8.dp
     ) {
         Box {

@@ -45,4 +45,12 @@ class ClassroomViewModel @Inject constructor(
             }
         }
     }
+
+    fun leaveClassroom(classId: String) {
+        //TODO : Leave Classroom Request
+    }
+
+    fun deleteClassroom(classId: String) {
+        //TODO : Delete Classroom Request
+    }
 }
