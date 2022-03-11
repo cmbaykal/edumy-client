@@ -5,7 +5,11 @@ import java.util.*
 sealed class ScreenState {
     object Idle : ScreenState()
 
-    data class NavigateToRoute(val route: String, val singleTop: Boolean = false, val id: String = UUID.randomUUID().toString()) : ScreenState()
+    object login : ScreenState()
+
+    object logout : ScreenState()
+
+    data class NavigateToRoute(val route: String, val clearHistory: Boolean = false, val id: String = UUID.randomUUID().toString()) : ScreenState()
 
     data class PopToRoute(val staticRoute: String, val id: String = UUID.randomUUID().toString()) : ScreenState()
 

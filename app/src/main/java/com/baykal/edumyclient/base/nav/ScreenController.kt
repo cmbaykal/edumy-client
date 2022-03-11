@@ -7,6 +7,10 @@ import kotlinx.coroutines.flow.update
 
 
 interface ScreenController {
+    // account
+    fun login()
+    fun logout()
+
     // navigation
     fun onNavigated(state: ScreenState)
     fun navigateUp()
@@ -29,6 +33,10 @@ class EdumyController : ScreenController {
     }
 
     override fun popToRoute(route: String) = setState(ScreenState.PopToRoute(route))
+
+    override fun login() = setState(ScreenState.login)
+
+    override fun logout() = setState(ScreenState.logout)
 
     override fun navigateUp() = setState(ScreenState.NavigateUp())
 

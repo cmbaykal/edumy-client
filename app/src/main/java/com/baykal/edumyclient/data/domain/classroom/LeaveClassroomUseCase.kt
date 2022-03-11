@@ -8,8 +8,10 @@ import javax.inject.Inject
 
 class LeaveClassroomUseCase @Inject constructor(
     private val classroomsRepository: ClassroomsRepository
-) : BaseUseCase<Pair<String, String>, BaseResult<ApiResponse<Unit>>>() {
+) : BaseUseCase<LeaveClassroomUseCase.Params, BaseResult<ApiResponse<Unit>>>() {
 
-    override fun build(params: Pair<String, String>) = classroomsRepository.leaveClass(params.first, params.second)
+    override fun build(params: Params) = classroomsRepository.leaveClass(params.classId, params.userMail)
+
+    data class Params(val classId: String, val userMail: String?)
 
 }

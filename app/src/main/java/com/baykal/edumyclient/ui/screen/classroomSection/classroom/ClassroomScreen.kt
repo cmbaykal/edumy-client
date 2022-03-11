@@ -142,12 +142,10 @@ fun ClassroomScreen(
             }
             if (assignDialog) {
                 AssignDialog(onDismiss = { assignDialog = false }) { state ->
-                    it.id?.let { classId ->
                         if (state.isSuccess) {
                             assignDialog = false
-                            viewModel.assignUser(classId, state.text)
+                            viewModel.assignUser(it.id, state.text)
                         }
-                    }
                 }
             }
         } ?: run {

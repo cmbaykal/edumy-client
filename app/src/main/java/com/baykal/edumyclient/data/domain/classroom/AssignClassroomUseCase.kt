@@ -12,6 +12,6 @@ class AssignClassroomUseCase @Inject constructor(
 
     override fun build(params: Params) = classroomsRepository.assignClass(params.classId, params.userId)
 
-    data class Params(val classId: String, val userId: String)
+    data class Params(val classId: String?, val userId: String)
 
 }

@@ -5,6 +5,9 @@ import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.classroom.AssignClassroomUseCase
 import com.baykal.edumyclient.data.domain.classroom.ClassroomInformationUseCase
+import com.baykal.edumyclient.data.domain.classroom.DeleteClassroomUseCase
+import com.baykal.edumyclient.data.domain.classroom.LeaveClassroomUseCase
+import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,9 @@ import javax.inject.Inject
 class ClassroomViewModel @Inject constructor(
     private val session: EdumySession,
     private val classroomInformationUseCase: ClassroomInformationUseCase,
-    private val assignClassroomUseCase: AssignClassroomUseCase
+    private val assignClassroomUseCase: AssignClassroomUseCase,
+    private val leaveClassroomUseCase: LeaveClassroomUseCase,
+    private val deleteClassroomUseCase: DeleteClassroomUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ClassroomState())
@@ -33,7 +38,7 @@ class ClassroomViewModel @Inject constructor(
         }
     }
 
-    fun assignUser(classId: String, userMail: String) {
+    fun assignUser(classId: String?, userMail: String) {
         assignClassroomUseCase.observe(
             AssignClassroomUseCase.Params(classId, userMail)
         ).collect {
@@ -47,10 +52,22 @@ class ClassroomViewModel @Inject constructor(
     }
 
     fun leaveClassroom(classId: String) {
-        //TODO : Leave Classroom Request
+        session.withUser {
+            leaveClassroomUseCase.observe(
+                LeaveClassroomUseCase.Params(classId, it.mail)
+            ).collect {
+                controller.navigateToRoute(ClassroomsRoute.route, true)
+            }
+        }
     }
 
     fun deleteClassroom(classId: String) {
-        //TODO : Delete Classroom Request
+        session.withUser {
+            deleteClassroomUseCase.observe(
+                DeleteClassroomUseCase.Params(classId, it.mail)
+            ).collect {
+                controller.navigateToRoute(ClassroomsRoute.route, true)
+            }
+        }
     }
 }

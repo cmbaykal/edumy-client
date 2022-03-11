@@ -8,8 +8,10 @@ import javax.inject.Inject
 
 class DeleteClassroomUseCase @Inject constructor(
     private val classroomsRepository: ClassroomsRepository
-) : BaseUseCase<String, BaseResult<ApiResponse<Unit>>>() {
+) : BaseUseCase<DeleteClassroomUseCase.Params, BaseResult<ApiResponse<Unit>>>() {
 
-    override fun build(params: String) = classroomsRepository.deleteClass(params)
+    override fun build(params: Params) = classroomsRepository.deleteClass(params.classId, params.userMail)
+
+    data class Params(val classId: String, val userMail: String?)
 
 }

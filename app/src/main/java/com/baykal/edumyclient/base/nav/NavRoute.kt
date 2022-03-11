@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.ui.DialogState
 import com.baykal.edumyclient.ui.MainState
+import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -76,18 +77,10 @@ interface NavRoute<T : BaseViewModel> {
     ) {
         when (screenState) {
             is ScreenState.NavigateToRoute -> {
-                if (screenState.route == ClassroomsRoute.route) {
-                    mainState.update { it.copy(loggedIn = true) }
+                if (screenState.clearHistory) {
+                    mainState.update { it.copy(startRoute = screenState.route) }
                 }
-                navHostController.navigate(screenState.route) {
-                    if (screenState.singleTop) {
-                        navHostController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                inclusive = true
-                            }
-                        }
-                    }
-                }
+                navHostController.navigate(screenState.route)
                 onNavigated(screenState)
             }
             is ScreenState.PopToRoute -> {
@@ -96,6 +89,7 @@ interface NavRoute<T : BaseViewModel> {
             }
             is ScreenState.NavigateUp -> {
                 navHostController.navigateUp()
+                onNavigated(screenState)
             }
             is ScreenState.setLoading -> {
                 mainState.update { it.copy(loading = screenState.visibility) }
@@ -113,6 +107,16 @@ interface NavRoute<T : BaseViewModel> {
                         )
                     )
                 }
+            }
+            is ScreenState.login -> {
+                mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
+                navHostController.navigate(ClassroomsRoute.route)
+                onNavigated(screenState)
+            }
+            is ScreenState.logout -> {
+                mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
+                navHostController.navigate(LoginRoute.route)
+                onNavigated(screenState)
             }
             else -> {} // Idle
         }

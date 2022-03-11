@@ -27,7 +27,6 @@ import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.user.response.User
-import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 
 @Composable
 fun ProfileScreen(
@@ -71,12 +70,6 @@ fun ProfileScreen(
                             bottom = 20.dp
                         )
                 ) {
-                    ScreenButton(
-                        text = "Classrooms",
-                        icon = Icons.Filled.Class
-                    ) {
-                        viewModel.navigate(ClassroomsRoute.route)
-                    }
                     ScreenButton(
                         text = "Questions",
                         icon = Icons.Filled.QuestionAnswer

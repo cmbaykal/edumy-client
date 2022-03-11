@@ -52,14 +52,8 @@ interface EdumyService {
 
     @POST("/class/assign")
     suspend fun assignUserToClassroom(
-        @Query("classId") classId: String,
+        @Query("classId") classId: String?,
         @Query("userMail") userMail: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/class/leave")
-    suspend fun leaveClassroom(
-        @Query("classId") classId: String,
-        @Query("userId") userId: String
     ): BaseResult<ApiResponse<Unit>>
 
     @GET("/class/info")
@@ -72,9 +66,16 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<MutableList<Classroom>>>
 
+    @POST("/class/leave")
+    suspend fun leaveClassroom(
+        @Query("classId") classId: String,
+        @Query("userMail") userMail: String?
+    ): BaseResult<ApiResponse<Unit>>
+
     @POST("/class/delete")
     suspend fun deleteClassroom(
-        @Query("classId") classId: String
+        @Query("classId") classId: String,
+        @Query("userMail") userMail: String?
     ): BaseResult<ApiResponse<Unit>>
 
     // endregion

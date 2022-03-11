@@ -70,7 +70,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = mainState.startRoute,
+                    startDestination = mainState.startRoute ?: LoginRoute.route,
                     modifier = Modifier
                         .padding(it)
                 ) {

@@ -17,20 +17,19 @@ class ClassroomsRepository @Inject constructor(
         service.addClassroom(classroomBody)
     }
 
-    fun assignClass(classId: String, userId: String) = fetch {
-        service.assignUserToClassroom(classId, userId)
+    fun assignClass(classId: String?, userMail: String) = fetch {
+        service.assignUserToClassroom(classId, userMail)
     }
 
-    fun leaveClass(classId: String, userId: String) = fetch {
-        service.leaveClassroom(classId, userId)
+    fun leaveClass(classId: String, userMail: String?) = fetch {
+        service.leaveClassroom(classId, userMail)
     }
 
-    fun deleteClass(classId: String) = fetch {
-        service.deleteClassroom(classId)
+    fun deleteClass(classId: String, userMail: String?) = fetch {
+        service.deleteClassroom(classId, userMail)
     }
 
     fun getClassInformation(classId: String) = fetch {
         service.getClassroomInformation(classId)
     }
-
 }
