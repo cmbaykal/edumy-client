@@ -19,6 +19,7 @@ import com.baykal.edumyclient.ui.menu.MenuItem
 import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 import com.baykal.edumyclient.ui.screen.account.register.RegisterRoute
+import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classroom.ClassroomRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
@@ -77,6 +78,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     LoginRoute.composable(this, navController, state)
                     RegisterRoute.composable(this, navController, state)
                     ProfileRoute.composable(this, navController, state)
+                    UpdateUserRoute.composable(this, navController, state)
                     ClassroomsRoute.composable(this, navController, state)
                     ClassroomRoute.composable(this, navController, state)
                     CreateClassRoute.composable(this, navController, state)
@@ -86,7 +88,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                 }
             }
             AnimatedVisibility(
-                visible = mainState.loading,
+                visible = mainState.dialog != null,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {

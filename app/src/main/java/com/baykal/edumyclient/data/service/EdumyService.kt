@@ -10,6 +10,7 @@ import com.baykal.edumyclient.data.model.performance.response.Performance
 import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.usage.UsageData
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
+import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
 import com.baykal.edumyclient.data.model.user.response.User
@@ -35,6 +36,12 @@ interface EdumyService {
     suspend fun updateUser(
         @Body updateCredentials: UpdateCredentials
     ): BaseResult<ApiResponse<Unit>>
+
+    @POST("/user/changePassword")
+    suspend fun changePassword(
+        @Body passwordCredentials: PasswordCredentials
+    ): BaseResult<ApiResponse<Unit>>
+
 
     @GET("user/info")
     suspend fun getUserInformation(

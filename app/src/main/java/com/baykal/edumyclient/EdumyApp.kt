@@ -11,4 +11,6 @@ class EdumyApp : Application() {
         val screenController: EdumyController = EdumyController()
     }
 
+    // TODO: Disposable Effects
+
 }

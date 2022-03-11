@@ -40,14 +40,14 @@ fun ETextField(
     value: String = "",
     errorText: String? = null,
     onChange: (InputState) -> Unit,
-    success: ((text: String) -> Boolean)? = null,
+    success: ((text: String) -> Boolean) = { true },
     imeAction: ImeAction? = null,
     onAction: (() -> Unit)? = null,
     passwordToggle: Boolean = false
 ) {
     var text by remember { mutableStateOf(value) }
     var focused by remember { mutableStateOf(false) }
-    var isSuccess by remember { mutableStateOf(false) }
+    var isSuccess by remember { mutableStateOf(success.invoke(value)) }
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -60,6 +60,8 @@ fun ETextField(
         errorIndicatorColor = "#ff6d64".color,
         errorTrailingIconColor = "#ff6d64".color
     )
+
+    onChange.invoke(InputState(text, isSuccess))
 
     Column(
         Modifier.padding(8.dp),
@@ -74,7 +76,7 @@ fun ETextField(
             value = text,
             onValueChange = {
                 text = it
-                isSuccess = success != null && success.invoke(it)
+                isSuccess = success.invoke(it)
                 onChange.invoke(InputState(it, isSuccess))
             },
             label = {
@@ -89,7 +91,7 @@ fun ETextField(
                     modifier = Modifier.padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (text.isNotEmpty() && !focused && success != null) {
+                    if (text.isNotEmpty() && !focused) {
                         Icon(
                             imageVector = if (isSuccess) Icons.Default.Check else Icons.Default.Close,
                             tint = if (isSuccess) "#66c95b".color else "#ff6d64".color,

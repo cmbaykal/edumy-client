@@ -68,7 +68,7 @@ fun RegisterScreen(
         ETextField(
             label = "Confirm Password",
             onChange = viewModel::setPassConfirm,
-            success = { viewModel.checkPassword(it) ?: false },
+            success = { viewModel.checkPassword(it) },
             passwordToggle = true,
             imeAction = ImeAction.Done,
             onAction = { viewModel.register() }

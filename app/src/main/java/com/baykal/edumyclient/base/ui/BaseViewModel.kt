@@ -41,6 +41,7 @@ abstract class BaseViewModel : ViewModel() {
         return onEach {
             delay(200)
             setLoading(false)
+            delay(200)
             if (it is BaseResult.Success) {
                 if (it.response.success) {
                     onSuccess.invoke(it.response.data)

@@ -26,7 +26,7 @@ import java.util.*
 
 data class DialogButton(
     val label: String,
-    val onClick: () -> Unit
+    val onClick: () -> Unit = {}
 )
 
 @Composable

@@ -2,6 +2,7 @@ package com.baykal.edumyclient.data.repository
 
 import com.baykal.edumyclient.base.data.BaseRepository
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
+import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
 import com.baykal.edumyclient.data.service.EdumyService
@@ -21,6 +22,10 @@ class AccountRepository @Inject constructor(
 
     fun updateUser(updateCredentials: UpdateCredentials) = fetch {
         service.updateUser(updateCredentials)
+    }
+
+    fun changePassword(passwordCredentials: PasswordCredentials) = fetch {
+        service.changePassword(passwordCredentials)
     }
 
     fun getUser(userId: String) = fetch {

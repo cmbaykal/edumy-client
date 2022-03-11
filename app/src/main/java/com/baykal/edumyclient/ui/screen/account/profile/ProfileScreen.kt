@@ -27,6 +27,7 @@ import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.user.response.User
+import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 
 @Composable
 fun ProfileScreen(
@@ -59,7 +60,7 @@ fun ProfileScreen(
                     modifier = Modifier.layoutId("profileBox"),
                     user = it
                 ) {
-                    // TODO: Navigate to Edit Profile
+                    viewModel.navigate(UpdateUserRoute.route)
                 }
                 Column(
                     modifier = Modifier
@@ -165,8 +166,11 @@ fun ProfileCard(
                 )
                 user.bio?.let {
                     Text(
-                        modifier = Modifier.padding(bottom = 20.dp),
-                        text = user.role.toString(),
+                        modifier = Modifier.padding(
+                            top = 10.dp,
+                            bottom = 20.dp
+                        ),
+                        text = it,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Light
                     )
