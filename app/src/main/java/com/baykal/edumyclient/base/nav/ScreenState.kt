@@ -5,9 +5,9 @@ import java.util.*
 sealed class ScreenState {
     object Idle : ScreenState()
 
-    object login : ScreenState()
+    object Login : ScreenState()
 
-    object logout : ScreenState()
+    object Logout : ScreenState()
 
     data class NavigateToRoute(val route: String, val clearHistory: Boolean = false, val id: String = UUID.randomUUID().toString()) : ScreenState()
 
@@ -17,5 +17,5 @@ sealed class ScreenState {
 
     data class showDialog(val title: String, val message: String, val onDismiss: () -> Unit = {}) : ScreenState()
 
-    data class setLoading(val visibility: Boolean) : ScreenState()
+    data class setLoading(var visibility: Boolean) : ScreenState()
 }

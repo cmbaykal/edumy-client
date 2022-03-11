@@ -3,7 +3,6 @@ package com.baykal.edumyclient.base.nav
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 
 interface ScreenController {
@@ -12,7 +11,7 @@ interface ScreenController {
     fun logout()
 
     // navigation
-    fun onNavigated(state: ScreenState)
+    fun onStateChanged(state: ScreenState)
     fun navigateUp()
     fun popToRoute(route: String)
     fun navigateToRoute(route: String, singleTop: Boolean)
@@ -28,15 +27,15 @@ class EdumyController : ScreenController {
     private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Idle)
     override val screenState = _screenState.asStateFlow()
 
-    override fun onNavigated(state: ScreenState) {
+    override fun onStateChanged(state: ScreenState) {
         _screenState.compareAndSet(state, ScreenState.Idle)
     }
 
     override fun popToRoute(route: String) = setState(ScreenState.PopToRoute(route))
 
-    override fun login() = setState(ScreenState.login)
+    override fun login() = setState(ScreenState.Login)
 
-    override fun logout() = setState(ScreenState.logout)
+    override fun logout() = setState(ScreenState.Logout)
 
     override fun navigateUp() = setState(ScreenState.NavigateUp())
 
@@ -47,6 +46,6 @@ class EdumyController : ScreenController {
     override fun showDialog(title: String, message: String, onDismiss: () -> Unit) = setState(ScreenState.showDialog(title, message, onDismiss))
 
     private fun setState(state: ScreenState) {
-        _screenState.update { state }
+        _screenState.value = state
     }
 }

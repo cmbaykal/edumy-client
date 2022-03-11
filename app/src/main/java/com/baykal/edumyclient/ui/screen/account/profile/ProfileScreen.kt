@@ -156,11 +156,21 @@ fun ProfileCard(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    modifier = Modifier.padding(bottom = 20.dp),
+                    modifier = Modifier.padding(
+                        bottom = if (user.bio != null) 0.dp else 20.dp
+                    ),
                     text = user.role.toString(),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Light
                 )
+                user.bio?.let {
+                    Text(
+                        modifier = Modifier.padding(bottom = 20.dp),
+                        text = user.role.toString(),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
             }
         }
     }

@@ -84,6 +84,12 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     PerformancesRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }
+            }
+            AnimatedVisibility(
+                visible = mainState.loading,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
                 mainState.dialog?.let { dialog ->
                     GenericDialog(
                         title = dialog.title,

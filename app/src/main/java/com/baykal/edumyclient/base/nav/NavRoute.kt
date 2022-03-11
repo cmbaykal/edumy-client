@@ -1,6 +1,5 @@
 package com.baykal.edumyclient.base.nav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -57,9 +56,8 @@ interface NavRoute<T : BaseViewModel> {
                     navHostController,
                     screenState,
                     mainStateFlow,
-                    viewModel.controller::onNavigated
                 )
-                Log.d("EdumyTest", "screen state : $screenState")
+                viewModel.controller.onStateChanged(screenState)
             }
 
             it.arguments?.let { bundle ->
@@ -73,23 +71,22 @@ interface NavRoute<T : BaseViewModel> {
         navHostController: NavHostController,
         screenState: ScreenState,
         mainState: MutableStateFlow<MainState>,
-        onNavigated: (screenState: ScreenState) -> Unit,
     ) {
         when (screenState) {
             is ScreenState.NavigateToRoute -> {
                 if (screenState.clearHistory) {
                     mainState.update { it.copy(startRoute = screenState.route) }
+                    navHostController.currentBackStackEntry?.destination?.route?.let {
+                        navHostController.popBackStack(it, false)
+                    }
                 }
                 navHostController.navigate(screenState.route)
-                onNavigated(screenState)
             }
             is ScreenState.PopToRoute -> {
                 navHostController.popBackStack(screenState.staticRoute, false)
-                onNavigated(screenState)
             }
             is ScreenState.NavigateUp -> {
                 navHostController.navigateUp()
-                onNavigated(screenState)
             }
             is ScreenState.setLoading -> {
                 mainState.update { it.copy(loading = screenState.visibility) }
@@ -108,15 +105,19 @@ interface NavRoute<T : BaseViewModel> {
                     )
                 }
             }
-            is ScreenState.login -> {
+            is ScreenState.Login -> {
                 mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
+                navHostController.currentBackStackEntry?.destination?.route?.let {
+                    navHostController.popBackStack(it, false)
+                }
                 navHostController.navigate(ClassroomsRoute.route)
-                onNavigated(screenState)
             }
-            is ScreenState.logout -> {
+            is ScreenState.Logout -> {
                 mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
+                navHostController.currentBackStackEntry?.destination?.route?.let {
+                    navHostController.popBackStack(it, false)
+                }
                 navHostController.navigate(LoginRoute.route)
-                onNavigated(screenState)
             }
             else -> {} // Idle
         }
