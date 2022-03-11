@@ -3,6 +3,7 @@ package com.baykal.edumyclient.ui.screen.classroomSection.classroom
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.ui.BaseViewModel
+import com.baykal.edumyclient.data.domain.classroom.AssignClassroomUseCase
 import com.baykal.edumyclient.data.domain.classroom.ClassroomInformationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ClassroomViewModel @Inject constructor(
     private val session: EdumySession,
-    private val classroomInformationUseCase: ClassroomInformationUseCase
+    private val classroomInformationUseCase: ClassroomInformationUseCase,
+    private val assignClassroomUseCase: AssignClassroomUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ClassroomState())
@@ -27,6 +29,19 @@ class ClassroomViewModel @Inject constructor(
                     _uiState.update { it.copy(user = user) }
                     _uiState.update { it.copy(owner = user.id == classroom?.creatorId) }
                 }
+            }
+        }
+    }
+
+    fun assignUser(classId: String, userMail: String) {
+        assignClassroomUseCase.observe(
+            AssignClassroomUseCase.Params(classId, userMail)
+        ).collect {
+            controller.showDialog(
+                "Assign Success",
+                "You can now follow your student's progress in your classroom.",
+            ) {
+                getClassroomInformation()
             }
         }
     }

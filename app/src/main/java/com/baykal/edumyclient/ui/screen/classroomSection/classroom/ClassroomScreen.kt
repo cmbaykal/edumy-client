@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.classroom
 
+import android.util.Patterns
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -8,18 +9,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.baykal.edumyclient.base.component.EButton
-import com.baykal.edumyclient.base.component.ECollapsableLayout
-import com.baykal.edumyclient.base.component.ScreenButton
+import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.GrayLight
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -32,6 +30,7 @@ fun ClassroomScreen(
     viewModel: ClassroomViewModel
 ) {
     val viewState by viewModel.uiState.collectAsState()
+    var assignDialog by remember { mutableStateOf(false) }
 
     with(viewState) {
         classroom?.also {
@@ -94,7 +93,7 @@ fun ClassroomScreen(
                             text = "+",
                             textSize = 25.sp,
                             onClick = {
-                                TODO("Assign User to Classroom Navigation")
+                                assignDialog = true
                             }
                         )
                     }
@@ -106,12 +105,17 @@ fun ClassroomScreen(
                     TODO("Classroom Questions Navigation")
                 }
                 ScreenButton(
+                    text = "Answers",
+                    icon = Icons.Filled.RateReview
+                ) {
+                    TODO("Classroom Questions Navigation")
+                }
+                ScreenButton(
                     text = "Performances",
                     icon = Icons.Filled.Leaderboard
                 ) {
                     TODO("Classroom Performances Navigation")
                 }
-
                 viewState.owner.also { owner ->
                     if (!owner) {
                         ScreenButton(text = "Leave Classroom") {
@@ -120,6 +124,16 @@ fun ClassroomScreen(
                     } else if (it.users?.size == 1) {
                         ScreenButton(text = "Delete Classroom") {
                             TODO("Delete Classroom Request")
+                        }
+                    }
+                }
+            }
+            if (assignDialog) {
+                AssignDialog(onDismiss = { assignDialog = false }) { state ->
+                    it.id?.let { classId ->
+                        if (state.isSuccess) {
+                            assignDialog = false
+                            viewModel.assignUser(classId, state.text)
                         }
                     }
                 }
@@ -206,6 +220,36 @@ fun StudentsComponent(
                     tint = Gray,
                     contentDescription = ""
                 )
+            }
+        )
+    }
+}
+
+@Composable
+fun AssignDialog(
+    onDismiss: () -> Unit,
+    onClick: (InputState) -> Unit
+) {
+    var inputState by remember { mutableStateOf(InputState()) }
+    val positiveButton = DialogButton("Assign") {
+        onClick.invoke(inputState)
+    }
+    val negativeButton = DialogButton("Cancel", onClick = onDismiss)
+
+    EDialog(
+        title = "Assign User",
+        onDismiss = onDismiss,
+        positiveButton = positiveButton,
+        negativeButton = negativeButton
+    ) {
+        ETextField(
+            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+            label = "E-mail",
+            onChange = { inputState = it },
+            success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
+            imeAction = ImeAction.Done,
+            onAction = {
+                onClick.invoke(inputState)
             }
         )
     }

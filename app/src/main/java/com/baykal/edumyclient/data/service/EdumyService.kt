@@ -53,7 +53,7 @@ interface EdumyService {
     @POST("/class/assign")
     suspend fun assignUserToClassroom(
         @Query("classId") classId: String,
-        @Query("userId") userId: String
+        @Query("userMail") userMail: String
     ): BaseResult<ApiResponse<Unit>>
 
     @POST("/class/leave")

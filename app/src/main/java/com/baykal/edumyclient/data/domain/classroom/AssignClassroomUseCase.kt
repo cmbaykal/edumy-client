@@ -8,8 +8,10 @@ import javax.inject.Inject
 
 class AssignClassroomUseCase @Inject constructor(
     private val classroomsRepository: ClassroomsRepository
-) : BaseUseCase<Pair<String, String>, BaseResult<ApiResponse<Unit>>>() {
+) : BaseUseCase<AssignClassroomUseCase.Params, BaseResult<ApiResponse<Unit>>>() {
 
-    override fun build(params: Pair<String, String>) = classroomsRepository.assignClass(params.first, params.second)
+    override fun build(params: Params) = classroomsRepository.assignClass(params.classId, params.userId)
+
+    data class Params(val classId: String, val userId: String)
 
 }

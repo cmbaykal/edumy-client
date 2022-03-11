@@ -82,7 +82,9 @@ fun EDialog(
                 )
                 content()
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 10.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
                     negativeButton?.let {
@@ -94,7 +96,6 @@ fun EDialog(
                     positiveButton?.let {
                         ETextButton(text = it.label) {
                             it.onClick()
-                            onDismiss.invoke()
                         }
                     }
                 }
