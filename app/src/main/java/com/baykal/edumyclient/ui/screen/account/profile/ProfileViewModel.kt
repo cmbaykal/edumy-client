@@ -24,11 +24,11 @@ class ProfileViewModel @Inject constructor(
         args?.getString(ProfileRoute.USER_ID)?.let { userId ->
             if (userId == ProfileRoute.DEFAULT) {
                 session.withUser { user ->
-                    _uiState.update { it.copy(user = user) }
+                    _uiState.update { it.copy(user = user, currentUser = true) }
                 }
             } else {
                 getUserUseCase.observe(userId).collect { user ->
-                    _uiState.update { it.copy(user = user) }
+                    _uiState.update { it.copy(user = user, currentUser = false) }
                 }
             }
         }

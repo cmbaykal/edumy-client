@@ -96,11 +96,13 @@ fun ProfileScreen(
                     ) {
                         // TODO : Navigate User Usages
                     }
-                    ScreenButton(
-                        text = "Logout",
-                        icon = Icons.Filled.Logout
-                    ) {
-                        viewModel.logout()
+                    if (currentUser) {
+                        ScreenButton(
+                            text = "Logout",
+                            icon = Icons.Filled.Logout
+                        ) {
+                            viewModel.logout()
+                        }
                     }
                 }
             }
