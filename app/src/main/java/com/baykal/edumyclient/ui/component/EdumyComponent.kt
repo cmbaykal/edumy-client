@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.base.component.EdumyBottomBar
 import com.baykal.edumyclient.base.component.EdumyToolbar
 import com.baykal.edumyclient.base.component.GenericDialog
-import com.baykal.edumyclient.base.component.LoadingIndicator
+import com.baykal.edumyclient.base.component.LoadingDialog
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.ui.MainState
 import com.baykal.edumyclient.ui.menu.MenuItem
@@ -97,7 +97,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                LoadingIndicator()
+                LoadingDialog()
             }
         }
     }

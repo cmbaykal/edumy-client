@@ -62,6 +62,7 @@ fun LoginScreen(
                 viewModel.login()
             }
             ETextButton(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 text = "Don't you have an Edumy account?",
             ) {
                 viewModel.navigate(RegisterRoute.route)

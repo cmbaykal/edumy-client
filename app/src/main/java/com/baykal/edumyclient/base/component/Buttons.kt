@@ -94,10 +94,10 @@ fun ETextButton(
     onClick: () -> Unit = {}
 ) {
     TextButton(
-        modifier = modifier
+        modifier = Modifier
+            .then(modifier)
             .padding(8.dp)
-            .defaultMinSize(minHeight = 40.dp)
-            .fillMaxWidth(),
+            .defaultMinSize(minHeight = 40.dp),
         shape = RoundedCornerShape(10.dp),
         onClick = onClick
     ) {

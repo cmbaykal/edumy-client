@@ -35,6 +35,7 @@ import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ETextField(
+    modifier: Modifier = Modifier,
     label: String,
     value: String = "",
     errorText: String? = null,
@@ -67,7 +68,8 @@ fun ETextField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged { focused = it.isFocused },
+                .onFocusChanged { focused = it.isFocused }
+                .then(modifier),
             colors = colors,
             value = text,
             onValueChange = {
