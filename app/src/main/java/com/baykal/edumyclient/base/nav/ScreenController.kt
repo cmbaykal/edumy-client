@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.asStateFlow
 
 
 interface ScreenController {
-    // account
-    fun login()
-    fun logout()
-
     // navigation
     fun onStateChanged(state: ScreenState)
     fun navigateUp()
@@ -19,6 +15,10 @@ interface ScreenController {
     // dialog
     fun setLoading(visibility: Boolean)
     fun showDialog(title: String, message: String, onDismiss: () -> Unit = {})
+
+    // account
+    fun login()
+    fun logout()
 
     val screenState: StateFlow<ScreenState>
 }
@@ -41,9 +41,9 @@ class EdumyController : ScreenController {
 
     override fun navigateToRoute(route: String, singleTop: Boolean) = setState(ScreenState.NavigateToRoute(route, singleTop))
 
-    override fun setLoading(visibility: Boolean) = setState(ScreenState.setLoading(visibility))
+    override fun setLoading(visibility: Boolean) = setState(ScreenState.SetLoading(visibility))
 
-    override fun showDialog(title: String, message: String, onDismiss: () -> Unit) = setState(ScreenState.showDialog(title, message, onDismiss))
+    override fun showDialog(title: String, message: String, onDismiss: () -> Unit) = setState(ScreenState.ShowDialog(title, message, onDismiss))
 
     private fun setState(state: ScreenState) {
         _screenState.value = state

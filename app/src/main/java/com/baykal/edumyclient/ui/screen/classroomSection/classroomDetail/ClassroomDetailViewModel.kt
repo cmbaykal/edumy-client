@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.screen.classroomSection.classroom
+package com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail
 
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUser
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomViewModel @Inject constructor(
+class ClassroomDetailViewModel @Inject constructor(
     private val session: EdumySession,
     private val classroomInformationUseCase: ClassroomInformationUseCase,
     private val assignClassroomUseCase: AssignClassroomUseCase,
@@ -23,12 +23,12 @@ class ClassroomViewModel @Inject constructor(
     private val deleteClassroomUseCase: DeleteClassroomUseCase
 ) : BaseViewModel() {
 
-    private val _uiState = MutableStateFlow(ClassroomState())
+    private val _uiState = MutableStateFlow(ClassroomDetailState())
     val uiState = _uiState.asStateFlow()
 
     fun getClassroomInformation() {
-        args?.getString(ClassroomRoute.CLASS_ID)?.let { classId ->
-            classroomInformationUseCase.observe(classId).collect { classroom ->
+        args?.getString(ClassroomDetailRoute.CLASS_ID)?.let { classId ->
+            classroomInformationUseCase.observe(classId).collectData { classroom ->
                 _uiState.update { it.copy(classroom = classroom) }
                 session.withUser { user ->
                     _uiState.update { it.copy(user = user) }
@@ -41,7 +41,7 @@ class ClassroomViewModel @Inject constructor(
     fun assignUser(classId: String?, userMail: String) {
         assignClassroomUseCase.observe(
             AssignClassroomUseCase.Params(classId, userMail)
-        ).collect {
+        ).collectData {
             controller.showDialog(
                 "Assign Success",
                 "You can now follow your student's progress in your classroom.",
@@ -55,7 +55,7 @@ class ClassroomViewModel @Inject constructor(
         session.withUser {
             leaveClassroomUseCase.observe(
                 LeaveClassroomUseCase.Params(classId, it.mail)
-            ).collect {
+            ).collectData {
                 controller.navigateToRoute(ClassroomsRoute.route, true)
             }
         }
@@ -65,7 +65,7 @@ class ClassroomViewModel @Inject constructor(
         session.withUser {
             deleteClassroomUseCase.observe(
                 DeleteClassroomUseCase.Params(classId, it.mail)
-            ).collect {
+            ).collectData {
                 controller.navigateToRoute(ClassroomsRoute.route, true)
             }
         }

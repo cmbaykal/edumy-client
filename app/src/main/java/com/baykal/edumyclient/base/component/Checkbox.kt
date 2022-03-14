@@ -14,13 +14,16 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 
 @Composable
 fun ECheckbox(
+    modifier: Modifier = Modifier,
     label: String? = null,
     onChecked: (Boolean) -> Unit
 ) {
     var checkState by remember { mutableStateOf(false) }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(

@@ -66,7 +66,7 @@ class RegisterViewModel @Inject constructor(
                         name = "${name.text} ${surname.text}",
                         role = role
                     )
-                ).collect {
+                ).collectData {
                     controller.showDialog(
                         "Register Success",
                         "Your account successfully created. You can now login.",

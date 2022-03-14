@@ -5,7 +5,7 @@ import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
 import com.baykal.edumyclient.data.service.EdumyService
 import javax.inject.Inject
 
-class ClassroomsRepository @Inject constructor(
+class ClassroomRepository @Inject constructor(
     private val service: EdumyService
 ) : BaseRepository() {
 

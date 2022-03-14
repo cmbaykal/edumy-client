@@ -39,6 +39,7 @@ fun ETextField(
     label: String,
     value: String = "",
     errorText: String? = null,
+    maxLines: Int = 1,
     onChange: (InputState) -> Unit,
     success: ((text: String) -> Boolean) = { true },
     imeAction: ImeAction? = null,
@@ -70,20 +71,22 @@ fun ETextField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
+                .height((maxLines * 62).dp)
                 .onFocusChanged { focused = it.isFocused }
                 .then(modifier),
             colors = colors,
-            value = text,
-            onValueChange = {
-                text = it
-                isSuccess = success.invoke(it)
-                onChange.invoke(InputState(it, isSuccess))
-            },
+            maxLines = maxLines,
             label = {
                 Text(
                     text = if (focused || text.isNotEmpty()) label.uppercase() else label,
                     fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
                 )
+            },
+            value = text,
+            onValueChange = {
+                text = it
+                isSuccess = success.invoke(it)
+                onChange.invoke(InputState(it, isSuccess))
             },
             visualTransformation = if (charVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -295,9 +298,10 @@ fun EDateField(
 fun EDropDown(
     label: String,
     items: MutableList<String>,
+    selected: String = "",
     onChange: (InputState) -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(selected) }
     var focused by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
 

@@ -89,20 +89,9 @@ interface EdumyService {
 
     // region Questions
 
-    @Multipart
     @POST("/question/add")
     suspend fun addQuestion(
-        @Part("classId") classId: String,
-        @Part("userId") userId: String,
-        @Part("lesson") lesson: String,
-        @Part("question") question: String,
-        @Part("date") date: String,
-        @Part image: MultipartBody.Part? = null
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/question/delete")
-    suspend fun deleteQuestion(
-        @Query("questionId") questionId: String
+        @Body body: MultipartBody
     ): BaseResult<ApiResponse<Unit>>
 
     @GET("/question/info")

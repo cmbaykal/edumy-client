@@ -21,10 +21,11 @@ import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 import com.baykal.edumyclient.ui.screen.account.register.RegisterRoute
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
-import com.baykal.edumyclient.ui.screen.classroomSection.classroom.ClassroomRoute
+import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
 import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
+import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import com.google.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +46,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     ) {
                         EdumyToolbar(
                             navHostController = navController,
-                            title = mainState.title,
+                            title = mainState.pageTitle,
                             login = mainState.loggedIn == true,
                             topLevelScreen = setOf(
                                 ClassroomsRoute.route,
@@ -80,19 +81,20 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     ProfileRoute.composable(this, navController, state)
                     UpdateUserRoute.composable(this, navController, state)
                     ClassroomsRoute.composable(this, navController, state)
-                    ClassroomRoute.composable(this, navController, state)
                     CreateClassRoute.composable(this, navController, state)
+                    ClassroomDetailRoute.composable(this, navController, state)
                     QuestionsRoute.composable(this, navController, state)
+                    AskQuestionRoute.composable(this, navController, state)
                     PerformancesRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }
             }
             AnimatedVisibility(
-                visible = mainState.dialog != null,
+                visible = mainState.dialogState != null,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                mainState.dialog?.let { dialog ->
+                mainState.dialogState?.let { dialog ->
                     GenericDialog(
                         title = dialog.title,
                         message = dialog.message,
@@ -101,7 +103,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                 }
             }
             AnimatedVisibility(
-                visible = mainState.loading,
+                visible = mainState.loadingState,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {

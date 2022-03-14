@@ -66,8 +66,8 @@ class UpdateUserViewModel @Inject constructor(
                         name = name.text,
                         bio = bio.text
                     )
-                ).collect {
-                    getUserUseCase.observe(userId).collect { user ->
+                ).collectData {
+                    getUserUseCase.observe(userId).collectData { user ->
                         user?.let {
                             session.saveUser(it)
                         }
@@ -91,7 +91,7 @@ class UpdateUserViewModel @Inject constructor(
                             oldPass = oldPass.text,
                             newPass = Bcrypt.hash(newPass.text, BCrypt.MIN_COST).decodeToString()
                         )
-                    ).collect {
+                    ).collectData {
                         controller.showDialog(
                             title = "Password Change Success",
                             message = "Your account password successfully updated."

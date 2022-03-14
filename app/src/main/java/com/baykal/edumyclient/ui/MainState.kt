@@ -3,11 +3,11 @@ package com.baykal.edumyclient.ui
 data class MainState(
     val loggedIn: Boolean? = null,
     val startRoute: String? = null,
-    val title: String = "",
+    val pageTitle: String = "",
     val bottomBarVisibility: Boolean = false,
     val topBarVisibility: Boolean = false,
-    val loading: Boolean = false,
-    val dialog: DialogState? = null
+    val loadingState: Boolean = false,
+    val dialogState: DialogState? = null,
 )
 
 data class DialogState(

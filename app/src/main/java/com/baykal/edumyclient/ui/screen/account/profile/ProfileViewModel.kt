@@ -26,7 +26,7 @@ class ProfileViewModel @Inject constructor(
                     _uiState.update { it.copy(user = user, currentUser = true) }
                 }
             } else {
-                getUserUseCase.observe(userId).collect { user ->
+                getUserUseCase.observe(userId).collectData { user ->
                     _uiState.update { it.copy(user = user, currentUser = false) }
                 }
             }

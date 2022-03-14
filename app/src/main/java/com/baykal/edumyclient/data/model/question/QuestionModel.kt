@@ -6,8 +6,6 @@ import java.util.*
 data class Question(
     @SerializedName("id")
     val id: String? = null,
-    @SerializedName("classId")
-    var classId: String? = null,
     @SerializedName("userId")
     var userId: String? = null,
     @SerializedName("lesson")

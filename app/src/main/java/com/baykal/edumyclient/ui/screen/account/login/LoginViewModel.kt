@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
             if (email.isSuccess && pass.isSuccess) {
                 loginUseCase.observe(
                     LoginCredentials(email.text, pass.text)
-                ).collect { response ->
+                ).collectData { response ->
                     response?.let {
                         session.saveUser(it)
                         controller.login()

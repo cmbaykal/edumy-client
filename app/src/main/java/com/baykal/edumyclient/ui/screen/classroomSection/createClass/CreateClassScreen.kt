@@ -45,7 +45,6 @@ fun CreateClassScreen(
             label = "Lesson",
             items = items,
             onChange = viewModel::setClassLesson
-
         )
         EButton(
             text = "Create Class",

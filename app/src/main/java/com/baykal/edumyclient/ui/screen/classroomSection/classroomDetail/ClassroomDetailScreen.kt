@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.screen.classroomSection.classroom
+package com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail
 
 import android.util.Patterns
 import androidx.compose.foundation.background
@@ -34,8 +34,8 @@ import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 
 @Composable
-fun ClassroomScreen(
-    viewModel: ClassroomViewModel
+fun ClassroomDetailScreen(
+    viewModel: ClassroomDetailViewModel
 ) {
     val viewState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()

@@ -25,7 +25,7 @@ import com.baykal.edumyclient.base.component.ESearchView
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
-import com.baykal.edumyclient.ui.screen.classroomSection.classroom.ClassroomRoute
+import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -62,7 +62,7 @@ fun ClassroomsScreen(
                         items(classrooms) { classroom ->
                             ClassroomComponent(classroom) {
                                 classroom.id?.let {
-                                    viewModel.navigate(ClassroomRoute.get(it))
+                                    viewModel.navigate(ClassroomDetailRoute.get(it))
                                 }
                             }
                         }

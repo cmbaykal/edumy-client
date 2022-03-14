@@ -45,7 +45,7 @@ interface NavRoute<T : BaseViewModel> {
 
             mainStateFlow.update { state ->
                 state.copy(
-                    title = title,
+                    pageTitle = title,
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()
                 )
@@ -73,6 +73,20 @@ interface NavRoute<T : BaseViewModel> {
         mainState: MutableStateFlow<MainState>,
     ) {
         when (screenState) {
+            is ScreenState.Login -> {
+                mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
+                navHostController.currentBackStackEntry?.destination?.route?.let {
+                    navHostController.popBackStack(it, false)
+                }
+                navHostController.navigate(ClassroomsRoute.route)
+            }
+            is ScreenState.Logout -> {
+                mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
+                navHostController.currentBackStackEntry?.destination?.route?.let {
+                    navHostController.popBackStack(it, false)
+                }
+                navHostController.navigate(LoginRoute.route)
+            }
             is ScreenState.NavigateToRoute -> {
                 if (screenState.clearHistory) {
                     mainState.update { it.copy(startRoute = screenState.route) }
@@ -88,36 +102,22 @@ interface NavRoute<T : BaseViewModel> {
             is ScreenState.NavigateUp -> {
                 navHostController.navigateUp()
             }
-            is ScreenState.setLoading -> {
-                mainState.update { it.copy(loading = screenState.visibility) }
+            is ScreenState.SetLoading -> {
+                mainState.update { it.copy(loadingState = screenState.visibility) }
             }
-            is ScreenState.showDialog -> {
+            is ScreenState.ShowDialog -> {
                 mainState.update { state ->
                     state.copy(
-                        dialog = DialogState(
+                        dialogState = DialogState(
                             title = screenState.title,
                             message = screenState.message,
                             onDismiss = {
-                                mainState.update { it.copy(dialog = null) }
+                                mainState.update { it.copy(dialogState = null) }
                                 screenState.onDismiss.invoke()
                             }
                         )
                     )
                 }
-            }
-            is ScreenState.Login -> {
-                mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
-                navHostController.currentBackStackEntry?.destination?.route?.let {
-                    navHostController.popBackStack(it, false)
-                }
-                navHostController.navigate(ClassroomsRoute.route)
-            }
-            is ScreenState.Logout -> {
-                mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
-                navHostController.currentBackStackEntry?.destination?.route?.let {
-                    navHostController.popBackStack(it, false)
-                }
-                navHostController.navigate(LoginRoute.route)
             }
             else -> {} // Idle
         }

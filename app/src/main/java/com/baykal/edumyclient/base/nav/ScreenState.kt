@@ -15,7 +15,7 @@ sealed class ScreenState {
 
     data class NavigateUp(val id: String = UUID.randomUUID().toString()) : ScreenState()
 
-    data class showDialog(val title: String, val message: String, val onDismiss: () -> Unit = {}) : ScreenState()
+    data class ShowDialog(val title: String, val message: String, val onDismiss: () -> Unit = {}) : ScreenState()
 
-    data class setLoading(var visibility: Boolean) : ScreenState()
+    data class SetLoading(var visibility: Boolean) : ScreenState()
 }

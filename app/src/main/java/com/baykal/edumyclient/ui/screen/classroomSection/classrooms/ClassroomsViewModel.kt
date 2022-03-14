@@ -32,7 +32,7 @@ class ClassroomsViewModel @Inject constructor(
         }
         session.withUserId { id ->
             userClassroomsUseCase.observe(id)
-                .collect { classList ->
+                .collectData { classList ->
                     classList?.let { list ->
                         classroomList.clear()
                         classroomList.addAll(list)
