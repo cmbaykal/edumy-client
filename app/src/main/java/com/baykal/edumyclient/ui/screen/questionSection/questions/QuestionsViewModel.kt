@@ -33,4 +33,8 @@ class QuestionsViewModel @Inject constructor(
 
     }
 
+    fun filterQuestions(lesson: String) {
+
+    }
+
 }

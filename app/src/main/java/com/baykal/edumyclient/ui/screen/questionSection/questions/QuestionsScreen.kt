@@ -9,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.baykal.edumyclient.base.component.EFab
+import com.baykal.edumyclient.base.component.EdumyTabRow
+import com.baykal.edumyclient.data.model.classroom.Lesson
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -21,6 +23,11 @@ fun QuestionsScreen(
     val viewState by viewModel.uiState.collectAsState()
     val swipeRefreshState = rememberSwipeRefreshState(false)
 
+    val lessonItems = mutableListOf<String>()
+    enumValues<Lesson>().forEach {
+        lessonItems.add(it.lessonName)
+    }
+
     with(viewState) {
         Scaffold(
             floatingActionButton = {
@@ -32,6 +39,9 @@ fun QuestionsScreen(
             }
         ) {
             Column {
+                EdumyTabRow(data = lessonItems, onSelect = {
+                    viewModel.filterQuestions(it)
+                })
                 SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel.getQuestions() }) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()

@@ -94,6 +94,11 @@ interface EdumyService {
         @Body body: MultipartBody
     ): BaseResult<ApiResponse<Unit>>
 
+    @POST("/question/delete")
+    suspend fun deleteQuestion(
+        @Query("questionId") questionId: String
+    ): BaseResult<ApiResponse<Unit>>
+
     @GET("/question/info")
     suspend fun getQuestionInformation(
         @Query("questionId") questionId: String
