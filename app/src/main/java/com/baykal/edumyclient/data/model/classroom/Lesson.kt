@@ -4,7 +4,7 @@ enum class Lesson(val lessonName: String) {
     math("Mathematics"),
     physics("Physics"),
     chemistry("Chemistry"),
-    biyology("Biyology"),
+    biyology("Biology"),
     geography("Geography"),
     history("History"),
     english("English"),

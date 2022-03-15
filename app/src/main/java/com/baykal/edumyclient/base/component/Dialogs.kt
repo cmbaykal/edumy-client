@@ -135,7 +135,7 @@ fun EDatePicker(
                             currentDay
                         ) { _, year, month, day ->
                             val dayText = decimalFormat.format(day)
-                            val monthText = decimalFormat.format(month)
+                            val monthText = decimalFormat.format(month + 1)
                             onChange("$dayText.$monthText.$year")
                         }
                     }

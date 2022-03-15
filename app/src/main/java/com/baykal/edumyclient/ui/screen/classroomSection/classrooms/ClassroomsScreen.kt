@@ -49,7 +49,7 @@ fun ClassroomsScreen(
         ) {
             Column {
                 ESearchView(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.padding(top = 10.dp),
                     label = "Search Classroom",
                     value = searchText,
                     onChange = viewModel::filterClasses,
@@ -57,7 +57,8 @@ fun ClassroomsScreen(
                 )
                 SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel.getClassrooms() }) {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
                     ) {
                         items(classrooms) { classroom ->
                             ClassroomComponent(classroom) {

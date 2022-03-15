@@ -10,8 +10,8 @@ data class Question(
     var userId: String? = null,
     @SerializedName("lesson")
     var lesson: String? = null,
-    @SerializedName("question")
-    var question: String? = null,
+    @SerializedName("description")
+    var description: String? = null,
     @SerializedName("date")
     var date: Date? = null,
     @SerializedName("image")

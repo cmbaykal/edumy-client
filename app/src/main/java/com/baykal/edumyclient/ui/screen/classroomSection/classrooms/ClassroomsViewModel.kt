@@ -18,7 +18,8 @@ class ClassroomsViewModel @Inject constructor(
     private val userClassroomsUseCase: UserClassroomsUseCase
 ) : BaseViewModel() {
 
-    private val classroomList: MutableList<Classroom> = mutableListOf()
+    // TODO: Pagination
+    private var classroomList: MutableList<Classroom> = mutableListOf()
     private val _uiState = MutableStateFlow(ClassroomsState())
     val uiState = _uiState.asStateFlow()
 

@@ -22,7 +22,12 @@ fun UpdateUserScreen(
     var passDialogState by remember { mutableStateOf(false) }
 
     with(viewState) {
-        user?.also {
+        LaunchedEffect(this.user) {
+            if (user == null)
+                viewModel.getUserInformation()
+        }
+
+        user?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -62,8 +67,6 @@ fun UpdateUserScreen(
                     passDialogState = false
                 }
             }
-        } ?: run {
-            viewModel.getUserInformation()
         }
     }
 }

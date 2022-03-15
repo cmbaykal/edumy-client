@@ -30,8 +30,8 @@ class AskQuestionViewModel @Inject constructor(
         _uiState.update { it.copy(lesson = state) }
     }
 
-    fun setQuestion(state: InputState) {
-        _uiState.update { it.copy(question = state) }
+    fun setDescription(state: InputState) {
+        _uiState.update { it.copy(description = state) }
     }
 
     fun setAnonymous(state: Boolean) {
@@ -53,7 +53,7 @@ class AskQuestionViewModel @Inject constructor(
                         body.addFormDataPart("userId", it)
                     }
                     body.addFormDataPart("lesson", lesson.text)
-                        .addFormDataPart("question", question.text)
+                        .addFormDataPart("description", description.text)
                         .addFormDataPart("date", "14.03.2022 02.20.00")
 
                     imageUri?.let { uri ->

@@ -1,4 +1,10 @@
 package com.baykal.edumyclient.ui.screen.questionSection.questionDetail
 
-class QuestionDetailScreenN {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun QuestionDetailScreen(
+    viewModel: QuestionDetailViewModel
+) {
+
 }

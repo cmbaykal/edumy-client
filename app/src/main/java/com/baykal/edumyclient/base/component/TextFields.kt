@@ -164,67 +164,66 @@ fun ESearchView(
         errorTrailingIconColor = "#ff6d64".color
     )
 
-    Column(
-        Modifier.padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        OutlinedTextField(
-            modifier = modifier
-                .then(
-                    Modifier
-                        .fillMaxWidth()
-                        .onFocusChanged { focused = it.isFocused }
-                ),
-            colors = colors,
-            shape = RoundedCornerShape(50.dp),
-            value = text,
-            onValueChange = {
-                text = it
-                onChange.invoke(it)
-            },
-            placeholder = {
-                Text(text = label)
-            },
-            trailingIcon = {
-                Row(
-                    modifier = Modifier.padding(end = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(40.dp)
-                            .clickable(
-                                onClick = {
-                                    if (text.isNotEmpty()) {
-                                        text = ""
-                                        onChange.invoke(text)
-                                    }
-                                },
-                                indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
-                                interactionSource = remember { MutableInteractionSource() },
-                            )
-                    ) {
-                        Icon(
-                            if (text.isEmpty()) Icons.Filled.Search else Icons.Filled.Close,
-                            tint = if (focused) Orange else Gray,
-                            contentDescription = "",
-                            modifier = Modifier.align(Alignment.Center)
+    OutlinedTextField(
+        modifier = modifier
+            .then(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 8.dp,
+                        end = 8.dp
+                    )
+                    .onFocusChanged { focused = it.isFocused }
+            ),
+        colors = colors,
+        shape = RoundedCornerShape(50.dp),
+        value = text,
+        onValueChange = {
+            text = it
+            onChange.invoke(it)
+        },
+        placeholder = {
+            Text(text = label)
+        },
+        trailingIcon = {
+            Row(
+                modifier = Modifier.padding(end = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .size(40.dp)
+                        .clickable(
+                            onClick = {
+                                if (text.isNotEmpty()) {
+                                    text = ""
+                                    onChange.invoke(text)
+                                }
+                            },
+                            indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
+                            interactionSource = remember { MutableInteractionSource() },
                         )
-                    }
+                ) {
+                    Icon(
+                        if (text.isEmpty()) Icons.Filled.Search else Icons.Filled.Close,
+                        tint = if (focused) Orange else Gray,
+                        contentDescription = "",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = onAction?.let {
-                KeyboardActions {
-                    it.invoke()
-                    keyboardController?.hide()
-                }
-            } ?: run {
-                KeyboardActions.Default
             }
-        )
-    }
+        },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = onAction?.let {
+            KeyboardActions {
+                it.invoke()
+                keyboardController?.hide()
+            }
+        } ?: run {
+            KeyboardActions.Default
+        }
+    )
 }
 
 @Composable

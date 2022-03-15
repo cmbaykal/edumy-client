@@ -13,12 +13,24 @@ class QuestionRepository @Inject constructor(
         service.addQuestion(body)
     }
 
-    fun getUserQuestions(userId: String) = fetch {
-        service.getUserQuestions(userId)
+    fun getQuestions(page: Int, limit: Int) = fetch {
+        service.getQuestions(page, limit)
     }
 
-    fun getClassroomQuestions(classId: String) = fetch {
-        service.getClassroomQuestions(classId)
+    fun getUserQuestions(
+        userId: String,
+        page: Int,
+        limit: Int
+    ) = fetch {
+        service.getUserQuestions(userId, page, limit)
+    }
+
+    fun getClassroomQuestions(
+        classId: String,
+        page: Int,
+        limit: Int
+    ) = fetch {
+        service.getClassroomQuestions(classId, page, limit)
     }
 
     fun getQuestionInformation(questionId: String) = fetch {

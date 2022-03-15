@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.base.nav
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,11 +53,12 @@ interface NavRoute<T : BaseViewModel> {
             }
 
             LaunchedEffect(screenState) {
-                updateNavigationState(
+                updateScreenState(
                     navHostController,
                     screenState,
                     mainStateFlow,
                 )
+                Log.d("EdumyTest", "Screen State : $screenState")
                 viewModel.controller.onStateChanged(screenState)
             }
 
@@ -67,7 +69,7 @@ interface NavRoute<T : BaseViewModel> {
         }
     }
 
-    private fun updateNavigationState(
+    private fun updateScreenState(
         navHostController: NavHostController,
         screenState: ScreenState,
         mainState: MutableStateFlow<MainState>,

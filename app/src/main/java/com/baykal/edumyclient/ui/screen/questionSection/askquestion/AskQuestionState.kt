@@ -5,9 +5,9 @@ import com.baykal.edumyclient.base.component.InputState
 
 data class AskQuestionState(
     val lesson: InputState = InputState(),
-    val question: InputState = InputState(),
+    val description: InputState = InputState(),
     val imageUri: Uri? = null,
     val anonymousState: Boolean = false,
 ) {
-    val isFormValid get() = lesson.isSuccess && question.isSuccess
+    val isFormValid get() = lesson.isSuccess && description.isSuccess
 }

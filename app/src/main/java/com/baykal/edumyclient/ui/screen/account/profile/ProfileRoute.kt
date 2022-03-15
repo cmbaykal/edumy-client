@@ -16,6 +16,14 @@ object ProfileRoute : NavRoute<ProfileViewModel> {
 
     fun get(userId: String) = route.replace("{${USER_ID}}", userId)
 
+    override fun getArguments(): List<NamedNavArgument> = listOf(
+        navArgument(USER_ID) {
+            nullable = true
+            defaultValue = null
+            type = NavType.StringType
+        }
+    )
+
     override fun topBarVisibility() = true
 
     @Composable
@@ -25,11 +33,4 @@ object ProfileRoute : NavRoute<ProfileViewModel> {
 
     @Composable
     override fun viewModel(): ProfileViewModel = hiltViewModel()
-
-    override fun getArguments(): List<NamedNavArgument> = listOf(
-        navArgument(USER_ID) {
-            defaultValue = DEFAULT
-            type = NavType.StringType
-        }
-    )
 }

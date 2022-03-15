@@ -19,7 +19,6 @@ abstract class BaseViewModel : ViewModel() {
     val controller: EdumyController = EdumyApp.screenController
 
 
-
     fun setArguments(bundle: Bundle) {
         args = bundle
     }
@@ -41,16 +40,24 @@ abstract class BaseViewModel : ViewModel() {
     protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collectData(onSuccess: (T?) -> Unit): Job {
         setLoading(true)
         return onEach {
-            delay(200)
-            setLoading(false)
-            if (it is BaseResult.Success) {
-                if (it.response.success) {
-                    onSuccess.invoke(it.response.data)
-                } else {
-                    showError(it.response.error)
+            when (it) {
+                is BaseResult.Success -> {
+                    if (it.response.success) {
+                        setLoading(false)
+                        delay(200)
+                        onSuccess.invoke(it.response.data)
+                    } else {
+                        setLoading(false)
+                        delay(200)
+                        showError(it.response.error)
+                    }
                 }
-            } else if (it is BaseResult.Error) {
-                showError(it.error)
+                is BaseResult.Error -> {
+                    setLoading(false)
+                    delay(200)
+                    showError(it.error)
+                }
+                else -> {}
             }
         }.launchIn(scope)
     }

@@ -16,6 +16,10 @@ object ClassroomDetailRoute : NavRoute<ClassroomDetailViewModel> {
 
     fun get(classId: String) = route.replace("{$CLASS_ID}", classId)
 
+    override fun getArguments(): List<NamedNavArgument> = listOf(
+        navArgument(CLASS_ID) { type = NavType.StringType }
+    )
+
     override fun topBarVisibility() = true
 
     @Composable
@@ -25,8 +29,4 @@ object ClassroomDetailRoute : NavRoute<ClassroomDetailViewModel> {
 
     @Composable
     override fun viewModel(): ClassroomDetailViewModel = hiltViewModel()
-
-    override fun getArguments(): List<NamedNavArgument> = listOf(
-        navArgument(CLASS_ID) { type = NavType.StringType }
-    )
 }

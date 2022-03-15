@@ -32,6 +32,7 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
+import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
 @Composable
 fun ClassroomDetailScreen(
@@ -42,7 +43,12 @@ fun ClassroomDetailScreen(
     var assignDialog by remember { mutableStateOf(false) }
 
     with(viewState) {
-        classroom?.also {
+        LaunchedEffect(this.classroom) {
+            if (classroom == null)
+                viewModel.getClassroomInformation()
+        }
+
+        classroom?.let {
             ConstraintLayout(
                 constraintSet = ScreenConstraints,
                 modifier = Modifier
@@ -107,13 +113,15 @@ fun ClassroomDetailScreen(
                         text = "Questions",
                         icon = Icons.Filled.QuestionAnswer
                     ) {
-                        TODO("Classroom Questions Navigation")
+                        it.id?.let { classId ->
+                            viewModel.navigate(QuestionsRoute.classQuestions(classId))
+                        }
                     }
                     ScreenButton(
                         text = "Answers",
                         icon = Icons.Filled.RateReview
                     ) {
-                        TODO("Classroom Questions Navigation")
+                        TODO("Classroom Answers Navigation")
                     }
                     ScreenButton(
                         text = "Performances",
@@ -142,14 +150,12 @@ fun ClassroomDetailScreen(
             }
             if (assignDialog) {
                 AssignDialog(onDismiss = { assignDialog = false }) { state ->
-                        if (state.isSuccess) {
-                            assignDialog = false
-                            viewModel.assignUser(it.id, state.text)
-                        }
+                    if (state.isSuccess) {
+                        assignDialog = false
+                        viewModel.assignUser(it.id, state.text)
+                    }
                 }
             }
-        } ?: run {
-            viewModel.getClassroomInformation()
         }
     }
 }

@@ -16,10 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.ui.theme.Orange
 
 @Composable
-fun EdumyTabRow(
+fun ETabRow(
     modifier: Modifier = Modifier,
     data: MutableList<String>,
     selected: Int = 0,
@@ -39,32 +40,43 @@ fun EdumyTabRow(
         selectedTabIndex = tabIndex,
     ) {
         data.forEachIndexed { index, data ->
-            Box(
-                modifier = Modifier
-                    .padding(
-                        start = 5.dp,
-                        end = 5.dp,
-                        top = 10.dp,
-                        bottom = 10.dp
-                    )
-                    .border(
-                        border = BorderStroke(2.dp, Orange),
-                        shape = RoundedCornerShape(50)
-                    )
-                    .clip(RoundedCornerShape(50))
-                    .clickable {
-                        tabIndex = index
-                        onSelect.invoke(data)
-                    }
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.Center),
-                    text = data,
-                    color = Orange
-                )
+            ETabRowItem(data = data) {
+                tabIndex = index
+                onSelect.invoke(data)
             }
         }
+    }
+}
+
+@Composable
+fun ETabRowItem(
+    data: String,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .padding(
+                start = 5.dp,
+                end = 5.dp,
+                top = 10.dp,
+                bottom = 10.dp
+            )
+            .border(
+                border = BorderStroke(2.dp, Orange),
+                shape = RoundedCornerShape(50)
+            )
+            .clip(RoundedCornerShape(50))
+            .clickable {
+                onClick.invoke()
+            }
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.Center),
+            fontSize = 14.sp,
+            text = data,
+            color = Orange
+        )
     }
 }

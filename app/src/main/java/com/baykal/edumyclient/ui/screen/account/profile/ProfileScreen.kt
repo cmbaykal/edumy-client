@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.user.response.User
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
+import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
 @Composable
 fun ProfileScreen(
@@ -37,7 +39,12 @@ fun ProfileScreen(
     val scrollState = rememberScrollState()
 
     with(viewState) {
-        user?.also {
+        LaunchedEffect(this.user) {
+            if (user == null)
+                viewModel.getUserInformation()
+        }
+
+        user?.let {
             ConstraintLayout(
                 constraintSet = ScreenConstraints,
                 modifier = Modifier
@@ -75,7 +82,9 @@ fun ProfileScreen(
                         text = "Questions",
                         icon = Icons.Filled.QuestionAnswer
                     ) {
-                        // TODO : Navigate User Questions
+                        it.id?.let { userId ->
+                            viewModel.navigate(QuestionsRoute.userQuestions(userId))
+                        }
                     }
                     ScreenButton(
                         text = "Answers",
@@ -106,8 +115,6 @@ fun ProfileScreen(
                 }
             }
         }
-    } ?: run {
-        viewModel.getUserInformation()
     }
 }
 

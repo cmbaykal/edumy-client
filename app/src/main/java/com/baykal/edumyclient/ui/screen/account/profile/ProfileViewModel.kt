@@ -20,15 +20,17 @@ class ProfileViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun getUserInformation() {
-        args?.getString(ProfileRoute.USER_ID)?.let { userId ->
-            if (userId == ProfileRoute.DEFAULT) {
-                session.withUser { user ->
-                    _uiState.update { it.copy(user = user, currentUser = true) }
+        session.withUser { user ->
+            args?.getString(ProfileRoute.USER_ID)?.let { userId ->
+                if (userId == user.id) {
+                    null
+                } else {
+                    getUserUseCase.observe(userId).collectData { user ->
+                        _uiState.update { it.copy(user = user, currentUser = false) }
+                    }
                 }
-            } else {
-                getUserUseCase.observe(userId).collectData { user ->
-                    _uiState.update { it.copy(user = user, currentUser = false) }
-                }
+            } ?: run {
+                _uiState.update { it.copy(user = user, currentUser = true) }
             }
         }
     }

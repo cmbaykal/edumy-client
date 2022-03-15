@@ -76,9 +76,9 @@ fun AskQuestionScreen(
                 onChange = viewModel::setLesson
             )
             ETextField(
-                label = "Question",
-                value = question.text,
-                onChange = viewModel::setQuestion,
+                label = "Description",
+                value = description.text,
+                onChange = viewModel::setDescription,
                 success = { it.isNotBlank() },
                 maxLines = 3
             )

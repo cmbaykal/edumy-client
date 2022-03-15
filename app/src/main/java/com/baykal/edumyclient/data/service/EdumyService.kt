@@ -99,20 +99,30 @@ interface EdumyService {
         @Query("questionId") questionId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/question/info")
-    suspend fun getQuestionInformation(
-        @Query("questionId") questionId: String
-    ): BaseResult<ApiResponse<Question>>
+    @GET("/question/feed")
+    suspend fun getQuestions(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): BaseResult<ApiResponse<MutableList<Question>>>
 
     @GET("/question/class")
     suspend fun getClassroomQuestions(
-        @Query("classId") classId: String
+        @Query("classId") classId: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
 
     @GET("/question/user")
     suspend fun getUserQuestions(
-        @Query("userId") userId: String
+        @Query("userId") userId: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
+
+    @GET("/question/info")
+    suspend fun getQuestionInformation(
+        @Query("questionId") questionId: String
+    ): BaseResult<ApiResponse<Question>>
 
     // endregion
 
