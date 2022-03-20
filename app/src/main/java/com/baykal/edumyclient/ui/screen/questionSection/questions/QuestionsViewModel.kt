@@ -45,6 +45,7 @@ class QuestionsViewModel @Inject constructor(
     }
 
     fun fetchQuestions() {
+        _uiState.update { it.copy(isMoreData = true) }
         questionsPage = 0
         questionList.clear()
         getQuestions()
@@ -84,11 +85,13 @@ class QuestionsViewModel @Inject constructor(
     }
 
     private fun setQuestions(list: MutableList<Question>?) {
-        if (list != null) {
+        if (list != null && list.isNotEmpty()) {
             questionsPage += 1
             questionList.addAll(list)
             _uiState.update { it.copy(questions = questionList.toMutableList()) }
             filterQuestions(uiState.value.lesson)
+        } else {
+            _uiState.update { it.copy(isMoreData = false) }
         }
     }
 

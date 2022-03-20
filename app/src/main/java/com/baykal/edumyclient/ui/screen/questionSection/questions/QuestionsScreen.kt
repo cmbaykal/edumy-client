@@ -2,8 +2,6 @@ package com.baykal.edumyclient.ui.screen.questionSection.questions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -20,16 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EFab
+import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ETabRow
-import com.baykal.edumyclient.base.extension.isScrolledToEnd
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.classroom.Lesson
 import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -38,13 +34,7 @@ fun QuestionsScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val viewState by viewModel.uiState.collectAsState()
-    val swipeRefreshState = rememberSwipeRefreshState(false)
     val scrollState = rememberLazyListState()
-    val scrollBottomState by remember {
-        derivedStateOf {
-            scrollState.isScrolledToEnd()
-        }
-    }
 
     val lessonItems = mutableListOf("All")
     enumValues<Lesson>().forEach {
@@ -55,12 +45,6 @@ fun QuestionsScreen(
         LaunchedEffect(this.questions) {
             if (questions == null)
                 viewModel.fetchData()
-        }
-
-        LaunchedEffect(scrollBottomState) {
-            if (scrollBottomState) {
-                viewModel.getQuestions()
-            }
         }
 
         Scaffold(
@@ -81,19 +65,17 @@ fun QuestionsScreen(
                         }
                     })
                 }
-                SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel.fetchQuestions() }) {
-                    questions?.let {
-                        LazyColumn(
-                            state = scrollState,
-                            modifier = Modifier
-                                .padding(top = 10.dp)
-                                .fillMaxSize()
-                        ) {
-                            items(it) { question ->
-                                QuestionComponent(question = question) {
-                                    viewModel.navigate(QuestionDetailRoute.route)
-                                }
-                            }
+                questions?.let {
+                    EList(
+                        scrollState = scrollState,
+                        swipeRefresh = true,
+                        onRefresh = viewModel::fetchQuestions,
+                        loadMore = isMoreData,
+                        onLoadMore = viewModel::getQuestions,
+                        items = it
+                    ) { item ->
+                        QuestionComponent(question = item) {
+                            viewModel.navigate(QuestionDetailRoute.route)
                         }
                     }
                 }
