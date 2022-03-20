@@ -82,33 +82,40 @@ fun EdumyBottomBar(
     navHostController: NavHostController = rememberNavController(),
     items: List<MenuItem> = emptyList(),
 ) {
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    with(navHostController) {
+        val navBackStackEntry by currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
 
-    BottomNavigation(
-        backgroundColor = Color.White,
-    ) {
-        items.forEach { item ->
-            BottomNavigationItem(
-                alwaysShowLabel = currentRoute == item.route,
-                selected = currentRoute == item.route,
-                selectedContentColor = Orange,
-                unselectedContentColor = OrangeVariant,
-                icon = { Icon(item.icon, contentDescription = item.title) },
-                label = {
-                    Text(
-                        text = item.title,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                onClick = {
-                    navHostController.navigate(item.route) {
-                        launchSingleTop = true
-                        restoreState = true
+        BottomNavigation(
+            backgroundColor = Color.White,
+        ) {
+            items.forEach { item ->
+                BottomNavigationItem(
+                    alwaysShowLabel = currentRoute?.contains(item.route) == true,
+                    selected = currentRoute?.contains(item.route) == true,
+                    selectedContentColor = Orange,
+                    unselectedContentColor = OrangeVariant,
+                    icon = { Icon(item.icon, contentDescription = item.title) },
+                    label = {
+                        Text(
+                            text = item.title,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    onClick = {
+                        navigate(item.route) {
+                            graph.startDestinationRoute?.let { screen_route ->
+                                popUpTo(screen_route) {
+                                    saveState = true
+                                }
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
