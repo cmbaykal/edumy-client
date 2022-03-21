@@ -1,26 +1,39 @@
 package com.baykal.edumyclient.base.component
 
+import android.util.Log
 import android.widget.DatePicker
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.baykal.edumyclient.R
+import com.baykal.edumyclient.di.BASE_URL
 import java.text.DecimalFormat
 import java.util.*
 
@@ -42,7 +55,6 @@ fun GenericDialog(
         text = { Text(message, fontSize = 14.sp) },
         confirmButton = {
             ETextButton(text = "Tamam") {
-
                 onDismiss.invoke()
             }
         }
@@ -171,6 +183,65 @@ fun LoadingDialog() {
                 modifier = Modifier.padding(top = 8.dp),
                 text = "Please Wait...",
                 color = Color.Black
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun ImageDialog(
+    file: String,
+    description: String,
+    onDismiss: () -> Unit
+) {
+    val context = LocalContext.current
+    var scale by remember { mutableStateOf(1f) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
+    var rotationState by remember { mutableStateOf(1f) }
+
+    Dialog(
+        properties = DialogProperties(
+            dismissOnClickOutside = false
+        ),
+        onDismissRequest = onDismiss
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTransformGestures { _, pan, zoom, rotation ->
+                        offset += pan
+                        scale *= zoom
+                        rotationState += rotation
+                        Log.d("EdumyTest", "Offset :$offset")
+                    }
+                }
+        ) {
+            EIconButton(
+                modifier = Modifier.align(Alignment.TopEnd),
+                icon = Icons.Default.Close,
+                iconColor = Color.White
+            ) {
+                onDismiss.invoke()
+            }
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data("$BASE_URL/image/$file")
+                    .crossfade(true)
+                    .build(),
+                contentDescription = description,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 200.dp)
+                    .align(Alignment.Center)
+                    .graphicsLayer(
+                        scaleX = maxOf(1f, minOf(2f, scale)),
+                        scaleY = maxOf(1f, minOf(2f, scale)),
+                        translationX = if (scale > 1f) offset.x else 0f,
+                        translationY = if (scale > 1f) offset.y else 0f,
+                        rotationZ = rotationState
+                    )
             )
         }
     }
