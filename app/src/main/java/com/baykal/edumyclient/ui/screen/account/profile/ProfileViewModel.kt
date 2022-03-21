@@ -3,7 +3,7 @@ package com.baykal.edumyclient.ui.screen.account.profile
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.ui.BaseViewModel
-import com.baykal.edumyclient.data.domain.account.GetUserUseCase
+import com.baykal.edumyclient.data.domain.account.UserInformationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val session: EdumySession,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: UserInformationUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileState())

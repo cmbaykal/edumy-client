@@ -7,7 +7,7 @@ import com.baykal.edumyclient.data.model.user.response.User
 import com.baykal.edumyclient.data.repository.AccountRepository
 import javax.inject.Inject
 
-class GetUserUseCase @Inject constructor(
+class UserInformationUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) : BaseUseCase<String, BaseResult<ApiResponse<User>>>() {
 

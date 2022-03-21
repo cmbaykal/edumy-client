@@ -15,6 +15,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EFab
@@ -72,10 +74,13 @@ fun QuestionsScreen(
                         onRefresh = viewModel::fetchQuestions,
                         loadMore = isMoreData,
                         onLoadMore = viewModel::getQuestions,
+                        endContent = { EndComponent() },
                         items = it
                     ) { item ->
                         QuestionComponent(question = item) {
-                            viewModel.navigate(QuestionDetailRoute.route)
+                            item.id?.let { questionId ->
+                                viewModel.navigate(QuestionDetailRoute.get(questionId))
+                            }
                         }
                     }
                 }
@@ -92,20 +97,20 @@ fun QuestionComponent(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(75.dp)
             .padding(8.dp),
         shape = RoundedCornerShape(10.dp),
         elevation = 4.dp,
     ) {
         Box(
-            modifier = Modifier.clickable { onClick.invoke() }
+            modifier = Modifier
+                .padding(10.dp)
+                .clickable { onClick.invoke() }
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.CenterStart),
             ) {
                 Icon(
-                    modifier = Modifier.padding(start = 10.dp),
                     imageVector = Icons.Filled.QuestionAnswer,
                     tint = Gray,
                     contentDescription = ""
@@ -114,9 +119,11 @@ fun QuestionComponent(
                     modifier = Modifier.padding(start = 10.dp)
                 ) {
                     Text(
-                        text = "${question.description.toString()} - ${question.lesson}",
+                        text = question.description.toString(),
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = question.date.toString(),
@@ -125,13 +132,27 @@ fun QuestionComponent(
                 }
             }
             Icon(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp),
+                modifier = Modifier.align(Alignment.CenterEnd),
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 tint = Gray,
                 contentDescription = ""
             )
         }
     }
+}
+
+@Composable
+fun EndComponent() {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 14.dp,
+                bottom = 14.dp
+            ),
+        text = "No more questions",
+        textAlign = TextAlign.Center,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Bold
+    )
 }

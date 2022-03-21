@@ -7,7 +7,7 @@ import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.account.ChangePasswordUseCase
-import com.baykal.edumyclient.data.domain.account.GetUserUseCase
+import com.baykal.edumyclient.data.domain.account.UserInformationUseCase
 import com.baykal.edumyclient.data.domain.account.UpdateUserUseCase
 import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
@@ -23,7 +23,7 @@ class UpdateUserViewModel @Inject constructor(
     private val session: EdumySession,
     private val updateUserUseCase: UpdateUserUseCase,
     private val changePasswordUseCase: ChangePasswordUseCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: UserInformationUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(UpdateUserState())

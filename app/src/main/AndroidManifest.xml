@@ -21,7 +21,9 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.EdumyClient.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
