@@ -97,6 +97,7 @@ fun <T> EList(
     loadMore: Boolean = false,
     onLoadMore: () -> Unit = {},
     loadMoreContent: @Composable () -> Unit = {},
+    endContent: @Composable () -> Unit = {},
     items: MutableList<T> = mutableListOf(),
     itemContent: @Composable (item: T) -> Unit
 ) {
@@ -111,6 +112,8 @@ fun <T> EList(
     LaunchedEffect(scrollEndState) {
         if (scrollEndState && loadMore) {
             onLoadMore.invoke()
+            scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
+        } else if (!loadMore) {
             scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
         }
     }
@@ -129,6 +132,8 @@ fun <T> EList(
                 item {
                     if (scrollEndState && loadMore) {
                         loadMoreContent()
+                    } else if (!loadMore) {
+                        endContent()
                     }
                 }
             }
@@ -140,6 +145,8 @@ fun <T> EList(
                 item {
                     if (scrollEndState && loadMore) {
                         loadMoreContent()
+                    } else if (!loadMore) {
+                        endContent()
                     }
                 }
             }
