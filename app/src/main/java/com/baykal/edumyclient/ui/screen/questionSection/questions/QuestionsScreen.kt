@@ -103,8 +103,8 @@ fun QuestionComponent(
     ) {
         Box(
             modifier = Modifier
-                .padding(10.dp)
                 .clickable { onClick.invoke() }
+                .padding(10.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

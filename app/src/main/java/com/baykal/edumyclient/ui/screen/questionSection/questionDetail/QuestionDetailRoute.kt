@@ -8,15 +8,15 @@ import androidx.navigation.navArgument
 import com.baykal.edumyclient.base.nav.NavRoute
 
 object QuestionDetailRoute : NavRoute<QuestionDetailViewModel> {
-    const val QUESTIONID = "questionId"
+    const val QUESTION_ID = "questionId"
 
     override val title = "Question Detail"
-    override val route = "questions/{${QUESTIONID}"
+    override val route = "question/{$QUESTION_ID}"
 
-    fun get(questionId: String) = route.replace("{${QUESTIONID}}", questionId)
+    fun get(questionId: String) = route.replace("{${QUESTION_ID}}", questionId)
 
     override fun getArguments(): List<NamedNavArgument> = listOf(
-        navArgument(QUESTIONID) {
+        navArgument(QUESTION_ID) {
             type = NavType.StringType
         }
     )

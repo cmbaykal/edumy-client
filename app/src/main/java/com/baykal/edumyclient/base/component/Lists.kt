@@ -113,8 +113,6 @@ fun <T> EList(
         if (scrollEndState && loadMore) {
             onLoadMore.invoke()
             scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
-        } else if (!loadMore) {
-            scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.data.model.question
 
+import com.baykal.edumyclient.data.model.user.response.User
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -8,6 +9,8 @@ data class Question(
     val id: String? = null,
     @SerializedName("userId")
     var userId: String? = null,
+    @SerializedName("user")
+    var user: User? = null,
     @SerializedName("lesson")
     var lesson: String? = null,
     @SerializedName("description")

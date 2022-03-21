@@ -7,7 +7,6 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.baykal.edumyclient.base.nav.NavRoute
 
-
 object ClassroomDetailRoute : NavRoute<ClassroomDetailViewModel> {
     const val CLASS_ID = "classId"
 
@@ -17,9 +16,12 @@ object ClassroomDetailRoute : NavRoute<ClassroomDetailViewModel> {
     fun get(classId: String) = route.replace("{$CLASS_ID}", classId)
 
     override fun getArguments(): List<NamedNavArgument> = listOf(
-        navArgument(CLASS_ID) { type = NavType.StringType }
+        navArgument(CLASS_ID) {
+            type = NavType.StringType
+        }
     )
 
+    override fun bottomBarVisibility() = true
     override fun topBarVisibility() = true
 
     @Composable
