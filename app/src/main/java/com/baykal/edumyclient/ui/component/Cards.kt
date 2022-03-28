@@ -2,6 +2,7 @@ package com.baykal.edumyclient.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -15,8 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.EIconButton
+import com.baykal.edumyclient.base.component.EImage
 import com.baykal.edumyclient.base.ui.theme.Gray
+import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.user.response.User
 
 @Composable
@@ -141,6 +145,63 @@ fun ProfileCardCompact(
                 tint = Gray,
                 contentDescription = ""
             )
+        }
+    }
+}
+
+@Composable
+fun QuestionCard(
+    modifier: Modifier = Modifier,
+    question: Question,
+    onClick: (String) -> Unit = {}
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp),
+        elevation = 4.dp
+    ) {
+        Box(
+            modifier = Modifier.padding(10.dp)
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.TopEnd),
+                text = question.date.toString(),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Light
+            )
+            Column {
+                Text(
+                    text = question.lesson.toString(),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    text = question.description.toString(),
+                    fontSize = 14.sp
+                )
+                question.image?.let { image ->
+                    EImage(
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .padding(top = 12.dp),
+                        file = image
+                    )
+                }
+            }
+            EButton(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                shape = RoundedCornerShape(50.dp),
+                text = "Write Answer",
+                textSize = 12.sp
+            ) {
+                question.id?.let {
+                    onClick.invoke(it)
+                }
+            }
         }
     }
 }
