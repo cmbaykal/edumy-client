@@ -122,6 +122,10 @@ fun AskQuestionScreen(
                     })
             }
             EButton(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .height(40.dp),
                 text = "Send Question"
             ) {
                 viewModel.sendQuestion()

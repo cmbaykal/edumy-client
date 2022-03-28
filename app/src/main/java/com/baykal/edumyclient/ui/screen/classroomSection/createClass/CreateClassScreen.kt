@@ -1,9 +1,6 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.createClass
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -47,7 +44,11 @@ fun CreateClassScreen(
             onChange = viewModel::setClassLesson
         )
         EButton(
-            text = "Create Class",
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+                .height(40.dp),
+            text = "Create Class"
         ) {
             viewModel.createClass()
         }

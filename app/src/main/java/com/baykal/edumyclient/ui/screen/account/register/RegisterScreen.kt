@@ -1,10 +1,7 @@
 package com.baykal.edumyclient.ui.screen.account.register
 
 import android.util.Patterns
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -76,7 +73,13 @@ fun RegisterScreen(
         ECheckbox(label = "Register as Teacher") {
             viewModel.setRole(it)
         }
-        EButton(text = "Register") {
+        EButton(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+                .height(40.dp),
+            text = "Register"
+        ) {
             viewModel.register()
         }
     }

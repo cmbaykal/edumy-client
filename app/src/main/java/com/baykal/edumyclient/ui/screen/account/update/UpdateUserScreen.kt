@@ -1,9 +1,6 @@
 package com.baykal.edumyclient.ui.screen.account.update
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
@@ -55,7 +52,13 @@ fun UpdateUserScreen(
                     success = { true },
                     imeAction = ImeAction.Next
                 )
-                EButton(text = "Update") {
+                EButton(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .height(40.dp),
+                    text = "Update"
+                ) {
                     viewModel.updateUser()
                 }
                 ETextButton(text = "Change User Password") {

@@ -57,7 +57,11 @@ fun LoginScreen(
                 onAction = { viewModel.login() }
             )
             EButton(
-                text = "Login",
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .height(40.dp),
+                text = "Login"
             ) {
                 viewModel.login()
             }

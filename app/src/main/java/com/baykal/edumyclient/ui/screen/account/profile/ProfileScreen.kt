@@ -3,31 +3,22 @@ package com.baykal.edumyclient.ui.screen.account.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.ScreenButton
-import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
-import com.baykal.edumyclient.data.model.user.response.User
+import com.baykal.edumyclient.ui.component.ProfileCard
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
@@ -112,75 +103,6 @@ fun ProfileScreen(
                             viewModel.logout()
                         }
                     }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ProfileCard(
-    modifier: Modifier = Modifier,
-    user: User,
-    onEditClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .padding(
-                start = 40.dp,
-                end = 40.dp
-            )
-            .then(
-                modifier
-            ),
-        shape = RoundedCornerShape(10.dp),
-        elevation = 8.dp
-    ) {
-        Box {
-            EIconButton(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .align(Alignment.TopEnd),
-                icon = Icons.Filled.Edit,
-                iconSize = 20.dp,
-                onClick = onEditClick
-            )
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(top = 20.dp)
-                        .size(80.dp),
-                    imageVector = Icons.Filled.AccountCircle,
-                    tint = Gray,
-                    contentDescription = ""
-                )
-                Text(
-                    modifier = Modifier.padding(top = 10.dp),
-                    text = user.name.toString(),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    modifier = Modifier.padding(
-                        bottom = if (user.bio != null) 0.dp else 20.dp
-                    ),
-                    text = user.role.toString(),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
-                )
-                user.bio?.let {
-                    Text(
-                        modifier = Modifier.padding(
-                            top = 10.dp,
-                            bottom = 20.dp
-                        ),
-                        text = it,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Light
-                    )
                 }
             }
         }

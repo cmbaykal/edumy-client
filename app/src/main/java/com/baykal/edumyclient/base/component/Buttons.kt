@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,17 +31,15 @@ import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 @Composable
 fun EButton(
     modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(10.dp),
     text: String,
     textColor: Color = Color.White,
     textSize: TextUnit = TextUnit.Unspecified,
     onClick: () -> Unit = {}
 ) {
     Button(
-        modifier = modifier
-            .padding(8.dp)
-            .defaultMinSize(minHeight = 50.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
+        modifier = modifier,
+        shape = shape,
         elevation = ButtonDefaults.elevation(
             defaultElevation = 6.dp,
             pressedElevation = 8.dp,
