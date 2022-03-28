@@ -2,8 +2,6 @@ package com.baykal.edumyclient.ui.screen.classroomSection.classrooms
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -21,21 +19,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EFab
+import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ESearchView
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun ClassroomsScreen(
     viewModel: ClassroomsViewModel
 ) {
     val viewState by viewModel.uiState.collectAsState()
-    val swipeRefreshState = rememberSwipeRefreshState(false)
 
     with(viewState) {
         Scaffold(
@@ -55,17 +51,15 @@ fun ClassroomsScreen(
                     onChange = viewModel::filterClasses,
                     onAction = { viewModel.filterClasses() }
                 )
-                SwipeRefresh(state = swipeRefreshState, onRefresh = { viewModel.getClassrooms() }) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        items(classrooms) { classroom ->
-                            ClassroomComponent(classroom) {
-                                classroom.id?.let {
-                                    viewModel.navigate(ClassroomDetailRoute.get(it))
-                                }
-                            }
+                EList(
+                    modifier = Modifier.fillMaxSize(),
+                    swipeRefresh = true,
+                    onRefresh = viewModel::getClassrooms,
+                    items = classrooms,
+                ) { classroom ->
+                    ClassroomComponent(classroom) {
+                        classroom.id?.let {
+                            viewModel.navigate(ClassroomDetailRoute.get(it))
                         }
                     }
                 }
