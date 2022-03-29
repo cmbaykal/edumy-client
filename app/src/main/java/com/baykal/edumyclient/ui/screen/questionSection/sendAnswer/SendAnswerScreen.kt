@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.screen.questionSection.askquestion
+package com.baykal.edumyclient.ui.screen.questionSection.sendAnswer
 
 import android.Manifest
 import android.os.Build
@@ -12,7 +12,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,13 +25,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.baykal.edumyclient.base.component.*
+import com.baykal.edumyclient.base.component.EButton
+import com.baykal.edumyclient.base.component.ECheckbox
+import com.baykal.edumyclient.base.component.EIconButton
+import com.baykal.edumyclient.base.component.ETextField
 import com.baykal.edumyclient.base.util.MediaUtil
-import com.baykal.edumyclient.data.model.classroom.Lesson
 
 @Composable
-fun AskQuestionScreen(
-    viewModel: AskQuestionViewModel
+fun SendAnswerScreen(
+    viewModel: SendAnswerViewModel
 ) {
     val context = LocalContext.current
     val viewState by viewModel.uiState.collectAsState()
@@ -58,24 +62,18 @@ fun AskQuestionScreen(
         }
     }
 
-    val lessonItems = mutableListOf<String>()
-    enumValues<Lesson>().forEach {
-        lessonItems.add(it.lessonName)
-    }
-
     with(viewState) {
+        LaunchedEffect(questionId) {
+            if (questionId == null)
+                viewModel.fetchData()
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
                 .padding(25.dp)
         ) {
-            EDropDown(
-                label = "Lesson",
-                items = lessonItems,
-                selected = lesson.text,
-                onChange = viewModel::setLesson
-            )
             ETextField(
                 label = "Description",
                 value = description.text,
@@ -104,7 +102,7 @@ fun AskQuestionScreen(
             ) {
                 ECheckbox(
                     modifier = Modifier.weight(8f),
-                    label = "Ask anonymously",
+                    label = "Send anonymously",
                     onChecked = {
                         viewModel.setAnonymous(it)
                     }
@@ -121,16 +119,23 @@ fun AskQuestionScreen(
                     onClick = {
                         contentPickerLauncher.launch("image/*")
                     })
+                EIconButton(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Filled.Videocam,
+                    onClick = {
+                        contentPickerLauncher.launch("video/*")
+                    })
             }
             EButton(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Send Question"
+                text = "Send Answer"
             ) {
-                viewModel.sendQuestion()
+                viewModel.sendAnswer()
             }
         }
     }
+
 }

@@ -28,6 +28,7 @@ import com.baykal.edumyclient.ui.screen.performanceSection.performances.Performa
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
+import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.SendAnswerRoute
 import com.google.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -87,6 +88,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     QuestionsRoute.composable(this, navController, state)
                     QuestionDetailRoute.composable(this, navController, state)
                     AskQuestionRoute.composable(this, navController, state)
+                    SendAnswerRoute.composable(this, navController, state)
                     PerformancesRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }

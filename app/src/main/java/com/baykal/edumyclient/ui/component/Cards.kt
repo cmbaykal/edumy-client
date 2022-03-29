@@ -2,26 +2,83 @@ package com.baykal.edumyclient.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.EImage
 import com.baykal.edumyclient.base.ui.theme.Gray
+import com.baykal.edumyclient.data.model.answer.Answer
+import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.user.response.User
+
+@Composable
+fun ClassroomListCard(
+    modifier: Modifier = Modifier,
+    classroom: Classroom,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(75.dp)
+            .padding(
+                start = 10.dp,
+                end = 10.dp,
+                top = 6.dp,
+                bottom = 6.dp
+            )
+            .then(modifier),
+        elevation = 4.dp,
+    ) {
+        Box(
+            modifier = Modifier.clickable { onClick.invoke() }
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.align(Alignment.CenterStart),
+            ) {
+                Icon(
+                    modifier = Modifier.padding(start = 8.dp),
+                    imageVector = Icons.Filled.Class,
+                    tint = Gray,
+                    contentDescription = ""
+                )
+                Column(
+                    modifier = Modifier.padding(start = 10.dp)
+                ) {
+                    Text(
+                        text = "${classroom.name.toString()} - ${classroom.lesson}",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = classroom.classSize,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 8.dp),
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                tint = Gray,
+                contentDescription = ""
+            )
+        }
+    }
+}
 
 @Composable
 fun ProfileCard(
@@ -150,15 +207,72 @@ fun ProfileCardCompact(
 }
 
 @Composable
-fun QuestionCard(
+fun QuestionListCard(
     modifier: Modifier = Modifier,
     question: Question,
-    onClick: (String) -> Unit = {}
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp),
+            .padding(
+                start = 10.dp,
+                end = 10.dp,
+                top = 6.dp,
+                bottom = 6.dp
+            )
+            .then(modifier),
+        elevation = 4.dp,
+    ) {
+        Box(
+            modifier = Modifier
+                .clickable { onClick.invoke() }
+                .padding(8.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.align(Alignment.CenterStart),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.QuestionAnswer,
+                    tint = Gray,
+                    contentDescription = ""
+                )
+                Column(
+                    modifier = Modifier.padding(start = 10.dp)
+                ) {
+                    Text(
+                        text = question.description.toString(),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = question.date.toString(),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                tint = Gray,
+                contentDescription = ""
+            )
+        }
+    }
+}
+
+@Composable
+fun QuestionCard(
+    modifier: Modifier = Modifier,
+    question: Question,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
         elevation = 4.dp
     ) {
         Box(
@@ -170,7 +284,9 @@ fun QuestionCard(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light
             )
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = question.lesson.toString(),
                     fontSize = 14.sp,
@@ -178,28 +294,124 @@ fun QuestionCard(
                 )
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp),
+                        .padding(top = 8.dp),
                     text = question.description.toString(),
                     fontSize = 14.sp
                 )
                 question.image?.let { image ->
                     EImage(
                         modifier = Modifier
-                            .wrapContentWidth()
-                            .padding(top = 12.dp),
+                            .height(60.dp)
+                            .padding(top = 8.dp),
                         file = image
                     )
                 }
             }
-            EButton(
-                modifier = Modifier.align(Alignment.BottomEnd),
-                shape = RoundedCornerShape(50.dp),
-                text = "Write Answer",
-                textSize = 12.sp
+        }
+    }
+}
+
+@Composable
+fun AnswerCard(
+    modifier: Modifier = Modifier,
+    userId: String,
+    answer: Answer,
+    onProfileClick: () -> Unit = {},
+    onUpVote: () -> Unit = {},
+    onDownVote: () -> Unit = {},
+    onImageClick: (String) -> Unit = {}
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
+        elevation = 4.dp
+    ) {
+        Column(modifier = Modifier.padding(10.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                question.id?.let {
-                    onClick.invoke(it)
+                answer.user?.let { user ->
+                    Text(
+                        modifier = Modifier
+                            .padding(bottom = 6.dp)
+                            .clickable {
+                                onProfileClick.invoke()
+                            },
+                        text = user.name.toString(),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Text(
+                    text = answer.date.toString(),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = answer.description.toString(),
+                fontSize = 12.sp
+            )
+            Row(
+                modifier = Modifier
+                    .padding(top = 6.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row {
+                    answer.image?.let {
+                        EIconButton(
+                            size = 35.dp,
+                            iconSize = 20.dp,
+                            icon = Icons.Filled.Photo
+                        ) {
+                            onImageClick.invoke(it)
+                        }
+                    }
+                    answer.video?.let {
+                        EIconButton(
+                            size = 35.dp,
+                            iconSize = 20.dp,
+                            icon = Icons.Filled.Videocam
+                        ) {
+                            onUpVote.invoke()
+                        }
+                    }
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    EIconButton(
+                        size = 35.dp,
+                        iconSize = 20.dp,
+                        icon = if (answer.downVote?.contains(userId) == true) Icons.Filled.ThumbDownAlt else Icons.Filled.ThumbDownOffAlt,
+                    ) {
+                        answer.id?.let {
+                            onDownVote.invoke()
+                        }
+                    }
+                    if (!answer.downVote.isNullOrEmpty()) {
+                        Text(
+                            text = answer.downVote?.size.toString(),
+                            fontSize = 12.sp
+                        )
+                    }
+                    EIconButton(
+                        size = 35.dp,
+                        iconSize = 20.dp,
+                        icon = if (answer.upVote?.contains(userId) == true) Icons.Filled.ThumbUpAlt else Icons.Filled.ThumbUpOffAlt,
+                    ) {
+                        answer.id?.let {
+                            onUpVote.invoke()
+                        }
+                    }
+                    if (!answer.upVote.isNullOrEmpty()) {
+                        Text(
+                            text = answer.upVote?.size.toString(),
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
         }

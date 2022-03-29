@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
-import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 
 @Composable
 fun EButton(
@@ -38,13 +37,14 @@ fun EButton(
     onClick: () -> Unit = {}
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.heightIn(0.dp, 40.dp),
         shape = shape,
         elevation = ButtonDefaults.elevation(
             defaultElevation = 6.dp,
             pressedElevation = 8.dp,
             disabledElevation = 0.dp
         ),
+        contentPadding = PaddingValues(8.dp),
         onClick = onClick
     ) {
         Text(
@@ -58,20 +58,21 @@ fun EButton(
 @Composable
 fun EIconButton(
     modifier: Modifier = Modifier,
+    size: Dp = 40.dp,
     icon: ImageVector,
     iconColor: Color = Gray,
     iconSize: Dp = 24.dp,
+    enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
-            .then(
-                modifier
-            )
-            .size(40.dp)
+            .then(modifier)
+            .size(size)
             .clickable(
+                enabled = enabled,
                 onClick = onClick,
-                indication = rememberRipple(color = OrangeVariant, radius = 18.dp),
+                indication = rememberRipple(color = Orange, radius = (size / 2) - 2.dp),
                 interactionSource = remember { MutableInteractionSource() },
             )
     ) {
@@ -88,15 +89,15 @@ fun EIconButton(
 
 @Composable
 fun ETextButton(
-    text: String,
     modifier: Modifier = Modifier,
+    text: String,
     onClick: () -> Unit = {}
 ) {
     TextButton(
         modifier = Modifier
-            .then(modifier)
             .padding(8.dp)
-            .defaultMinSize(minHeight = 40.dp),
+            .defaultMinSize(minHeight = 40.dp)
+            .then(modifier),
         shape = RoundedCornerShape(10.dp),
         onClick = onClick
     ) {

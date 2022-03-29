@@ -36,4 +36,8 @@ class QuestionRepository @Inject constructor(
     fun getQuestionInformation(questionId: String) = fetch {
         service.getQuestionInformation(questionId)
     }
+
+    fun getQuestionAnswers(questionId: String) = fetch {
+        service.getQuestionAnswers(questionId)
+    }
 }

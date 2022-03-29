@@ -27,7 +27,7 @@ fun EImage(
             .crossfade(true)
             .build(),
         contentDescription = description,
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.FillHeight,
         modifier = Modifier
             .then(modifier)
             .clip(RoundedCornerShape(10.dp))

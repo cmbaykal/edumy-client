@@ -1,31 +1,23 @@
 package com.baykal.edumyclient.ui.screen.questionSection.questions
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ETabRow
-import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.classroom.Lesson
-import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.user.response.UserRole
+import com.baykal.edumyclient.ui.component.QuestionListCard
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import kotlinx.coroutines.launch
@@ -77,7 +69,7 @@ fun QuestionsScreen(
                         endContent = { EndComponent() },
                         items = it
                     ) { item ->
-                        QuestionComponent(question = item) {
+                        QuestionListCard(question = item) {
                             item.id?.let { questionId ->
                                 viewModel.navigate(QuestionDetailRoute.get(questionId))
                             }
@@ -85,58 +77,6 @@ fun QuestionsScreen(
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun QuestionComponent(
-    question: Question,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = 4.dp,
-    ) {
-        Box(
-            modifier = Modifier
-                .clickable { onClick.invoke() }
-                .padding(10.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.CenterStart),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.QuestionAnswer,
-                    tint = Gray,
-                    contentDescription = ""
-                )
-                Column(
-                    modifier = Modifier.padding(start = 10.dp)
-                ) {
-                    Text(
-                        text = question.description.toString(),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = question.date.toString(),
-                        fontSize = 12.sp
-                    )
-                }
-            }
-            Icon(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = Gray,
-                contentDescription = ""
-            )
         }
     }
 }

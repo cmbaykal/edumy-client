@@ -1,29 +1,19 @@
 package com.baykal.edumyclient.ui.screen.classroomSection.classrooms
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Class
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ESearchView
-import com.baykal.edumyclient.base.ui.theme.Gray
-import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
+import com.baykal.edumyclient.ui.component.ClassroomListCard
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
 
@@ -57,7 +47,7 @@ fun ClassroomsScreen(
                     onRefresh = viewModel::getClassrooms,
                     items = classrooms,
                 ) { classroom ->
-                    ClassroomComponent(classroom) {
+                    ClassroomListCard(classroom = classroom) {
                         classroom.id?.let {
                             viewModel.navigate(ClassroomDetailRoute.get(it))
                         }
@@ -67,53 +57,3 @@ fun ClassroomsScreen(
         }
     }
 }
-
-@Composable
-fun ClassroomComponent(classroom: Classroom, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(75.dp)
-            .padding(8.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = 4.dp,
-    ) {
-        Box(
-            modifier = Modifier.clickable { onClick.invoke() }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.CenterStart),
-            ) {
-                Icon(
-                    modifier = Modifier.padding(start = 10.dp),
-                    imageVector = Icons.Filled.Class,
-                    tint = Gray,
-                    contentDescription = ""
-                )
-                Column(
-                    modifier = Modifier.padding(start = 10.dp)
-                ) {
-                    Text(
-                        text = "${classroom.name.toString()} - ${classroom.lesson}",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = classroom.classSize,
-                        fontSize = 12.sp
-                    )
-                }
-            }
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp),
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = Gray,
-                contentDescription = ""
-            )
-        }
-    }
-}
-

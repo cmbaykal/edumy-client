@@ -37,23 +37,25 @@ abstract class BaseViewModel : ViewModel() {
         controller.navigateToRoute(route, singleTop)
     }
 
-    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collectData(onSuccess: (T?) -> Unit): Job {
-        setLoading(true)
+    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collectData(
+        loading: Boolean = true,
+        onSuccess: (T?) -> Unit
+    ): Job {
+        if (loading) setLoading(true)
         return onEach {
             when (it) {
                 is BaseResult.Success -> {
+                    if (loading) setLoading(false)
                     if (it.response.success) {
-                        setLoading(false)
                         delay(200)
                         onSuccess.invoke(it.response.data)
                     } else {
-                        setLoading(false)
                         delay(200)
                         showError(it.response.error)
                     }
                 }
                 is BaseResult.Error -> {
-                    setLoading(false)
+                    if (loading) setLoading(false)
                     delay(200)
                     showError(it.error)
                 }

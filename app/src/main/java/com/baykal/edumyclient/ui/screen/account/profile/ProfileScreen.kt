@@ -45,7 +45,6 @@ fun ProfileScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = (-10).dp)
                         .background(Orange)
                         .layoutId("topBox")
                 )
