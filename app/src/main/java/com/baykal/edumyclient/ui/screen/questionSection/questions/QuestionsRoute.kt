@@ -10,12 +10,25 @@ import com.baykal.edumyclient.base.nav.NavRoute
 object QuestionsRoute : NavRoute<QuestionsViewModel> {
     const val USER_ID = "userId"
     const val CLASS_ID = "classId"
+    const val BASE_TITLE = "Questions"
 
-    override val title = "Questions"
-    override val route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
+    override var title = BASE_TITLE
+    override var route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
 
-    fun userQuestions(userId: String) = route.replace("{${USER_ID}}", userId)
-    fun classQuestions(classId: String) = route.replace("{${CLASS_ID}}", classId)
+    fun feedQuestions(): String {
+        title = BASE_TITLE
+        return route
+    }
+
+    fun userQuestions(userId: String): String {
+        title = "User Questions"
+        return route.replace("{${USER_ID}}", userId)
+    }
+
+    fun classQuestions(classId: String): String {
+        title = "Classroom Questions"
+        return route.replace("{${CLASS_ID}}", classId)
+    }
 
     override fun getArguments(): List<NamedNavArgument> = listOf(
         navArgument(USER_ID) {

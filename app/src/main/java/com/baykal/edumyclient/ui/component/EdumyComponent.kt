@@ -3,6 +3,8 @@ package com.baykal.edumyclient.ui.component
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,13 +51,16 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                         EdumyToolbar(
                             navHostController = navController,
                             title = mainState.pageTitle,
-                            login = mainState.loggedIn == true,
                             topLevelScreen = setOf(
-                                ClassroomsRoute.route,
-                                QuestionsRoute.route,
-                                PerformancesRoute.route,
-                                AppUsageRoute.route
-                            )
+                                ClassroomsRoute.title,
+                                QuestionsRoute.BASE_TITLE,
+                                PerformancesRoute.title,
+                                AppUsageRoute.title
+                            ),
+                            menuIcon = if (mainState.loggedIn == true) {
+                                Icons.Filled.AccountCircle
+                            } else null,
+                            menuRoute = ProfileRoute.route
                         )
                     }
                 },

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +24,6 @@ import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
 import com.baykal.edumyclient.ui.menu.MenuItem
-import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 
 
 @Composable
@@ -33,11 +31,13 @@ fun EdumyToolbar(
     navHostController: NavHostController = rememberNavController(),
     title: String = "Toolbar",
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
-    login: Boolean = false,
-    topLevelScreen: Set<String> = setOf()
+    topLevelScreen: Set<String> = setOf(),
+    menuIcon: ImageVector? = null,
+    menuRoute: String? = null
 ) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val currentLabel = navBackStackEntry?.destination?.label
 
     TopAppBar(
         backgroundColor = Color.White
@@ -46,7 +46,7 @@ fun EdumyToolbar(
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            if (!topLevelScreen.contains(currentRoute)) {
+            if (!topLevelScreen.contains(currentLabel)) {
                 EIconButton(
                     modifier = Modifier
                         .padding(start = 8.dp)
@@ -63,16 +63,17 @@ fun EdumyToolbar(
                 text = title,
                 color = Gray
             )
-            if (login && !currentRoute.toString().contains("profile")) {
+            if (menuIcon != null && currentRoute?.contains(menuRoute.toString()) == false)
                 EIconButton(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .align(Alignment.CenterEnd),
-                    icon = Icons.Filled.AccountCircle
+                    icon = menuIcon
                 ) {
-                    navHostController.navigate(ProfileRoute.route)
+                    menuRoute?.let {
+                        navHostController.navigate(it)
+                    }
                 }
-            }
         }
     }
 }
@@ -84,15 +85,15 @@ fun EdumyBottomBar(
 ) {
     with(navHostController) {
         val navBackStackEntry by currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentLabel = navBackStackEntry?.destination?.label
 
         BottomNavigation(
             backgroundColor = Color.White,
         ) {
             items.forEach { item ->
                 BottomNavigationItem(
-                    alwaysShowLabel = currentRoute?.contains(item.route) == true,
-                    selected = currentRoute?.contains(item.route) == true,
+                    alwaysShowLabel = currentLabel?.equals(item.title) == true,
+                    selected = currentLabel?.equals(item.title) == true,
                     selectedContentColor = Orange,
                     unselectedContentColor = OrangeVariant,
                     icon = { Icon(item.icon, contentDescription = item.title) },

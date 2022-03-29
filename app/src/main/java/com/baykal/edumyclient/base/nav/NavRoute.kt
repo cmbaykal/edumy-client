@@ -41,6 +41,7 @@ interface NavRoute<T : BaseViewModel> {
         mainStateFlow: MutableStateFlow<MainState>
     ) {
         builder.composable(route, getArguments()) {
+            it.destination.label = title
             val viewModel = viewModel()
             val screenState by viewModel.controller.screenState.collectAsState()
 
