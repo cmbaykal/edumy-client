@@ -117,13 +117,15 @@ fun <T> EList(
     }
 
     SwipeRefresh(
-        modifier = modifier,
         state = swipeRefreshState,
         swipeEnabled = swipeRefresh,
         onRefresh = onRefresh
     ) {
         if (isVertical) {
-            LazyColumn(state = scrollState) {
+            LazyColumn(
+                modifier = modifier,
+                state = scrollState
+            ) {
                 items(items) { item ->
                     itemContent.invoke(item)
                 }
@@ -136,7 +138,10 @@ fun <T> EList(
                 }
             }
         } else {
-            LazyRow(state = scrollState) {
+            LazyRow(
+                modifier = modifier,
+                state = scrollState
+            ) {
                 items(items) { item ->
                     itemContent.invoke(item)
                 }
