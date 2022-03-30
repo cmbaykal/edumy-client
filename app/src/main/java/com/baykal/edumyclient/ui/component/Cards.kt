@@ -319,7 +319,8 @@ fun AnswerCard(
     onProfileClick: () -> Unit = {},
     onUpVote: () -> Unit = {},
     onDownVote: () -> Unit = {},
-    onImageClick: (String) -> Unit = {}
+    onImageClick: (String) -> Unit = {},
+    onClick: (String) -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -327,7 +328,14 @@ fun AnswerCard(
             .then(modifier),
         elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(10.dp)) {
+        Column(modifier = Modifier
+            .clickable {
+                answer.questionId?.let {
+                    onClick.invoke(it)
+                }
+            }
+            .padding(10.dp)
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
