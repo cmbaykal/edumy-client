@@ -27,6 +27,7 @@ import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.Classro
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
 import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
+import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
@@ -91,9 +92,10 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     CreateClassRoute.composable(this, navController, state)
                     ClassroomDetailRoute.composable(this, navController, state)
                     QuestionsRoute.composable(this, navController, state)
-                    QuestionDetailRoute.composable(this, navController, state)
                     AskQuestionRoute.composable(this, navController, state)
+                    QuestionDetailRoute.composable(this, navController, state)
                     SendAnswerRoute.composable(this, navController, state)
+                    AnswersRoute.composable(this, navController, state)
                     PerformancesRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }

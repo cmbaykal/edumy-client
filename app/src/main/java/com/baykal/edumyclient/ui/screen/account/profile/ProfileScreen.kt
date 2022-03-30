@@ -20,6 +20,7 @@ import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.ui.component.ProfileCard
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
+import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
 @Composable
@@ -80,7 +81,9 @@ fun ProfileScreen(
                         text = "Answers",
                         icon = Icons.Filled.RateReview
                     ) {
-                        // TODO : Navigate User Answers
+                        it.id?.let { userId ->
+                            viewModel.navigate(AnswersRoute.userAnswers(userId))
+                        }
                     }
                     ScreenButton(
                         text = "Performances",

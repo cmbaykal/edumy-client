@@ -13,11 +13,19 @@ class AnswerRepository @Inject constructor(
         service.sendAnswer(body)
     }
 
+    fun getUserAnswers(userId: String) = fetch {
+        service.getUserAnswers(userId)
+    }
+
+    fun getClassAnswers(classId: String) = fetch {
+        service.getClassAnswers(classId)
+    }
+
     fun upVoteAnswer(answerId: String, userId: String) = fetch {
-        service.upVoteAnswer(answerId,userId)
+        service.upVoteAnswer(answerId, userId)
     }
 
     fun downVoteAnswer(answerId: String, userId: String) = fetch {
-        service.downVoteAnswer(answerId,userId)
+        service.downVoteAnswer(answerId, userId)
     }
 }

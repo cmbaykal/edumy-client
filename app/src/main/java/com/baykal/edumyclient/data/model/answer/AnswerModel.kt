@@ -7,6 +7,8 @@ import java.util.*
 data class Answer(
     @SerializedName("id")
     val id: String? = null,
+    @SerializedName("questionId")
+    val questionId: String? = null,
     @SerializedName("user")
     var user: User? = null,
     @SerializedName("description")

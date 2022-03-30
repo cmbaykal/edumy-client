@@ -42,8 +42,7 @@ interface EdumyService {
         @Body passwordCredentials: PasswordCredentials
     ): BaseResult<ApiResponse<Unit>>
 
-
-    @GET("user/info")
+    @POST("user/info")
     suspend fun getUserInformation(
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<User>>
@@ -63,7 +62,7 @@ interface EdumyService {
         @Query("userMail") userMail: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/class/info")
+    @POST("/class/info")
     suspend fun getClassroomInformation(
         @Query("classId") classId: String
     ): BaseResult<ApiResponse<Classroom>>
@@ -99,27 +98,27 @@ interface EdumyService {
         @Query("questionId") questionId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/question/feed")
+    @POST("/question/feed")
     suspend fun getQuestions(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
 
-    @GET("/question/class")
+    @POST("/question/class")
     suspend fun getClassroomQuestions(
         @Query("classId") classId: String,
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
 
-    @GET("/question/user")
+    @POST("/question/user")
     suspend fun getUserQuestions(
         @Query("userId") userId: String,
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
 
-    @GET("/question/info")
+    @POST("/question/info")
     suspend fun getQuestionInformation(
         @Query("questionId") questionId: String
     ): BaseResult<ApiResponse<Question>>
@@ -150,14 +149,19 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/answer/question")
+    @POST("/answer/question")
     suspend fun getQuestionAnswers(
         @Query("questionId") questionId: String
     ): BaseResult<ApiResponse<MutableList<Answer>>>
 
-    @GET("/answer/user")
+    @POST("/answer/user")
     suspend fun getUserAnswers(
         @Query("userId") userId: String
+    ): BaseResult<ApiResponse<MutableList<Answer>>>
+
+    @POST("/answer/class")
+    suspend fun getClassAnswers(
+        @Query("classId") classId: String
     ): BaseResult<ApiResponse<MutableList<Answer>>>
 
     // endregion

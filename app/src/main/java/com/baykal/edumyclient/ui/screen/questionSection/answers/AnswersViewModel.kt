@@ -1,13 +1,14 @@
-package com.baykal.edumyclient.ui.screen.questionSection.questionDetail
+package com.baykal.edumyclient.ui.screen.questionSection.answers
 
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
+import com.baykal.edumyclient.data.domain.answers.ClassAnswersUseCase
 import com.baykal.edumyclient.data.domain.answers.DownVoteAnswerUseCase
-import com.baykal.edumyclient.data.domain.question.QuestionAnswersUseCase
 import com.baykal.edumyclient.data.domain.answers.UpVoteAnswerUseCase
-import com.baykal.edumyclient.data.domain.question.QuestionInformationUseCase
+import com.baykal.edumyclient.data.domain.answers.UserAnswersUseCase
 import com.baykal.edumyclient.data.model.answer.Answer
+import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,17 +16,18 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class QuestionDetailViewModel @Inject constructor(
+class AnswersViewModel @Inject constructor(
     private val session: EdumySession,
-    private val questionInformationUseCase: QuestionInformationUseCase,
-    private val questionAnswersUseCase: QuestionAnswersUseCase,
+    private val userAnswersUseCase: UserAnswersUseCase,
+    private val classAnswersUseCase: ClassAnswersUseCase,
     private val upVoteAnswerUseCase: UpVoteAnswerUseCase,
     private val downVoteAnswerUseCase: DownVoteAnswerUseCase
 ) : BaseViewModel() {
 
-    private var questionId: String? = null
+    private var userId: String? = null
+    private var classId: String? = null
 
-    private val _uiState = MutableStateFlow(QuestionDetailState())
+    private val _uiState = MutableStateFlow(AnswersState())
     val uiState = _uiState.asStateFlow()
 
     fun setImageDialog(dialogState: Boolean) {
@@ -37,23 +39,29 @@ class QuestionDetailViewModel @Inject constructor(
     }
 
     fun fetchData() {
-        args?.getString(QuestionDetailRoute.QUESTION_ID)?.let { id ->
-            questionId = id
-            questionInformationUseCase.observe(id).collectData { response ->
-                response?.let { question ->
-                    _uiState.update { it.copy(question = question) }
-                }
-            }
-            session.withUserId { userId ->
-                _uiState.update { it.copy(userId = userId) }
-            }
+        args?.getString(QuestionsRoute.USER_ID)?.let {
+            userId = it
+        } ?: args?.getString(QuestionsRoute.CLASS_ID)?.let {
+            classId = it
         }
+        session.withUserId { userId ->
+            _uiState.update { it.copy(userId = userId) }
+        }
+        getAnswers()
     }
 
-    fun fetchAnswers(questionId: String, loading: Boolean = true) {
-        questionAnswersUseCase.observe(questionId).collectData(loading) { response ->
-            response?.let { list ->
-                _uiState.update { it.copy(answers = list) }
+    fun getAnswers(loading: Boolean = true) {
+        userId?.let { id ->
+            userAnswersUseCase.observe(id).collectData(loading) { response ->
+                response?.let { list ->
+                    _uiState.update { it.copy(answers = list) }
+                }
+            }
+        } ?: classId?.let { id ->
+            classAnswersUseCase.observe(id).collectData(loading) { response ->
+                response?.let { list ->
+                    _uiState.update { it.copy(answers = list) }
+                }
             }
         }
     }
@@ -64,7 +72,7 @@ class QuestionDetailViewModel @Inject constructor(
                 upVoteAnswerUseCase.observe(
                     UpVoteAnswerUseCase.Params(answerId, userId)
                 ).collectData(false) {
-                    fetchAnswers(questionId.toString(), false)
+                    getAnswers(false)
                 }
             }
         }
@@ -76,7 +84,7 @@ class QuestionDetailViewModel @Inject constructor(
                 downVoteAnswerUseCase.observe(
                     DownVoteAnswerUseCase.Params(answerId, userId)
                 ).collectData(false) {
-                    fetchAnswers(questionId.toString(), false)
+                    getAnswers(false)
                 }
             }
         }

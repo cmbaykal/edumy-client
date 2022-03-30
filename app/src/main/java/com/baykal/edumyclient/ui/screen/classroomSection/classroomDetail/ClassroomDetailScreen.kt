@@ -32,6 +32,7 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
+import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 
 @Composable
@@ -120,7 +121,9 @@ fun ClassroomDetailScreen(
                         text = "Answers",
                         icon = Icons.Filled.RateReview
                     ) {
-                        TODO("Classroom Answers Navigation")
+                        it.id?.let { classId ->
+                            viewModel.navigate(AnswersRoute.classAnswers(classId))
+                        }
                     }
                     ScreenButton(
                         text = "Performances",

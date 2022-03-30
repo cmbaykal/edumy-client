@@ -42,7 +42,9 @@ fun ClassroomsScreen(
                     onAction = { viewModel.filterClasses() }
                 )
                 EList(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp),
                     swipeRefresh = true,
                     onRefresh = viewModel::getClassrooms,
                     items = classrooms,
