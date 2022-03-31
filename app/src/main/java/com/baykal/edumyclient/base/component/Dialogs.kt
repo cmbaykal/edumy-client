@@ -34,7 +34,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.di.BASE_URL
-import java.text.DecimalFormat
 import java.util.*
 
 data class DialogButton(
@@ -118,17 +117,14 @@ fun EDialog(
 
 @Composable
 fun EDatePicker(
-    onChange: (String) -> Unit,
+    date: Date = Date(),
+    onChange: (Date) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val decimalFormat = DecimalFormat("00")
     val calendar = Calendar.getInstance()
-    calendar.timeInMillis = System.currentTimeMillis()
-    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-    val currentMonth = calendar.get(Calendar.MONTH)
-    val currentYear = calendar.get(Calendar.YEAR)
+    calendar.timeInMillis = date.time
 
-    onChange("${decimalFormat.format(currentDay)}.${decimalFormat.format(currentMonth)}.$currentYear")
+    onChange(date)
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -142,17 +138,23 @@ fun EDatePicker(
                     modifier = Modifier.wrapContentSize(),
                     update = { picker ->
                         picker.init(
-                            currentYear,
-                            currentMonth,
-                            currentDay
+                            calendar.get(Calendar.YEAR),
+                            calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH)
                         ) { _, year, month, day ->
-                            val dayText = decimalFormat.format(day)
-                            val monthText = decimalFormat.format(month + 1)
-                            onChange("$dayText.$monthText.$year")
+                            calendar.set(Calendar.DAY_OF_MONTH, day)
+                            calendar.set(Calendar.MONTH, month)
+                            calendar.set(Calendar.YEAR, year)
+                            onChange(Date(calendar.timeInMillis))
                         }
                     }
                 )
-                EButton(text = "Okay") {
+                EButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    text = "Okay"
+                ) {
                     onDismiss.invoke()
                 }
             }

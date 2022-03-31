@@ -27,10 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.extension.color
+import com.baykal.edumyclient.base.extension.toBirth
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
+import java.util.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -235,6 +237,7 @@ fun EDateField(
     var dialogState by remember { mutableStateOf(false) }
     var focused by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
+    var date by remember { mutableStateOf(Date()) }
 
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
@@ -282,11 +285,14 @@ fun EDateField(
     }
 
     if (dialogState) {
-        // TODO: Add initialize with selected value
-        EDatePicker(onChange = {
-            text = it
-            onChange(InputState(text = it))
-        }) {
+        EDatePicker(
+            date = date,
+            onChange = { d ->
+                date = d
+                text = d.toBirth
+                onChange(InputState(text = text))
+            }
+        ) {
             onDismiss.invoke()
             dialogState = false
         }
