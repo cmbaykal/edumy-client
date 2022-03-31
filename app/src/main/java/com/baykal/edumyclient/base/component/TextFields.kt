@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -42,9 +43,10 @@ fun ETextField(
     value: String = "",
     errorText: String? = null,
     maxLines: Int = 1,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction? = null,
     onChange: (InputState) -> Unit,
     success: ((text: String) -> Boolean) = { true },
-    imeAction: ImeAction? = null,
     onAction: (() -> Unit)? = null,
     passwordToggle: Boolean = false
 ) {
@@ -85,10 +87,17 @@ fun ETextField(
                 )
             },
             value = text,
-            onValueChange = {
-                text = it
-                isSuccess = success.invoke(it)
-                onChange.invoke(InputState(it, isSuccess))
+            onValueChange = { value ->
+                when (keyboardType) {
+                    KeyboardType.Text -> {
+                        text = value
+                    }
+                    KeyboardType.Number -> {
+                        text = value.filter { it.isDigit() }
+                    }
+                }
+                isSuccess = success.invoke(text)
+                onChange.invoke(InputState(text, isSuccess))
             },
             visualTransformation = if (charVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -119,7 +128,10 @@ fun ETextField(
                 }
             },
             isError = !isSuccess && !focused && text.isNotEmpty(),
-            keyboardOptions = KeyboardOptions(imeAction = imeAction ?: ImeAction.None),
+            keyboardOptions = KeyboardOptions(
+                imeAction = imeAction ?: ImeAction.None,
+                keyboardType = keyboardType
+            ),
             keyboardActions = onAction?.let {
                 KeyboardActions {
                     it.invoke()
@@ -353,19 +365,18 @@ fun EDropDown(
                 .alpha(0f)
                 .clickable(onClick = { expanded = true })
         )
-    }
-
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        items.forEach {
-            DropdownMenuItem(onClick = {
-                text = it
-                onChange.invoke(InputState(it, true))
-                expanded = false
-            }) {
-                Text(text = it)
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            items.forEach {
+                DropdownMenuItem(onClick = {
+                    text = it
+                    onChange.invoke(InputState(it, true))
+                    expanded = false
+                }) {
+                    Text(text = it)
+                }
             }
         }
     }
