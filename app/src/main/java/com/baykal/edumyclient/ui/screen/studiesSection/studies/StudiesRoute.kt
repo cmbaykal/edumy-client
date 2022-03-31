@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.ui.screen.account.profile
+package com.baykal.edumyclient.ui.screen.studiesSection.studies
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -7,13 +7,24 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.baykal.edumyclient.base.nav.NavRoute
 
-object ProfileRoute : NavRoute<ProfileViewModel> {
+object StudiesRoute : NavRoute<StudiesViewModel> {
     const val USER_ID = "userId"
 
-    override val title = "Profile"
-    override val route = "profile?userId={$USER_ID}"
+    override val title = "Studies"
+    override val route = "studies?userId={${USER_ID}}"
+
+    override fun bottomBarVisibility() = true
+    override fun topBarVisibility() = true
 
     fun get(userId: String) = route.replace("{${USER_ID}}", userId)
+
+    @Composable
+    override fun Content(viewModel: StudiesViewModel) {
+        StudiesScreen(viewModel)
+    }
+
+    @Composable
+    override fun viewModel(): StudiesViewModel = hiltViewModel()
 
     override fun getArguments(): List<NamedNavArgument> = listOf(
         navArgument(USER_ID) {
@@ -22,14 +33,4 @@ object ProfileRoute : NavRoute<ProfileViewModel> {
             type = NavType.StringType
         }
     )
-
-    override fun topBarVisibility() = true
-
-    @Composable
-    override fun Content(viewModel: ProfileViewModel) {
-        ProfileScreen(viewModel)
-    }
-
-    @Composable
-    override fun viewModel(): ProfileViewModel = hiltViewModel()
 }

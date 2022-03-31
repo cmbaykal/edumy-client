@@ -18,6 +18,12 @@ inline val Date.string: String
         return dateFormat.format(this)
     }
 
+inline val Date.stringWithoutTime: String
+    get() {
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        return dateFormat.format(this)
+    }
+
 inline val Date.toJson: String
     get() {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy HH.mm.ss", Locale.getDefault())

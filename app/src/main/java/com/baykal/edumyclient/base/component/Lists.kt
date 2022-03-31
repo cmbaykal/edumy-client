@@ -63,8 +63,8 @@ fun ETabRowItem(
             .padding(
                 start = 5.dp,
                 end = 5.dp,
-                top = 10.dp,
-                bottom = 10.dp
+                top = 8.dp,
+                bottom = 8.dp
             )
             .border(
                 border = BorderStroke(2.dp, Orange),
@@ -79,7 +79,7 @@ fun ETabRowItem(
             modifier = Modifier
                 .padding(8.dp)
                 .align(Alignment.Center),
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             text = data,
             color = Orange
         )

@@ -26,12 +26,13 @@ import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
-import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
 import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.SendAnswerRoute
+import com.baykal.edumyclient.ui.screen.studiesSection.sendStudy.SendStudyRoute
+import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 import com.google.accompanist.insets.ProvideWindowInsets
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -55,7 +56,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                             topLevelScreen = setOf(
                                 ClassroomsRoute.title,
                                 QuestionsRoute.BASE_TITLE,
-                                PerformancesRoute.title,
+                                StudiesRoute.title,
                                 AppUsageRoute.title
                             ),
                             menuIcon = if (mainState.loggedIn == true) {
@@ -96,7 +97,8 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     QuestionDetailRoute.composable(this, navController, state)
                     SendAnswerRoute.composable(this, navController, state)
                     AnswersRoute.composable(this, navController, state)
-                    PerformancesRoute.composable(this, navController, state)
+                    StudiesRoute.composable(this, navController, state)
+                    SendStudyRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }
             }

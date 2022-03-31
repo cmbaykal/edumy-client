@@ -1,0 +1,19 @@
+package com.baykal.edumyclient.data.repository
+
+import com.baykal.edumyclient.base.data.BaseRepository
+import com.baykal.edumyclient.data.model.study.request.StudyBody
+import com.baykal.edumyclient.data.service.EdumyService
+import javax.inject.Inject
+
+class StudyRepository @Inject constructor(
+    private val service: EdumyService
+) : BaseRepository() {
+
+    fun sendStudy(body: StudyBody) = fetch {
+        service.sendStudy(body)
+    }
+
+    fun getStudies(userId: String) = fetch {
+        service.getUserStudies(userId)
+    }
+}

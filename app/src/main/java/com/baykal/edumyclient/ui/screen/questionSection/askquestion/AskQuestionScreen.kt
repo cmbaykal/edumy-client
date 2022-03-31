@@ -68,7 +68,8 @@ fun AskQuestionScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(25.dp)
+                .padding(40.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             EDropDown(
                 label = "Lesson",

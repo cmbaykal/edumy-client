@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Leaderboard
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.QuestionAnswer
+import androidx.compose.material.icons.filled.RateReview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +25,7 @@ import com.baykal.edumyclient.ui.component.ProfileCard
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
+import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 
 @Composable
 fun ProfileScreen(
@@ -86,16 +90,12 @@ fun ProfileScreen(
                         }
                     }
                     ScreenButton(
-                        text = "Performances",
+                        text = "Studies",
                         icon = Icons.Filled.Leaderboard
                     ) {
-                        // TODO : Navigate User Performances
-                    }
-                    ScreenButton(
-                        text = "Usages",
-                        icon = Icons.Filled.AccessTimeFilled
-                    ) {
-                        // TODO : Navigate User Usages
+                        it.id?.let { userId ->
+                            viewModel.navigate(StudiesRoute.get(userId))
+                        }
                     }
                     if (currentUser) {
                         ScreenButton(

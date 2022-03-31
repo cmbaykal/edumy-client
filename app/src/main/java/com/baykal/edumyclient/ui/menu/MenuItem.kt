@@ -8,8 +8,8 @@ import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
-import com.baykal.edumyclient.ui.screen.performanceSection.performances.PerformancesRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
+import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 
 sealed class MenuItem(
     var title: String,
@@ -19,7 +19,7 @@ sealed class MenuItem(
     // Bottom Navigation
     object Classrooms : MenuItem(ClassroomsRoute.title, Icons.Filled.Book, ClassroomsRoute.route)
     object Questions : MenuItem(QuestionsRoute.BASE_TITLE, Icons.Filled.QuestionAnswer, QuestionsRoute.route)
-    object Performances : MenuItem(PerformancesRoute.title, Icons.Filled.Leaderboard, PerformancesRoute.route)
+    object Studies : MenuItem(StudiesRoute.title, Icons.Filled.Leaderboard, StudiesRoute.route)
     object Usages : MenuItem(AppUsageRoute.title, Icons.Filled.AccessTimeFilled, AppUsageRoute.route)
 
     companion object {
@@ -27,9 +27,8 @@ sealed class MenuItem(
             get() = listOf(
                 Classrooms,
                 Questions,
-                Performances,
+                Studies,
                 Usages
             )
     }
-
 }

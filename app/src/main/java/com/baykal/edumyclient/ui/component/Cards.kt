@@ -17,10 +17,12 @@ import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.EImage
 import com.baykal.edumyclient.base.extension.string
+import com.baykal.edumyclient.base.extension.stringWithoutTime
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
 import com.baykal.edumyclient.data.model.question.Question
+import com.baykal.edumyclient.data.model.study.response.Study
 import com.baykal.edumyclient.data.model.user.response.User
 
 @Composable
@@ -427,6 +429,86 @@ fun AnswerCard(
                             fontSize = 12.sp
                         )
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun StudyCard(
+    modifier: Modifier = Modifier,
+    study: Study
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
+        elevation = 4.dp
+    ) {
+        with(study) {
+            Column(
+                modifier = Modifier.padding(10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Lesson - $lesson",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    date?.let {
+                        Text(
+                            text = it.stringWithoutTime,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier.padding(top = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        tint = Gray,
+                        contentDescription = "Icon Button",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 6.dp),
+                        text = correctA.toString(),
+                        fontSize = 12.sp,
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(18.dp),
+                        imageVector = Icons.Default.Close,
+                        tint = Gray,
+                        contentDescription = "Icon Button"
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 6.dp),
+                        text = wrongA.toString(),
+                        fontSize = 12.sp,
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(18.dp),
+                        imageVector = Icons.Default.CheckBoxOutlineBlank,
+                        tint = Gray,
+                        contentDescription = "Icon Button",
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 6.dp),
+                        text = emptyA.toString(),
+                        fontSize = 12.sp,
+                    )
                 }
             }
         }

@@ -36,7 +36,7 @@ fun QuestionsScreen(
     }
 
     with(viewState) {
-        LaunchedEffect(this.questions) {
+        LaunchedEffect(questions) {
             if (questions == null)
                 viewModel.fetchData()
         }

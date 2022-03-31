@@ -125,12 +125,6 @@ fun ClassroomDetailScreen(
                             viewModel.navigate(AnswersRoute.classAnswers(classId))
                         }
                     }
-                    ScreenButton(
-                        text = "Performances",
-                        icon = Icons.Filled.Leaderboard
-                    ) {
-                        TODO("Classroom Performances Navigation")
-                    }
                     it.id?.let { classId ->
                         if (!owner) {
                             ScreenButton(

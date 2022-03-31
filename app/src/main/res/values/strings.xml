@@ -7,8 +7,8 @@
     <string name="profile_screen">Profile</string>
     <string name="classrooms_screen">Classrooms</string>
     <string name="create_class_screen">Create Class</string>
-    <string name="performances_screen">Performances</string>
-    <string name="add_performance_screen">Add Performance</string>
+    <string name="studies_screen">Studies</string>
+    <string name="add_study_screen">Add Study</string>
     <string name="ask_question_screen">Ask Question</string>
     <string name="question_detail_screen">Question Detail</string>
     <string name="questions">Questions</string>

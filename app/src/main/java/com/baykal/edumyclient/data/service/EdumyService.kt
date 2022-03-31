@@ -5,9 +5,9 @@ import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
-import com.baykal.edumyclient.data.model.performance.request.PerformanceBody
-import com.baykal.edumyclient.data.model.performance.response.Performance
 import com.baykal.edumyclient.data.model.question.Question
+import com.baykal.edumyclient.data.model.study.request.StudyBody
+import com.baykal.edumyclient.data.model.study.response.Study
 import com.baykal.edumyclient.data.model.usage.UsageData
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
@@ -166,23 +166,22 @@ interface EdumyService {
 
     // endregion
 
-    // region Performances
+    // region Studies
 
-    @POST("/performance/add")
-    suspend fun addPerformance(
-        @Body performanceBody: PerformanceBody
+    @POST("/study/add")
+    suspend fun sendStudy(
+        @Body studyBody: StudyBody
     ): BaseResult<ApiResponse<Unit>>
 
-    @POST("/performance/delete")
-    suspend fun deletePerformance(
-        @Query("performanceId") performanceId: String
+    @POST("/study/delete")
+    suspend fun deleteStudy(
+        @Query("studyId") studyId: String
     ): BaseResult<ApiResponse<Unit>>
 
-    @GET("/performance/user")
-    suspend fun getUserPerformances(
+    @POST("/study/user")
+    suspend fun getUserStudies(
         @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Performance>>>
-
+    ): BaseResult<ApiResponse<MutableList<Study>>>
     // endregion
 
     // region Usages

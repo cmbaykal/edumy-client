@@ -1,17 +1,18 @@
-package com.baykal.edumyclient.data.model.performance.request
+package com.baykal.edumyclient.data.model.study.request
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
-data class PerformanceBody(
+data class StudyBody(
     @SerializedName("userId")
     val userId: String,
     @SerializedName("lesson")
     val lesson: String,
     @SerializedName("correctA")
-    val correctA: Int,
+    val correctA: String,
     @SerializedName("wrongA")
-    val wrongA: Int,
+    val wrongA: String,
+    @SerializedName("emptyA")
+    val emptyA: String,
     @SerializedName("date")
-    val date: Date
+    val date: String
 )
