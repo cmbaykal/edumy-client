@@ -3,6 +3,7 @@ package com.baykal.edumyclient.ui.screen.questionSection.sendAnswer
 import android.app.Application
 import android.net.Uri
 import com.baykal.edumyclient.base.component.InputState
+import com.baykal.edumyclient.base.extension.toJson
 import com.baykal.edumyclient.base.network.ContentUriRequestBody
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUserId
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import okhttp3.MultipartBody
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,12 +57,13 @@ class SendAnswerViewModel @Inject constructor(
         with(uiState.value) {
             if (isFormValid) {
                 session.withUserId {
+                    val date = Date().toJson
                     val body = MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
 
                     body.addFormDataPart("questionId", questionId.toString())
                         .addFormDataPart("description", description.text)
-                        .addFormDataPart("date", "14.03.2022 02.20.00")
+                        .addFormDataPart("date", date)
 
                     if (!anonymousState) {
                         body.addFormDataPart("userId", it)

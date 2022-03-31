@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.EImage
+import com.baykal.edumyclient.base.extension.string
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
@@ -248,10 +249,12 @@ fun QuestionListCard(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = question.date.toString(),
-                        fontSize = 12.sp
-                    )
+                    question.date?.let {
+                        Text(
+                            text = it.string,
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
             Icon(
@@ -278,12 +281,14 @@ fun QuestionCard(
         Box(
             modifier = Modifier.padding(10.dp)
         ) {
-            Text(
-                modifier = Modifier.align(Alignment.TopEnd),
-                text = question.date.toString(),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light
-            )
+            question.date?.let {
+                Text(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    text = it.string,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -352,11 +357,13 @@ fun AnswerCard(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Text(
-                    text = answer.date.toString(),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light
-                )
+                answer.date?.let {
+                    Text(
+                        text = it.string,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),

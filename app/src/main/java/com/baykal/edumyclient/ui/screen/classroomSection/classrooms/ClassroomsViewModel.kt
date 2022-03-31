@@ -23,10 +23,6 @@ class ClassroomsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ClassroomsState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        getClassrooms()
-    }
-
     fun getClassrooms() {
         session.withUser { user ->
             _uiState.update { it.copy(userRole = user.role) }

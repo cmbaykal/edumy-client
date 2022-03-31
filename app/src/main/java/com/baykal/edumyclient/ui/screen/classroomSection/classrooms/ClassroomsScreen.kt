@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,6 +25,12 @@ fun ClassroomsScreen(
     val viewState by viewModel.uiState.collectAsState()
 
     with(viewState) {
+        LaunchedEffect(classrooms) {
+            if (classrooms == null) {
+                viewModel.getClassrooms()
+            }
+        }
+
         Scaffold(
             floatingActionButton = {
                 if (userRole == UserRole.Teacher) {
@@ -41,17 +48,19 @@ fun ClassroomsScreen(
                     onChange = viewModel::filterClasses,
                     onAction = { viewModel.filterClasses() }
                 )
-                EList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 10.dp),
-                    swipeRefresh = true,
-                    onRefresh = viewModel::getClassrooms,
-                    items = classrooms,
-                ) { classroom ->
-                    ClassroomListCard(classroom = classroom) {
-                        classroom.id?.let {
-                            viewModel.navigate(ClassroomDetailRoute.get(it))
+                classrooms?.let {
+                    EList(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 10.dp),
+                        swipeRefresh = true,
+                        onRefresh = viewModel::getClassrooms,
+                        items = it,
+                    ) { classroom ->
+                        ClassroomListCard(classroom = classroom) {
+                            classroom.id?.let { classId ->
+                                viewModel.navigate(ClassroomDetailRoute.get(classId))
+                            }
                         }
                     }
                 }

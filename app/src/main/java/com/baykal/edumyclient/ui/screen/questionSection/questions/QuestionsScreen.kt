@@ -61,6 +61,7 @@ fun QuestionsScreen(
                 }
                 questions?.let {
                     EList(
+                        modifier = Modifier.padding(top = 10.dp),
                         scrollState = scrollState,
                         swipeRefresh = true,
                         onRefresh = viewModel::fetchQuestions,
