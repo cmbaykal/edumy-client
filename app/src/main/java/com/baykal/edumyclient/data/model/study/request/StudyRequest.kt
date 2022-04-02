@@ -11,8 +11,8 @@ data class StudyBody(
     val correctA: String,
     @SerializedName("wrongA")
     val wrongA: String,
-    @SerializedName("emptyA")
-    val emptyA: String,
+    @SerializedName("emptyQ")
+    val emptyQ: String,
     @SerializedName("date")
     val date: String
 )

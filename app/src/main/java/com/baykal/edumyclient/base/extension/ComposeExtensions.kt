@@ -7,4 +7,3 @@ fun LazyListState.isScrolledToEnd() = try {
 } catch (e: Exception) {
     false
 }
-

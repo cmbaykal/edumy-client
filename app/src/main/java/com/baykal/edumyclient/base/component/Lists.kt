@@ -98,7 +98,7 @@ fun <T> EList(
     onLoadMore: () -> Unit = {},
     loadMoreContent: @Composable () -> Unit = {},
     endContent: @Composable () -> Unit = {},
-    items: MutableList<T> = mutableListOf(),
+    items: List<T> = mutableListOf(),
     itemContent: @Composable (item: T) -> Unit
 ) {
     val scrollEndState by remember {

@@ -1,15 +1,18 @@
 package com.baykal.edumyclient.ui.screen.studiesSection.studies
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.baykal.edumyclient.base.component.EFab
-import com.baykal.edumyclient.base.component.EList
-import com.baykal.edumyclient.base.component.ETabRow
+import com.baykal.edumyclient.base.component.*
+import com.baykal.edumyclient.base.ui.theme.Orange
+import com.baykal.edumyclient.base.ui.theme.Purple
+import com.baykal.edumyclient.base.ui.theme.Red
 import com.baykal.edumyclient.data.model.classroom.Lesson
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.StudyCard
@@ -18,12 +21,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun StudiesScreen(viewModel: StudiesViewModel) {
-//    LineChart(
-//        modifier = Modifier
-//            .height(300.dp)
-//            .fillMaxWidth()
-//            .padding(10.dp)
-//    )
 
     val coroutineScope = rememberCoroutineScope()
     val viewState by viewModel.uiState.collectAsState()
@@ -50,15 +47,41 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
             }
         ) {
             Column(
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier.padding(top = 20.dp),
             ) {
-                ETabRow(data = lessonItems, onSelect = {
-                    viewModel.filterStudies(it)
-                    coroutineScope.launch {
-                        scrollState.scrollToItem(0)
-                    }
-                })
-                studies?.let {
+                if (!studies.isNullOrEmpty()) {
+                    val chartData = listOf(
+                        ChartData(
+                            identifier = "Correct Answers",
+                            point = studies.sumOf { it.correctA.toString().toInt() },
+                            color = Orange
+                        ),
+                        ChartData(
+                            "Wrong Answers",
+                            point = studies.sumOf { it.wrongA.toString().toInt() },
+                            color = Red
+                        ),
+                        ChartData(
+                            "Empty Questions",
+                            point = studies.sumOf { it.emptyQ.toString().toInt() },
+                            color = Purple
+                        )
+                    )
+                    PieChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp),
+                        data = chartData
+                    )
+                    ETabRow(
+                        modifier = Modifier.padding(top = 20.dp),
+                        data = lessonItems,
+                        onSelect = { selected ->
+                            viewModel.filterStudies(selected)
+                            coroutineScope.launch {
+                                scrollState.scrollToItem(0)
+                            }
+                        })
                     EList(
                         modifier = Modifier.padding(
                             start = 20.dp,
@@ -68,10 +91,15 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                         scrollState = scrollState,
                         swipeRefresh = true,
                         onRefresh = viewModel::fetchStudies,
-                        items = it
+                        items = studies
                     ) { item ->
                         StudyCard(
-                            modifier = Modifier.padding(10.dp),
+                            modifier = Modifier.padding(
+                                start = 10.dp,
+                                end = 10.dp,
+                                top = 6.dp,
+                                bottom = 6.dp
+                            ),
                             study = item
                         )
                     }

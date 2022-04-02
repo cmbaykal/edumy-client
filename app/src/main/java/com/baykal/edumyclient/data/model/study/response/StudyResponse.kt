@@ -12,8 +12,8 @@ data class Study(
     val correctA: String? = null,
     @SerializedName("wrongA")
     val wrongA: String? = null,
-    @SerializedName("emptyA")
-    val emptyA: String? = null,
+    @SerializedName("emptyQ")
+    val emptyQ: String? = null,
     @SerializedName("date")
     val date: Date? = null
 )

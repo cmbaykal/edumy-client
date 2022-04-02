@@ -6,7 +6,7 @@ data class SendStudyState(
     val lesson: InputState = InputState(),
     val correctAnswers: InputState = InputState(),
     val wrongAnswers: InputState = InputState(),
-    val emptyAnswers: InputState = InputState(),
+    val emptyQuestions: InputState = InputState(),
 ) {
-    val isFormValid get() = lesson.isSuccess && correctAnswers.isSuccess && wrongAnswers.isSuccess && emptyAnswers.isSuccess
+    val isFormValid get() = lesson.isSuccess && correctAnswers.isSuccess && wrongAnswers.isSuccess && emptyQuestions.isSuccess
 }

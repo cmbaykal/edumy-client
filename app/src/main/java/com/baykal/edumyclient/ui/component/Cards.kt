@@ -31,54 +31,57 @@ fun ClassroomListCard(
     classroom: Classroom,
     onClick: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(75.dp)
-            .padding(
-                start = 10.dp,
-                end = 10.dp,
-                top = 6.dp,
-                bottom = 6.dp
-            )
-            .then(modifier),
-        elevation = 4.dp,
-    ) {
-        Box(
-            modifier = Modifier.clickable { onClick.invoke() }
+    with(classroom) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 10.dp,
+                    end = 10.dp,
+                    top = 6.dp,
+                    bottom = 6.dp
+                )
+                .then(modifier),
+            elevation = 4.dp,
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.CenterStart),
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable { onClick.invoke() }
             ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.align(Alignment.CenterStart),
+                ) {
+                    Icon(
+                        modifier = Modifier.padding(start = 8.dp),
+                        imageVector = Icons.Filled.Class,
+                        tint = Gray,
+                        contentDescription = ""
+                    )
+                    Column(
+                        modifier = Modifier.padding(start = 10.dp)
+                    ) {
+                        Text(
+                            text = "$name - $lesson",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = classSize,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
                 Icon(
-                    modifier = Modifier.padding(start = 8.dp),
-                    imageVector = Icons.Filled.Class,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 8.dp),
+                    imageVector = Icons.Filled.KeyboardArrowRight,
                     tint = Gray,
                     contentDescription = ""
                 )
-                Column(
-                    modifier = Modifier.padding(start = 10.dp)
-                ) {
-                    Text(
-                        text = "${classroom.name.toString()} - ${classroom.lesson}",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = classroom.classSize,
-                        fontSize = 12.sp
-                    )
-                }
             }
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 8.dp),
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                tint = Gray,
-                contentDescription = ""
-            )
         }
     }
 }
@@ -448,7 +451,7 @@ fun StudyCard(
     ) {
         with(study) {
             Column(
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(8.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -506,7 +509,7 @@ fun StudyCard(
                     )
                     Text(
                         modifier = Modifier.padding(start = 6.dp),
-                        text = emptyA.toString(),
+                        text = emptyQ.toString(),
                         fontSize = 12.sp,
                     )
                 }

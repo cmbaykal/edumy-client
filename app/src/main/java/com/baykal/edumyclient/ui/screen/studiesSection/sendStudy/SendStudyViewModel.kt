@@ -36,8 +36,8 @@ class SendStudyViewModel @Inject constructor(
         _uiState.update { it.copy(wrongAnswers = state) }
     }
 
-    fun setEmptyAnswers(state: InputState) {
-        _uiState.update { it.copy(emptyAnswers = state) }
+    fun setEmptyQuestions(state: InputState) {
+        _uiState.update { it.copy(emptyQuestions = state) }
     }
 
     fun sendStudy() {
@@ -51,7 +51,7 @@ class SendStudyViewModel @Inject constructor(
                             lesson = lesson.text,
                             correctA = correctAnswers.text,
                             wrongA = wrongAnswers.text,
-                            emptyA = emptyAnswers.text,
+                            emptyQ = emptyQuestions.text,
                             date = date
                         )
                     ).collectData {

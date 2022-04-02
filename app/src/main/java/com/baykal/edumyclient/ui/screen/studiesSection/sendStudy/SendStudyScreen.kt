@@ -58,7 +58,7 @@ fun SendStudyScreen(
             ETextField(
                 label = "Empty Answers",
                 value = "0",
-                onChange = viewModel::setEmptyAnswers,
+                onChange = viewModel::setEmptyQuestions,
                 success = { it.isNotEmpty() },
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done,
