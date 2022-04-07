@@ -27,13 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.baykal.edumyclient.base.extension.color
-import com.baykal.edumyclient.base.extension.toBirth
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.OrangeVariant
-import java.util.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -241,15 +240,17 @@ fun ESearchView(
 }
 
 @Composable
-fun EDateField(
+fun EDialogField(
     label: String,
-    onChange: (InputState) -> Unit,
-    onDismiss: (() -> Unit) = { }
+    value: String? = "",
+    buttonLabel: String = "Okay",
+    dialogState: MutableState<Boolean> = mutableStateOf(false),
+    onClick: () -> Unit = {},
+    onButtonClick: () -> Unit = {},
+    onDismiss: () -> Unit = {},
+    dialogContent: @Composable () -> Unit = {},
 ) {
-    var dialogState by remember { mutableStateOf(false) }
     var focused by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf(Date()) }
 
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
@@ -264,9 +265,7 @@ fun EDateField(
     Box(
         Modifier
             .padding(8.dp)
-            .clickable {
-                dialogState = true
-            },
+            .clickable(onClick = onClick)
     ) {
         OutlinedTextField(
             readOnly = true,
@@ -275,16 +274,16 @@ fun EDateField(
                 .onFocusChanged {
                     focused = it.isFocused
                     if (it.isFocused) {
-                        dialogState = true
+                        onClick.invoke()
                     }
                 },
             colors = colors,
-            value = text,
-            onValueChange = { text = it },
+            value = value.toString(),
+            onValueChange = {},
             label = {
                 Text(
-                    text = if (focused || text.isNotEmpty()) label.uppercase() else label,
-                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                    text = if (focused || value.toString().isNotEmpty()) label.uppercase() else label,
+                    fontWeight = if (focused || value.toString().isNotEmpty()) FontWeight.Bold else FontWeight.Normal
                 )
             },
         )
@@ -292,21 +291,27 @@ fun EDateField(
             modifier = Modifier
                 .matchParentSize()
                 .alpha(0f)
-                .clickable(onClick = { dialogState = true })
+                .clickable(onClick = onClick)
         )
     }
 
-    if (dialogState) {
-        EDatePicker(
-            date = date,
-            onChange = { d ->
-                date = d
-                text = d.toBirth
-                onChange(InputState(text = text))
+    if (dialogState.value) {
+        Dialog(onDismissRequest = onDismiss) {
+            Surface(
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Column {
+                    dialogContent()
+                    ETextButton(
+                        modifier = Modifier.align(Alignment.End),
+                        text = buttonLabel,
+                        onClick = {
+                            onButtonClick.invoke()
+                            onDismiss.invoke()
+                        }
+                    )
+                }
             }
-        ) {
-            onDismiss.invoke()
-            dialogState = false
         }
     }
 }
@@ -402,9 +407,8 @@ fun TextFieldsPreview() {
                 label = "Search View",
                 onChange = {}
             )
-            EDateField(
-                label = "Date Field",
-                onChange = {}
+            EDialogField(
+                label = "Date Field"
             )
             EDropDown(
                 label = "Select",

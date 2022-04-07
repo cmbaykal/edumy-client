@@ -1,6 +1,7 @@
+@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+
 package com.baykal.edumyclient.base.component
 
-import android.util.Log
 import android.widget.DatePicker
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
@@ -117,6 +118,37 @@ fun EDialog(
 
 @Composable
 fun EDatePicker(
+    onChange: (Date) -> Unit,
+) {
+    var date by remember { mutableStateOf(Date()) }
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = date.time
+
+    onChange(date)
+
+    AndroidView(
+        {
+            DatePicker(ContextThemeWrapper(it, R.style.DatePicker))
+        },
+        modifier = Modifier.wrapContentSize(),
+        update = { picker ->
+            picker.init(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ) { _, year, month, day ->
+                calendar.set(Calendar.DAY_OF_MONTH, day)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.YEAR, year)
+                date = Date(calendar.timeInMillis)
+                onChange(date)
+            }
+        }
+    )
+}
+
+@Composable
+fun ETimePicker(
     date: Date = Date(),
     onChange: (Date) -> Unit,
     onDismiss: () -> Unit
@@ -161,7 +193,6 @@ fun EDatePicker(
         }
     }
 }
-
 
 @Composable
 fun LoadingDialog() {
@@ -216,7 +247,6 @@ fun ImageDialog(
                         offset += pan
                         scale *= zoom
                         rotationState += rotation
-                        Log.d("EdumyTest", "Offset :$offset")
                     }
                 }
         ) {
