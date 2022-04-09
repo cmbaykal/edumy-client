@@ -26,6 +26,8 @@ import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
+import com.baykal.edumyclient.ui.screen.meetingSection.meetings.MeetingsRoute
+import com.baykal.edumyclient.ui.screen.meetingSection.scheduleMeeting.ScheduleMeetingRoute
 import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
@@ -57,7 +59,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                                 ClassroomsRoute.title,
                                 QuestionsRoute.BASE_TITLE,
                                 StudiesRoute.title,
-                                AppUsageRoute.title
+                                MeetingsRoute.title
                             ),
                             menuIcon = if (mainState.loggedIn == true) {
                                 Icons.Filled.AccountCircle
@@ -99,6 +101,8 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     AnswersRoute.composable(this, navController, state)
                     StudiesRoute.composable(this, navController, state)
                     SendStudyRoute.composable(this, navController, state)
+                    MeetingsRoute.composable(this, navController, state)
+                    ScheduleMeetingRoute.composable(this, navController, state)
                     AppUsageRoute.composable(this, navController, state)
                 }
             }

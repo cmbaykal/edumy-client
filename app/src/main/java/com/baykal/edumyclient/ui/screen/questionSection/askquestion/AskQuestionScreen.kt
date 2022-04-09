@@ -58,10 +58,9 @@ fun AskQuestionScreen(
         }
     }
 
-    val lessonItems = mutableListOf<String>()
-    enumValues<Lesson>().forEach {
-        lessonItems.add(it.lessonName)
-    }
+    val lessonItems = Lesson.values().map {
+        it.lessonName
+    }.toMutableList()
 
     with(viewState) {
         Column(

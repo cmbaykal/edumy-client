@@ -1,8 +1,11 @@
 package com.baykal.edumyclient.data.model.user.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
+@Parcelize
 data class User(
     @SerializedName("id")
     val id: String? = null,
@@ -18,7 +21,7 @@ data class User(
     val bio: String? = null,
     @SerializedName("classes")
     val classes: MutableList<String>? = ArrayList()
-)
+) : Parcelable
 
 enum class UserRole {
     @SerializedName("Student")

@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun StudiesScreen(viewModel: StudiesViewModel) {
 
-    val coroutineScope = rememberCoroutineScope()
     val viewState by viewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
 
     val lessonItems = mutableListOf("All")

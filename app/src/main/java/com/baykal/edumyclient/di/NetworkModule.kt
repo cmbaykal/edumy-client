@@ -30,7 +30,7 @@ object NetworkModule {
     fun provideGson(): Gson = GsonBuilder()
         .setPrettyPrinting()
         .setLenient()
-        .setDateFormat("dd.MM.yyyy HH.mm.ss")
+        .setDateFormat("dd.MM.yyyy HH:mm:ss")
         .create()
 
     @Singleton

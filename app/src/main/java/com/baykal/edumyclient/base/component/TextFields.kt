@@ -1,5 +1,8 @@
 package com.baykal.edumyclient.base.component
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -298,6 +301,14 @@ fun EDialogField(
     if (dialogState.value) {
         Dialog(onDismissRequest = onDismiss) {
             Surface(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .animateContentSize(
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearEasing
+                        )
+                    ),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Column {
@@ -320,10 +331,10 @@ fun EDialogField(
 fun EDropDown(
     label: String,
     items: MutableList<String>,
-    selected: String = "",
+    selected: String? = null,
     onChange: (InputState) -> Unit
 ) {
-    var text by remember { mutableStateOf(selected) }
+    var text by remember { mutableStateOf(selected ?: "") }
     var focused by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
 

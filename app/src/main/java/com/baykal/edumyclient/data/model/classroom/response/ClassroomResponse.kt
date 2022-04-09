@@ -1,8 +1,11 @@
 package com.baykal.edumyclient.data.model.classroom.response
 
+import android.os.Parcelable
 import com.baykal.edumyclient.data.model.user.response.User
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Classroom(
     @SerializedName("id")
     val id: String? = null,
@@ -14,7 +17,7 @@ data class Classroom(
     val creatorId: String? = null,
     @SerializedName("users")
     val users: MutableList<User>? = ArrayList()
-) {
+):Parcelable {
     val classSize
         get() = with(users?.size?.minus(1)) {
             if (this == 0) {

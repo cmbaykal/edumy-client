@@ -3,9 +3,9 @@ package com.baykal.edumyclient.ui.screen.questionSection.questionDetail
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
-import com.baykal.edumyclient.data.domain.answers.DownVoteAnswerUseCase
+import com.baykal.edumyclient.data.domain.answer.DownVoteAnswerUseCase
 import com.baykal.edumyclient.data.domain.question.QuestionAnswersUseCase
-import com.baykal.edumyclient.data.domain.answers.UpVoteAnswerUseCase
+import com.baykal.edumyclient.data.domain.answer.UpVoteAnswerUseCase
 import com.baykal.edumyclient.data.domain.question.QuestionInformationUseCase
 import com.baykal.edumyclient.data.model.answer.Answer
 import dagger.hilt.android.lifecycle.HiltViewModel

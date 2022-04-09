@@ -8,7 +8,7 @@ import com.baykal.edumyclient.base.network.ContentUriRequestBody
 import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
-import com.baykal.edumyclient.data.domain.answers.SendAnswerUseCase
+import com.baykal.edumyclient.data.domain.answer.SendAnswerUseCase
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

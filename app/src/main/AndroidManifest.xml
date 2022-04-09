@@ -16,12 +16,12 @@
         android:theme="@style/Theme.EdumyClient"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.EdumyClient.NoActionBar"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.EdumyClient.NoActionBar"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -30,6 +30,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.screen.meetingSection.meetingSession.MeetingActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:supportsPictureInPicture="true"
+            tools:targetApi="n"
+            tools:ignore="LockedOrientationActivity" />
         <provider
             android:name=".base.data.BaseFileProvider"
             android:authorities="${applicationId}.provider"
@@ -39,6 +47,7 @@
             <intent-filter>
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />

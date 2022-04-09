@@ -21,9 +21,11 @@ import com.baykal.edumyclient.base.extension.stringWithoutTime
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
+import com.baykal.edumyclient.data.model.meeting.response.Meeting
 import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.study.response.Study
 import com.baykal.edumyclient.data.model.user.response.User
+import java.util.*
 
 @Composable
 fun ClassroomListCard(
@@ -46,8 +48,8 @@ fun ClassroomListCard(
         ) {
             Box(
                 modifier = Modifier
-                    .padding(8.dp)
                     .clickable { onClick.invoke() }
+                    .padding(top = 8.dp, bottom = 8.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -513,6 +515,72 @@ fun StudyCard(
                         fontSize = 12.sp,
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun MeetingCard(
+    modifier: Modifier = Modifier,
+    meeting: Meeting,
+    onClick: (Meeting) -> Unit
+) {
+    with(meeting) {
+        val status = date?.time ?: 0 > Date().time
+        val meetingStatus = if (status) "Active" else "Passive"
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(modifier),
+            elevation = 4.dp
+        ) {
+            Column(
+                modifier = Modifier
+                    .clickable(onClick = { onClick(meeting) }, enabled = status)
+                    .padding(8.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "${classroom?.name} - ${classroom?.lesson}",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    date?.let {
+                        Text(
+                            text = it.string,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Teacher - ${user?.name}",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Duration - $duration min",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+                Text(
+                    modifier = Modifier.align(Alignment.End),
+                    text = "Status - $meetingStatus",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light
+                )
             }
         }
     }

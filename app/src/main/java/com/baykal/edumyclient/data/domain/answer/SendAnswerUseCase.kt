@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.data.domain.answers
+package com.baykal.edumyclient.data.domain.answer
 
 import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseResult

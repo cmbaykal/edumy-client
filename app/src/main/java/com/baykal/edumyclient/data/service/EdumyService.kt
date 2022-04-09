@@ -5,6 +5,8 @@ import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
+import com.baykal.edumyclient.data.model.meeting.request.MeetingBody
+import com.baykal.edumyclient.data.model.meeting.response.Meeting
 import com.baykal.edumyclient.data.model.question.Question
 import com.baykal.edumyclient.data.model.study.request.StudyBody
 import com.baykal.edumyclient.data.model.study.response.Study
@@ -197,5 +199,19 @@ interface EdumyService {
     ): BaseResult<ApiResponse<UsageData>>
 
     // endregion
+
+    // region Meetings
+
+    @POST("/meeting/schedule")
+    suspend fun scheduleMeeting(
+        @Body meetingBody: MeetingBody
+    ): BaseResult<ApiResponse<Unit>>
+
+    @POST("/meeting/user")
+    suspend fun getUserMeetings(
+        @Query("userId") userId: String
+    ): BaseResult<ApiResponse<MutableList<Meeting>>>
+
+    // endregion Meetings
 
 }

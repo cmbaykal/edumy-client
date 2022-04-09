@@ -3,7 +3,13 @@
 package com.baykal.edumyclient.base.component
 
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.*
@@ -119,32 +125,78 @@ fun EDialog(
 @Composable
 fun EDatePicker(
     onChange: (Date) -> Unit,
+    timeEnabled: Boolean = false
 ) {
+    var firstState by remember { mutableStateOf(true) }
+    val animationTime = 300
+
     var date by remember { mutableStateOf(Date()) }
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = date.time
 
     onChange(date)
 
-    AndroidView(
-        {
-            DatePicker(ContextThemeWrapper(it, R.style.DatePicker))
-        },
-        modifier = Modifier.wrapContentSize(),
-        update = { picker ->
-            picker.init(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ) { _, year, month, day ->
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.YEAR, year)
-                date = Date(calendar.timeInMillis)
-                onChange(date)
-            }
+    BoxWithConstraints {
+        AnimatedVisibility(
+            visible = firstState,
+            exit = slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = tween(
+                    durationMillis = animationTime,
+                    easing = LinearEasing
+                )
+            )
+        ) {
+            AndroidView(
+                factory = { DatePicker(ContextThemeWrapper(it, R.style.PickerDialogStyle)) },
+                modifier = Modifier.wrapContentSize(),
+                update = { picker ->
+                    picker.init(
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                    ) { _, year, month, day ->
+                        calendar.set(Calendar.DAY_OF_MONTH, day)
+                        calendar.set(Calendar.MONTH, month)
+                        calendar.set(Calendar.YEAR, year)
+                        if (timeEnabled) {
+                            firstState = false
+                        } else {
+                            date = Date(calendar.timeInMillis)
+                            onChange(date)
+                        }
+                    }
+                }
+            )
         }
-    )
+
+        AnimatedVisibility(
+            visible = !firstState,
+            enter = slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = tween(
+                    durationMillis = animationTime,
+                    easing = LinearEasing
+                )
+            ),
+        ) {
+            AndroidView(
+                factory = { TimePicker(ContextThemeWrapper(it, R.style.PickerDialogStyle)) },
+                modifier = Modifier.wrapContentSize(),
+                update = { picker ->
+                    picker.setIs24HourView(true)
+                    picker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+                    picker.minute = calendar.get(Calendar.MINUTE)
+                    picker.setOnTimeChangedListener { _, hourOfDay, minute ->
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        calendar.set(Calendar.MINUTE, minute)
+                        date = Date(calendar.timeInMillis)
+                        onChange(date)
+                    }
+                }
+            )
+        }
+    }
 }
 
 @Composable
