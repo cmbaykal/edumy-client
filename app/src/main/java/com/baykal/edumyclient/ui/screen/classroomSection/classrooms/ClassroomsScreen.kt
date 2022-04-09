@@ -48,19 +48,17 @@ fun ClassroomsScreen(
                     onChange = viewModel::filterClasses,
                     onAction = { viewModel.filterClasses() }
                 )
-                classrooms?.let {
-                    EList(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 10.dp),
-                        swipeRefresh = true,
-                        onRefresh = viewModel::getClassrooms,
-                        items = it,
-                    ) { classroom ->
-                        ClassroomListCard(classroom = classroom) {
-                            classroom.id?.let { classId ->
-                                viewModel.navigate(ClassroomDetailRoute.get(classId))
-                            }
+                EList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp),
+                    swipeRefresh = true,
+                    onRefresh = viewModel::getClassrooms,
+                    listItems = classrooms,
+                ) { classroom ->
+                    ClassroomListCard(classroom = classroom) {
+                        classroom.id?.let { classId ->
+                            viewModel.navigate(ClassroomDetailRoute.get(classId))
                         }
                     }
                 }

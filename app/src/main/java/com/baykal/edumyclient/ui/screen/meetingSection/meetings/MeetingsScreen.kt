@@ -42,30 +42,28 @@ fun MeetingsScreen(
             }
         ) {
             Column {
-                meetings?.let {
-                    EList(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 10.dp),
-                        swipeRefresh = true,
-                        onRefresh = viewModel::fetchData,
-                        items = it
-                    ) { item ->
-                        MeetingCard(
-                            modifier = Modifier.padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                                top = 6.dp,
-                                bottom = 6.dp
-                            ),
-                            meeting = item,
-                            onClick = {
-                                val intent = Intent(context, MeetingActivity::class.java)
-                                intent.putExtra("meeting", item)
-                                context.startActivity(intent)
-                            }
-                        )
-                    }
+                EList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp),
+                    swipeRefresh = true,
+                    onRefresh = viewModel::fetchData,
+                    listItems = meetings
+                ) { item ->
+                    MeetingCard(
+                        modifier = Modifier.padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 6.dp,
+                            bottom = 6.dp
+                        ),
+                        meeting = item,
+                        onClick = {
+                            val intent = Intent(context, MeetingActivity::class.java)
+                            intent.putExtra("meeting", item)
+                            context.startActivity(intent)
+                        }
+                    )
                 }
             }
         }

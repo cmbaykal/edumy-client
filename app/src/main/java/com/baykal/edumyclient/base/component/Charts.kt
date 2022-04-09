@@ -78,7 +78,7 @@ fun PieChart(
                 }
                 EList(
                     modifier = Modifier.padding(start = 10.dp),
-                    items = data
+                    listItems = data
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically

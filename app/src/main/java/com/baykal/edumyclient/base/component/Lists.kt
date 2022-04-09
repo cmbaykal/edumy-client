@@ -98,7 +98,7 @@ fun <T> EList(
     onLoadMore: () -> Unit = {},
     loadMoreContent: @Composable () -> Unit = {},
     endContent: @Composable () -> Unit = {},
-    items: List<T> = mutableListOf(),
+    listItems: List<T>? = null,
     itemContent: @Composable (item: T) -> Unit
 ) {
     val scrollEndState by remember {
@@ -126,14 +126,16 @@ fun <T> EList(
                 modifier = modifier,
                 state = scrollState
             ) {
-                items(items) { item ->
-                    itemContent.invoke(item)
-                }
-                item {
-                    if (scrollEndState && loadMore) {
-                        loadMoreContent()
-                    } else if (!loadMore) {
-                        endContent()
+                listItems?.let {
+                    items(listItems) { item ->
+                        itemContent.invoke(item)
+                    }
+                    item {
+                        if (scrollEndState && loadMore) {
+                            loadMoreContent()
+                        } else if (!loadMore) {
+                            endContent()
+                        }
                     }
                 }
             }
@@ -142,14 +144,16 @@ fun <T> EList(
                 modifier = modifier,
                 state = scrollState
             ) {
-                items(items) { item ->
-                    itemContent.invoke(item)
-                }
-                item {
-                    if (scrollEndState && loadMore) {
-                        loadMoreContent()
-                    } else if (!loadMore) {
-                        endContent()
+                listItems?.let {
+                    items(listItems) { item ->
+                        itemContent.invoke(item)
+                    }
+                    item {
+                        if (scrollEndState && loadMore) {
+                            loadMoreContent()
+                        } else if (!loadMore) {
+                            endContent()
+                        }
                     }
                 }
             }

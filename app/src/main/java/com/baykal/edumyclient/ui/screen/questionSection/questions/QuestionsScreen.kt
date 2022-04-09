@@ -1,6 +1,7 @@
 package com.baykal.edumyclient.ui.screen.questionSection.questions
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -51,29 +52,31 @@ fun QuestionsScreen(
             }
         ) {
             Column {
-                userRole?.let {
-                    ETabRow(data = lessonItems, onSelect = {
-                        viewModel.filterQuestions(it)
-                        coroutineScope.launch {
-                            scrollState.scrollToItem(0)
-                        }
-                    })
-                }
-                questions?.let {
-                    EList(
-                        modifier = Modifier.padding(top = 10.dp),
-                        scrollState = scrollState,
-                        swipeRefresh = true,
-                        onRefresh = viewModel::fetchQuestions,
-                        loadMore = isMoreData,
-                        onLoadMore = viewModel::getQuestions,
-                        endContent = { EndComponent() },
-                        items = it
-                    ) { item ->
-                        QuestionListCard(question = item) {
-                            item.id?.let { questionId ->
-                                viewModel.navigate(QuestionDetailRoute.get(questionId))
+                if (!questions.isNullOrEmpty()) {
+                    userRole?.let {
+                        ETabRow(data = lessonItems, onSelect = {
+                            viewModel.filterQuestions(it)
+                            coroutineScope.launch {
+                                scrollState.scrollToItem(0)
                             }
+                        })
+                    }
+                }
+                EList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 10.dp),
+                    scrollState = scrollState,
+                    swipeRefresh = true,
+                    onRefresh = viewModel::fetchQuestions,
+                    loadMore = isMoreData,
+                    onLoadMore = viewModel::getQuestions,
+                    endContent = { EndComponent() },
+                    listItems = questions
+                ) { item ->
+                    QuestionListCard(question = item) {
+                        item.id?.let { questionId ->
+                            viewModel.navigate(QuestionDetailRoute.get(questionId))
                         }
                     }
                 }

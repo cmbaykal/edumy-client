@@ -27,32 +27,30 @@ fun AnswersScreen(
             }
         }
 
-        answers?.let { list ->
-            EList(
-                modifier = Modifier.fillMaxSize(),
-                swipeRefresh = true,
-                onRefresh = { viewModel.getAnswers(true) },
-                items = list
-            ) {
-                AnswerCard(
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 6.dp, top = 6.dp),
-                    userId = userId.toString(),
-                    answer = it,
-                    onUpVote = {
-                        viewModel.upVoteAnswer(it)
-                    },
-                    onDownVote = {
-                        viewModel.downVoteAnswer(it)
-                    },
-                    onProfileClick = {
-                        viewModel.navigate(ProfileRoute.get(userId.toString()))
-                    },
-                    onImageClick = { uri ->
-                        viewModel.setImageUri(uri)
-                    }
-                ) { questionId ->
-                    viewModel.navigate(QuestionDetailRoute.get(questionId))
+        EList(
+            modifier = Modifier.fillMaxSize(),
+            swipeRefresh = true,
+            onRefresh = { viewModel.getAnswers(true) },
+            listItems = answers
+        ) {
+            AnswerCard(
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 6.dp, top = 6.dp),
+                userId = userId.toString(),
+                answer = it,
+                onUpVote = {
+                    viewModel.upVoteAnswer(it)
+                },
+                onDownVote = {
+                    viewModel.downVoteAnswer(it)
+                },
+                onProfileClick = {
+                    viewModel.navigate(ProfileRoute.get(userId.toString()))
+                },
+                onImageClick = { uri ->
+                    viewModel.setImageUri(uri)
                 }
+            ) { questionId ->
+                viewModel.navigate(QuestionDetailRoute.get(questionId))
             }
         }
 

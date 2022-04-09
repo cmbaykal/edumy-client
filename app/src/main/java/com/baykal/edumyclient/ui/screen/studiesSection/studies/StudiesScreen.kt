@@ -1,9 +1,6 @@
 package com.baykal.edumyclient.ui.screen.studiesSection.studies
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -47,7 +44,7 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
             }
         ) {
             Column(
-                modifier = Modifier.padding(top = 20.dp),
+                modifier = Modifier
             ) {
                 if (!studies.isNullOrEmpty()) {
                     val chartData = listOf(
@@ -82,27 +79,29 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                                 scrollState.scrollToItem(0)
                             }
                         })
-                    EList(
-                        modifier = Modifier.padding(
+                }
+                EList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
                             start = 20.dp,
                             end = 20.dp,
                             top = 10.dp
                         ),
-                        scrollState = scrollState,
-                        swipeRefresh = true,
-                        onRefresh = viewModel::fetchStudies,
-                        items = studies
-                    ) { item ->
-                        StudyCard(
-                            modifier = Modifier.padding(
-                                start = 10.dp,
-                                end = 10.dp,
-                                top = 6.dp,
-                                bottom = 6.dp
-                            ),
-                            study = item
-                        )
-                    }
+                    scrollState = scrollState,
+                    swipeRefresh = true,
+                    onRefresh = viewModel::fetchStudies,
+                    listItems = studies
+                ) { item ->
+                    StudyCard(
+                        modifier = Modifier.padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 6.dp,
+                            bottom = 6.dp
+                        ),
+                        study = item
+                    )
                 }
             }
         }
