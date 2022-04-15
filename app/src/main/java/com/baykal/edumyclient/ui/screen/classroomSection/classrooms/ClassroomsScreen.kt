@@ -40,10 +40,17 @@ fun ClassroomsScreen(
                 }
             }
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp
+                    )
+            ) {
                 ESearchView(
                     modifier = Modifier.padding(top = 10.dp),
-                    label = "Search Classroom",
+                    placeHolder = "Search Classroom",
                     value = searchText,
                     onChange = viewModel::filterClasses,
                     onAction = { viewModel.filterClasses() }

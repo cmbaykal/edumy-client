@@ -66,6 +66,7 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                     )
                     PieChart(
                         modifier = Modifier
+                            .padding(top = 20.dp)
                             .fillMaxWidth()
                             .height(150.dp),
                         data = chartData

@@ -91,9 +91,11 @@ fun EdumyBottomBar(
             backgroundColor = Color.White,
         ) {
             items.forEach { item ->
+                val selected = currentLabel?.equals(item.title) == true
+
                 BottomNavigationItem(
-                    alwaysShowLabel = currentLabel?.equals(item.title) == true,
-                    selected = currentLabel?.equals(item.title) == true,
+                    alwaysShowLabel = selected,
+                    selected = selected,
                     selectedContentColor = Orange,
                     unselectedContentColor = OrangeVariant,
                     icon = { Icon(item.icon, contentDescription = item.title) },

@@ -65,7 +65,11 @@ fun QuestionsScreen(
                 EList(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 10.dp),
+                        .padding(
+                            start = 20.dp,
+                            end = 20.dp,
+                            top = 10.dp
+                        ),
                     scrollState = scrollState,
                     swipeRefresh = true,
                     onRefresh = viewModel::fetchQuestions,

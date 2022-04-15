@@ -41,7 +41,14 @@ fun MeetingsScreen(
                 }
             }
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp
+                    )
+            ) {
                 EList(
                     modifier = Modifier
                         .fillMaxSize()
