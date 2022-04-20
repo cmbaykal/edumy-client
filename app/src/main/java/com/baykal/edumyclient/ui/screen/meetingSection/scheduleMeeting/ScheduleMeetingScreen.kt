@@ -70,7 +70,8 @@ fun ScheduleMeetingScreen(
                     )
                 }
                 EDropDown(
-                    label = "Duration (Minutes)",
+                    label = stringResource(id = R.string.meeting_duration_hint),
+                    itemSuffix = stringResource(id = R.string.meeting_duration_suffix_text),
                     items = durationItems,
                     selected = duration.text,
                     onChange = viewModel::setDuration

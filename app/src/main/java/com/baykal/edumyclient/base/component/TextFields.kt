@@ -361,6 +361,8 @@ fun EDialogField(
 fun EDropDown(
     label: String,
     items: MutableList<String>,
+    itemPrefix: String = "",
+    itemSuffix: String = "",
     selected: String? = null,
     onChange: (InputState) -> Unit
 ) {
@@ -416,12 +418,14 @@ fun EDropDown(
             onDismissRequest = { expanded = false }
         ) {
             items.forEach {
+                val string = "$itemPrefix $it $itemSuffix".trim()
+
                 DropdownMenuItem(onClick = {
-                    text = it
+                    text = string
                     onChange.invoke(InputState(it, true))
                     expanded = false
                 }) {
-                    Text(text = it)
+                    Text(text = string)
                 }
             }
         }
