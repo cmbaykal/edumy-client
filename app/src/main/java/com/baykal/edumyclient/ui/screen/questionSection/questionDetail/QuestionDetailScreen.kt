@@ -10,15 +10,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ImageDialog
 import com.baykal.edumyclient.ui.component.AnswerCard
 import com.baykal.edumyclient.ui.component.ProfileCardCompact
 import com.baykal.edumyclient.ui.component.QuestionCard
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
-import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.SendAnswerRoute
+import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.WriteAnswerRoute
 
 @Composable
 fun QuestionDetailScreen(
@@ -42,19 +44,32 @@ fun QuestionDetailScreen(
             ) {
                 question.user?.let { user ->
                     ProfileCardCompact(
-                        modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp),
+                        modifier = Modifier.padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 10.dp
+                        ),
                         user = user
                     ) {
                         viewModel.navigate(ProfileRoute.get(it))
                     }
                 }
                 QuestionCard(
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 12.dp),
+                    modifier = Modifier.padding(
+                        start = 10.dp,
+                        end = 10.dp,
+                        top = 12.dp
+                    ),
                     question = question
                 )
                 Row(
                     modifier = Modifier
-                        .padding(start = 10.dp, end = 10.dp, top = 12.dp, bottom = 6.dp)
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 12.dp,
+                            bottom = 6.dp
+                        )
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -64,7 +79,7 @@ fun QuestionDetailScreen(
                             .fillMaxWidth()
                             .weight(0.4f),
                         shape = RoundedCornerShape(50.dp),
-                        text = "Answers",
+                        text = stringResource(id = R.string.answers_screen),
                         textSize = 12.sp
                     ) {
                         question.id?.let {
@@ -77,17 +92,22 @@ fun QuestionDetailScreen(
                             .fillMaxWidth()
                             .weight(0.4f),
                         shape = RoundedCornerShape(50.dp),
-                        text = "Write Answer",
+                        text = stringResource(id = R.string.write_answer_button),
                         textSize = 12.sp
                     ) {
                         question.id?.let {
-                            viewModel.navigate(SendAnswerRoute.get(it))
+                            viewModel.navigate(WriteAnswerRoute.get(it))
                         }
                     }
                 }
                 answers.forEach {
                     AnswerCard(
-                        modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 6.dp, top = 6.dp),
+                        modifier = Modifier.padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            bottom = 6.dp,
+                            top = 6.dp
+                        ),
                         userId = userId.toString(),
                         answer = it,
                         onUpVote = {

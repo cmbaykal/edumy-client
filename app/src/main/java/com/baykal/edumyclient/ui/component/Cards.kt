@@ -10,10 +10,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.EImage
 import com.baykal.edumyclient.base.extension.string
@@ -33,6 +36,8 @@ fun ClassroomListCard(
     classroom: Classroom,
     onClick: () -> Unit
 ) {
+    val resources = LocalContext.current.resources
+
     with(classroom) {
         Card(
             modifier = Modifier
@@ -49,7 +54,10 @@ fun ClassroomListCard(
             Box(
                 modifier = Modifier
                     .clickable { onClick.invoke() }
-                    .padding(top = 8.dp, bottom = 8.dp)
+                    .padding(
+                        top = 8.dp,
+                        bottom = 8.dp
+                    )
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -69,10 +77,12 @@ fun ClassroomListCard(
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         )
-                        Text(
-                            text = classSize,
-                            fontSize = 12.sp
-                        )
+                        users?.size?.minus(1)?.let {
+                            Text(
+                                text = resources.getQuantityString(R.plurals.classroom_size_text, it, it),
+                                fontSize = 12.sp
+                            )
+                        }
                     }
                 }
                 Icon(
@@ -100,9 +110,7 @@ fun ProfileCard(
                 start = 40.dp,
                 end = 40.dp
             )
-            .then(
-                modifier
-            ),
+            .then(modifier),
         elevation = 8.dp
     ) {
         Box {
@@ -176,13 +184,11 @@ fun ProfileCardCompact(
             }
         ) {
             Row(
-                modifier = Modifier
-                    .padding(6.dp),
+                modifier = Modifier.padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier
-                        .size(40.dp),
+                    modifier = Modifier.size(40.dp),
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Gray,
                     contentDescription = ""
@@ -461,7 +467,7 @@ fun StudyCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Lesson - $lesson",
+                        text = stringResource(id = R.string.lesson_text, lesson.toString()),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -528,7 +534,7 @@ fun MeetingCard(
 ) {
     with(meeting) {
         val status = date?.time ?: 0 > Date().time
-        val meetingStatus = if (status) "Active" else "Passive"
+        val meetingStatus = if (status) R.string.active_text else R.string.passive_text
 
         Card(
             modifier = Modifier
@@ -565,19 +571,19 @@ fun MeetingCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Teacher - ${user?.name}",
+                        text = stringResource(id = R.string.teacher_text, user?.name.toString()),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Duration - $duration min",
+                        text = stringResource(id = R.string.duration_text, duration),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light
                     )
                 }
                 Text(
                     modifier = Modifier.align(Alignment.End),
-                    text = "Status - $meetingStatus",
+                    text = stringResource(id = R.string.status_text, meetingStatus),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light
                 )

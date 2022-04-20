@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.EDropDown
 import com.baykal.edumyclient.base.component.ETextField
@@ -36,28 +38,27 @@ fun SendStudyScreen(
             verticalArrangement = Arrangement.Center
         ) {
             EDropDown(
-                label = "Lesson",
+                label = stringResource(R.string.lesson_hint),
                 items = lessonItems,
                 selected = lesson.text,
                 onChange = viewModel::setLesson
             )
             ETextField(
-                label = "Correct Answers",
+                label = stringResource(id = R.string.correct_answers_text),
                 onChange = viewModel::setCorrectAnswers,
                 success = { it.isNotEmpty() },
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             )
             ETextField(
-                label = "Wrong Answers",
+                label = stringResource(id = R.string.wrong_answers_text),
                 onChange = viewModel::setWrongAnswers,
                 success = { it.isNotEmpty() },
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             )
             ETextField(
-                label = "Empty Answers",
-                value = "0",
+                label = stringResource(id = R.string.empty_questions_text),
                 onChange = viewModel::setEmptyQuestions,
                 success = { it.isNotEmpty() },
                 keyboardType = KeyboardType.Number,
@@ -69,7 +70,7 @@ fun SendStudyScreen(
                     .padding(8.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Send Study"
+                text = stringResource(id = R.string.send_study_button)
             ) {
                 viewModel.sendStudy()
             }

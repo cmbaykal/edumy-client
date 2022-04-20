@@ -19,7 +19,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class SendAnswerViewModel @Inject constructor(
+class WriteAnswerViewModel @Inject constructor(
     private val application: Application,
     private val session: EdumySession,
     private val sendAnswerUseCase: SendAnswerUseCase
@@ -27,7 +27,7 @@ class SendAnswerViewModel @Inject constructor(
 
     private var questionId: String? = null
 
-    private val _uiState = MutableStateFlow(SendAnswerState())
+    private val _uiState = MutableStateFlow(WriteAnswerState())
     val uiState = _uiState.asStateFlow()
 
 

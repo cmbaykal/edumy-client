@@ -9,10 +9,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ETabRow
@@ -31,7 +33,7 @@ fun QuestionsScreen(
     val viewState by viewModel.uiState.collectAsState()
     val scrollState = rememberLazyListState()
 
-    val lessonItems = mutableListOf("All")
+    val lessonItems = mutableListOf(stringResource(id = R.string.all_text))
     enumValues<Lesson>().forEach {
         lessonItems.add(it.lessonName)
     }
@@ -98,7 +100,7 @@ fun EndComponent() {
                 top = 14.dp,
                 bottom = 14.dp
             ),
-        text = "No more questions",
+        text = stringResource(id = R.string.no_more_questions_text),
         textAlign = TextAlign.Center,
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold

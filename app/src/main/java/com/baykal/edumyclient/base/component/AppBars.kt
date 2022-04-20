@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -29,7 +31,7 @@ import com.baykal.edumyclient.ui.menu.MenuItem
 @Composable
 fun EdumyToolbar(
     navHostController: NavHostController = rememberNavController(),
-    title: String = "Toolbar",
+    title: String = stringResource(id = R.string.default_toolbar_title),
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
     topLevelScreen: Set<String> = setOf(),
     menuIcon: ImageVector? = null,
@@ -86,22 +88,22 @@ fun EdumyBottomBar(
     with(navHostController) {
         val navBackStackEntry by currentBackStackEntryAsState()
         val currentLabel = navBackStackEntry?.destination?.label
-
         BottomNavigation(
             backgroundColor = Color.White,
         ) {
             items.forEach { item ->
-                val selected = currentLabel?.equals(item.title) == true
+                val title = stringResource(id = item.title)
+                val selected = currentLabel?.equals(title) == true
 
                 BottomNavigationItem(
                     alwaysShowLabel = selected,
                     selected = selected,
                     selectedContentColor = Orange,
                     unselectedContentColor = OrangeVariant,
-                    icon = { Icon(item.icon, contentDescription = item.title) },
+                    icon = { Icon(item.icon, contentDescription = title) },
                     label = {
                         Text(
-                            text = item.title,
+                            text = title,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold
                         )

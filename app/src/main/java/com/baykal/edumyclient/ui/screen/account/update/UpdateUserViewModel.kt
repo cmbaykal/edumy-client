@@ -7,8 +7,8 @@ import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.preference.withUserId
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.account.ChangePasswordUseCase
-import com.baykal.edumyclient.data.domain.account.UserInformationUseCase
 import com.baykal.edumyclient.data.domain.account.UpdateUserUseCase
+import com.baykal.edumyclient.data.domain.account.UserInformationUseCase
 import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
 import com.toxicbakery.bcrypt.Bcrypt

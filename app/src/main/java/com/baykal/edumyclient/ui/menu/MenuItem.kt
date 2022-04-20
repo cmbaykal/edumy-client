@@ -10,7 +10,7 @@ import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
 import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 
 sealed class MenuItem(
-    var title: String,
+    var title: Int,
     var icon: ImageVector,
     var route: String
 ) {

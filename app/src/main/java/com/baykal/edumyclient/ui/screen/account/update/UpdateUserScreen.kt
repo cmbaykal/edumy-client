@@ -6,8 +6,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 
 @Composable
@@ -39,15 +41,16 @@ fun UpdateUserScreen(
                 verticalArrangement = Arrangement.Center,
             ) {
                 ETextField(
-                    label = "Name",
+                    label = stringResource(id = R.string.name_hint),
                     value = it.name.toString(),
                     onChange = viewModel::setName,
                     success = { it.length in 3..30 },
                     imeAction = ImeAction.Next
                 )
                 ETextField(
-                    label = "Biography",
+                    label = stringResource(id = R.string.biography_hint),
                     value = it.bio ?: "",
+                    maxLines = 4,
                     onChange = viewModel::setBio,
                     success = { true },
                     imeAction = ImeAction.Next
@@ -57,11 +60,11 @@ fun UpdateUserScreen(
                         .padding(8.dp)
                         .fillMaxWidth()
                         .height(40.dp),
-                    text = "Update"
+                    text = stringResource(id = R.string.update_button)
                 ) {
                     viewModel.updateUser()
                 }
-                ETextButton(text = "Change User Password") {
+                ETextButton(text = stringResource(id = R.string.change_password_button)) {
                     passDialogState = true
                 }
             }
@@ -83,13 +86,13 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
     val negativeButton = DialogButton("Cancel", onClick = onDismiss)
 
     EDialog(
-        title = "Change Password",
+        title = stringResource(id = R.string.change_password_dialog_title),
         positiveButton = positiveButton,
         negativeButton = negativeButton
     ) {
         ETextField(
             modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            label = "Current Password",
+            label = stringResource(id = R.string.current_password_hint),
             onChange = viewModel::setOldPass,
             success = { it.length in 8..16 },
             passwordToggle = true,
@@ -97,7 +100,7 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
         )
         ETextField(
             modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            label = "New Password",
+            label = stringResource(id = R.string.new_password_hint),
             onChange = viewModel::setPass,
             success = { it.length in 8..16 },
             passwordToggle = true,
@@ -105,7 +108,7 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
         )
         ETextField(
             modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            label = "New Confirm Password",
+            label = stringResource(id = R.string.confirm_new_password_hint),
             onChange = viewModel::setPassConfirm,
             success = { viewModel.checkPassword(it) },
             passwordToggle = true,

@@ -5,12 +5,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.nav.NavRoute
 
 object MeetingsRoute : NavRoute<MeetingsViewModel> {
     const val USER_ID = "userId"
 
-    override val title = "Meetings"
+    override val title = R.string.meetings_screen
     override val route = "meetings?userId={${USER_ID}}"
 
     override fun bottomBarVisibility() = true

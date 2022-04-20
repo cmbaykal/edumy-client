@@ -9,7 +9,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ESearchView
@@ -50,7 +52,7 @@ fun ClassroomsScreen(
             ) {
                 ESearchView(
                     modifier = Modifier.padding(top = 10.dp),
-                    placeHolder = "Search Classroom",
+                    placeHolder = stringResource(id = R.string.search_classroom_hint),
                     value = searchText,
                     onChange = viewModel::filterClasses,
                     onAction = { viewModel.filterClasses() }

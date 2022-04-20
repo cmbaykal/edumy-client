@@ -5,7 +5,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.base.ui.theme.Purple
@@ -18,12 +20,11 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun StudiesScreen(viewModel: StudiesViewModel) {
-
     val viewState by viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberLazyListState()
 
-    val lessonItems = mutableListOf("All")
+    val lessonItems = mutableListOf(stringResource(id = R.string.all_text))
     enumValues<Lesson>().forEach {
         lessonItems.add(it.lessonName)
     }
@@ -49,17 +50,17 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                 if (!studies.isNullOrEmpty()) {
                     val chartData = listOf(
                         ChartData(
-                            identifier = "Correct Answers",
+                            identifier = stringResource(id = R.string.correct_answers_text),
                             point = studies.sumOf { it.correctA.toString().toInt() },
                             color = Orange
                         ),
                         ChartData(
-                            "Wrong Answers",
+                            identifier = stringResource(id = R.string.wrong_answers_text),
                             point = studies.sumOf { it.wrongA.toString().toInt() },
                             color = Red
                         ),
                         ChartData(
-                            "Empty Questions",
+                            identifier = stringResource(id = R.string.empty_questions_text),
                             point = studies.sumOf { it.emptyQ.toString().toInt() },
                             color = Purple
                         )

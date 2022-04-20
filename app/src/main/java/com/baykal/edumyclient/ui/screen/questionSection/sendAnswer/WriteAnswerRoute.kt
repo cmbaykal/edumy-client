@@ -5,12 +5,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.nav.NavRoute
 
-object SendAnswerRoute : NavRoute<SendAnswerViewModel> {
+object WriteAnswerRoute : NavRoute<WriteAnswerViewModel> {
     const val QUESTION_ID = "questionId"
 
-    override val title = "Answer Question"
+    override val title = R.string.answer_question_screen
     override val route = "question/answer/{$QUESTION_ID}"
 
     fun get(questionId: String) = route.replace("{${QUESTION_ID}}", questionId)
@@ -25,10 +26,10 @@ object SendAnswerRoute : NavRoute<SendAnswerViewModel> {
     override fun topBarVisibility() = true
 
     @Composable
-    override fun Content(viewModel: SendAnswerViewModel) {
-        SendAnswerScreen(viewModel)
+    override fun Content(viewModel: WriteAnswerViewModel) {
+        WriteAnswerScreen(viewModel)
     }
 
     @Composable
-    override fun viewModel(): SendAnswerViewModel = hiltViewModel()
+    override fun viewModel(): WriteAnswerViewModel = hiltViewModel()
 }

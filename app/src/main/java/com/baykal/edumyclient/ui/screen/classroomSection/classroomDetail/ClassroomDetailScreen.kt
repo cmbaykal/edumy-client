@@ -17,6 +17,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.GrayLight
@@ -110,7 +113,7 @@ fun ClassroomDetailScreen(
                         )
                 ) {
                     ScreenButton(
-                        text = "Questions",
+                        text = stringResource(id = R.string.questions_screen),
                         icon = Icons.Filled.QuestionAnswer
                     ) {
                         it.id?.let { classId ->
@@ -118,7 +121,7 @@ fun ClassroomDetailScreen(
                         }
                     }
                     ScreenButton(
-                        text = "Answers",
+                        text = stringResource(id = R.string.answers_screen),
                         icon = Icons.Filled.RateReview
                     ) {
                         it.id?.let { classId ->
@@ -128,14 +131,14 @@ fun ClassroomDetailScreen(
                     it.id?.let { classId ->
                         if (!owner) {
                             ScreenButton(
-                                text = "Leave Classroom",
+                                text = stringResource(id = R.string.leave_classroom_button),
                                 icon = Icons.Filled.ExitToApp
                             ) {
                                 viewModel.leaveClassroom(classId)
                             }
                         } else if (classroom.users?.size == 1) {
                             ScreenButton(
-                                text = "Delete Classroom",
+                                text = stringResource(id = R.string.delete_classroom_button),
                                 icon = Icons.Filled.RemoveCircle
                             ) {
                                 viewModel.deleteClassroom(classId)
@@ -161,48 +164,63 @@ fun ClassroomCard(
     modifier: Modifier = Modifier,
     classroom: Classroom
 ) {
-    Card(
-        modifier = Modifier
-            .padding(
-                start = 40.dp,
-                end = 40.dp
-            )
-            .then(
-                modifier
-            ),
-        shape = RoundedCornerShape(10.dp),
-        elevation = 8.dp
-    ) {
-        Box {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(top = 20.dp)
-                        .size(60.dp),
-                    imageVector = Icons.Filled.Class,
-                    tint = Gray,
-                    contentDescription = ""
+    val resources = LocalContext.current.resources
+
+    with(classroom){
+        Card(
+            modifier = Modifier
+                .padding(
+                    start = 40.dp,
+                    end = 40.dp
                 )
-                Text(
-                    modifier = Modifier.padding(top = 10.dp),
-                    text = classroom.name.toString(),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Lesson - ${classroom.lesson.toString()}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
-                )
-                Text(
-                    modifier = Modifier.padding(bottom = 20.dp),
-                    text = classroom.classSize,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
-                )
+                .then(
+                    modifier
+                ),
+            shape = RoundedCornerShape(10.dp),
+            elevation = 8.dp
+        ) {
+            Box {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .size(60.dp),
+                        imageVector = Icons.Filled.Class,
+                        tint = Gray,
+                        contentDescription = ""
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 10.dp),
+                        text = name.toString(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    val teacherName = users?.first()?.name.toString()
+                    Text(
+                        text = stringResource(id = R.string.teacher_text, teacherName),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                    Text(
+                        text = stringResource(
+                            id = R.string.lesson_text,
+                            lesson.toString()
+                        ),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                    users?.size?.minus(1)?.let {
+                        Text(
+                            modifier = Modifier.padding(bottom = 20.dp),
+                            text = resources.getQuantityString(R.plurals.classroom_size_text, it, it),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                }
             }
         }
     }
@@ -242,7 +260,7 @@ fun StudentsComponent(
                                 top = 15.dp,
                                 bottom = 15.dp,
                             ),
-                        text = "Students",
+                        text = stringResource(id = R.string.students_button),
                         textAlign = TextAlign.Start,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -307,20 +325,20 @@ fun AssignDialog(
     onClick: (InputState) -> Unit
 ) {
     var inputState by remember { mutableStateOf(InputState()) }
-    val positiveButton = DialogButton("Assign") {
+    val positiveButton = DialogButton(stringResource(id = R.string.assign_button)) {
         onClick.invoke(inputState)
     }
-    val negativeButton = DialogButton("Cancel", onClick = onDismiss)
+    val negativeButton = DialogButton(stringResource(id = R.string.cancel_button), onClick = onDismiss)
 
     EDialog(
-        title = "Assign User",
+        title = stringResource(id = R.string.assign_user_dialog_title),
         onDismiss = onDismiss,
         positiveButton = positiveButton,
         negativeButton = negativeButton
     ) {
         ETextField(
             modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-            label = "E-mail",
+            label = stringResource(id = R.string.email_hint),
             onChange = { inputState = it },
             success = { Patterns.EMAIL_ADDRESS.matcher(it).matches() },
             imeAction = ImeAction.Done,

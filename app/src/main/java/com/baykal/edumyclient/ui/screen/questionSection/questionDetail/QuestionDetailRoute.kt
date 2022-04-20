@@ -5,12 +5,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.nav.NavRoute
 
 object QuestionDetailRoute : NavRoute<QuestionDetailViewModel> {
     const val QUESTION_ID = "questionId"
 
-    override val title = "Question Detail"
+    override val title = R.string.question_detail_screen
     override val route = "question/{$QUESTION_ID}"
 
     fun get(questionId: String) = route.replace("{${QUESTION_ID}}", questionId)

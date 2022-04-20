@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -31,6 +30,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +60,7 @@ fun GenericDialog(
         title = { Text(title, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
         text = { Text(message, fontSize = 14.sp) },
         confirmButton = {
-            ETextButton(text = "Tamam") {
+            ETextButton(text = stringResource(id = R.string.okay_button)) {
                 onDismiss.invoke()
             }
         }
@@ -195,53 +195,6 @@ fun EDatePicker(
                     }
                 }
             )
-        }
-    }
-}
-
-@Composable
-fun ETimePicker(
-    date: Date = Date(),
-    onChange: (Date) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = date.time
-
-    onChange(date)
-
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Column {
-                AndroidView(
-                    {
-                        DatePicker(ContextThemeWrapper(it, R.style.DatePicker))
-                    },
-                    modifier = Modifier.wrapContentSize(),
-                    update = { picker ->
-                        picker.init(
-                            calendar.get(Calendar.YEAR),
-                            calendar.get(Calendar.MONTH),
-                            calendar.get(Calendar.DAY_OF_MONTH)
-                        ) { _, year, month, day ->
-                            calendar.set(Calendar.DAY_OF_MONTH, day)
-                            calendar.set(Calendar.MONTH, month)
-                            calendar.set(Calendar.YEAR, year)
-                            onChange(Date(calendar.timeInMillis))
-                        }
-                    }
-                )
-                EButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    text = "Okay"
-                ) {
-                    onDismiss.invoke()
-                }
-            }
         }
     }
 }

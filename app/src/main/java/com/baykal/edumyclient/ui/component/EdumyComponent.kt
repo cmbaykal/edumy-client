@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.base.component.EdumyBottomBar
@@ -32,7 +33,7 @@ import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.askquestion.AskQuestionRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
-import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.SendAnswerRoute
+import com.baykal.edumyclient.ui.screen.questionSection.sendAnswer.WriteAnswerRoute
 import com.baykal.edumyclient.ui.screen.studiesSection.sendStudy.SendStudyRoute
 import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -56,10 +57,10 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                             navHostController = navController,
                             title = mainState.pageTitle,
                             topLevelScreen = setOf(
-                                ClassroomsRoute.title,
-                                QuestionsRoute.BASE_TITLE,
-                                StudiesRoute.title,
-                                MeetingsRoute.title
+                                stringResource(id = ClassroomsRoute.title),
+                                stringResource(id = QuestionsRoute.BASE_TITLE),
+                                stringResource(id = StudiesRoute.title),
+                                stringResource(id = MeetingsRoute.title)
                             ),
                             menuIcon = if (mainState.loggedIn == true) {
                                 Icons.Filled.AccountCircle
@@ -97,7 +98,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     QuestionsRoute.composable(this, navController, state)
                     AskQuestionRoute.composable(this, navController, state)
                     QuestionDetailRoute.composable(this, navController, state)
-                    SendAnswerRoute.composable(this, navController, state)
+                    WriteAnswerRoute.composable(this, navController, state)
                     AnswersRoute.composable(this, navController, state)
                     StudiesRoute.composable(this, navController, state)
                     SendStudyRoute.composable(this, navController, state)

@@ -20,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.util.MediaUtil
 import com.baykal.edumyclient.data.model.classroom.Lesson
@@ -71,13 +73,13 @@ fun AskQuestionScreen(
             verticalArrangement = Arrangement.Center
         ) {
             EDropDown(
-                label = "Lesson",
+                label = stringResource(id = R.string.lesson_hint),
                 items = lessonItems,
                 selected = lesson.text,
                 onChange = viewModel::setLesson
             )
             ETextField(
-                label = "Description",
+                label = stringResource(id = R.string.description_hint),
                 value = description.text,
                 onChange = viewModel::setDescription,
                 success = { it.isNotBlank() },
@@ -104,7 +106,7 @@ fun AskQuestionScreen(
             ) {
                 ECheckbox(
                     modifier = Modifier.weight(8f),
-                    label = "Ask anonymously",
+                    label = stringResource(id = R.string.ask_anonymously_text),
                     onChecked = {
                         viewModel.setAnonymous(it)
                     }
@@ -127,7 +129,7 @@ fun AskQuestionScreen(
                     .padding(8.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Send Question"
+                text = stringResource(id = R.string.send_question_button)
             ) {
                 viewModel.sendQuestion()
             }

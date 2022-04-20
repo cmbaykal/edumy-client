@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ECheckbox
 import com.baykal.edumyclient.base.component.EIconButton
@@ -32,8 +34,8 @@ import com.baykal.edumyclient.base.component.ETextField
 import com.baykal.edumyclient.base.util.MediaUtil
 
 @Composable
-fun SendAnswerScreen(
-    viewModel: SendAnswerViewModel
+fun WriteAnswerScreen(
+    viewModel: WriteAnswerViewModel
 ) {
     val context = LocalContext.current
     val viewState by viewModel.uiState.collectAsState()
@@ -75,7 +77,7 @@ fun SendAnswerScreen(
                 .padding(25.dp)
         ) {
             ETextField(
-                label = "Description",
+                label = stringResource(id = R.string.description_hint),
                 value = description.text,
                 onChange = viewModel::setDescription,
                 success = { it.isNotBlank() },
@@ -102,7 +104,7 @@ fun SendAnswerScreen(
             ) {
                 ECheckbox(
                     modifier = Modifier.weight(8f),
-                    label = "Send anonymously",
+                    label = stringResource(id = R.string.send_anonymously_text),
                     onChecked = {
                         viewModel.setAnonymous(it)
                     }
@@ -131,11 +133,10 @@ fun SendAnswerScreen(
                     .padding(8.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Send Answer"
+                text = stringResource(id = R.string.send_answer_button)
             ) {
                 viewModel.sendAnswer()
             }
         }
     }
-
 }

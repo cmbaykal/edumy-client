@@ -1,10 +1,7 @@
 package com.baykal.edumyclient.base.extension
 
-import androidx.compose.ui.graphics.Color
 import java.text.SimpleDateFormat
 import java.util.*
-
-inline val String.color get() = Color(android.graphics.Color.parseColor(this))
 
 inline val Date.toBirth: String
     get() {

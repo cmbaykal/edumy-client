@@ -1,10 +1,10 @@
 package com.baykal.edumyclient.base.nav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
 
 interface NavRoute<T : BaseViewModel> {
 
-    val title: String
+    val title: Int
 
     val route: String
 
@@ -41,13 +41,13 @@ interface NavRoute<T : BaseViewModel> {
         mainStateFlow: MutableStateFlow<MainState>
     ) {
         builder.composable(route, getArguments()) {
-            it.destination.label = title
+            it.destination.label = stringResource(id = title)
             val viewModel = viewModel()
             val screenState by viewModel.controller.screenState.collectAsState()
 
             mainStateFlow.update { state ->
                 state.copy(
-                    pageTitle = title,
+                    pageTitle = stringResource(id = title),
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility()
                 )
@@ -59,7 +59,6 @@ interface NavRoute<T : BaseViewModel> {
                     screenState,
                     mainStateFlow,
                 )
-                Log.d("EdumyTest", "Screen State : $screenState")
                 viewModel.controller.onStateChanged(screenState)
             }
 

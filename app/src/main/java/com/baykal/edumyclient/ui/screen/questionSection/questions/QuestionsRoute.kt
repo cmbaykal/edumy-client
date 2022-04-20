@@ -5,12 +5,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.nav.NavRoute
 
 object QuestionsRoute : NavRoute<QuestionsViewModel> {
     const val USER_ID = "userId"
     const val CLASS_ID = "classId"
-    const val BASE_TITLE = "Questions"
+    const val BASE_TITLE = R.string.questions_screen
 
     override var title = BASE_TITLE
     override var route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
@@ -21,12 +22,12 @@ object QuestionsRoute : NavRoute<QuestionsViewModel> {
     }
 
     fun userQuestions(userId: String): String {
-        title = "User Questions"
+        title = R.string.user_questions_screen
         return route.replace("{${USER_ID}}", userId)
     }
 
     fun classQuestions(classId: String): String {
-        title = "Classroom Questions"
+        title = R.string.classroom_questions_screen
         return route.replace("{${CLASS_ID}}", classId)
     }
 

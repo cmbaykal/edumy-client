@@ -1,20 +1,132 @@
 <resources>
-    <string name="app_name">Edumy Client</string>
 
+    <string name="app_name">Edumy Mobile</string>
+
+    <!-- region Titles -->
+
+    <string name="default_toolbar_title">Edumy</string>
     <string name="login_screen">Login</string>
     <string name="register_screen">Register</string>
-    <string name="home_screen">Edumy</string>
     <string name="profile_screen">Profile</string>
+    <string name="edit_profile_screen">Edit Profile</string>
     <string name="classrooms_screen">Classrooms</string>
-    <string name="create_class_screen">Create Class</string>
-    <string name="studies_screen">Studies</string>
-    <string name="add_study_screen">Add Study</string>
-    <string name="ask_question_screen">Ask Question</string>
+    <string name="classroom_detail_screen">Classroom Detail</string>
+    <string name="create_classroom_screen">Create Class</string>
+    <string name="questions_screen">Questions</string>
+    <string name="user_questions_screen">User Questions</string>
+    <string name="classroom_questions_screen">Classroom Questions</string>
     <string name="question_detail_screen">Question Detail</string>
-    <string name="questions">Questions</string>
+    <string name="ask_question_screen">Ask Question</string>
+    <string name="answer_question_screen">Answer Question</string>
+    <string name="answers_screen">Answers</string>
+    <string name="user_answers_screen">User Answers</string>
+    <string name="classroom_answers_screen">Classroom Answers</string>
+    <string name="studies_screen">Studies</string>
+    <string name="send_study_screen">Send Study</string>
     <string name="app_usages_screen">App Usages</string>
     <string name="meetings_screen">Meetings</string>
     <string name="schedule_meeting_screen">Schedule Meeting</string>
     <string name="title_activity_test">TestActivity</string>
+
+    <!-- endregion -->
+
+    <!-- General -->
+
+    <string name="name_hint">Name</string>
+    <string name="surname_hint">Surname</string>
+    <string name="email_hint">E-mail</string>
+    <string name="birth_hint">Birth Date</string>
+    <string name="biography_hint">Biography</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="lesson_hint">Select Lesson</string>
+    <string name="classroom_hint">Select Classroom</string>
+    <string name="description_hint">Description</string>
+    <string name="all_text">All</string>
+    <string name="okay_button">Okay</string>
+    <string name="update_button">Update</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="lesson_text">Lesson - %1$s</string>
+    <string name="teacher_text">Teacher - %1$s</string>
+
+    <!-- endregion -->
+
+    <!-- region Screens -->
+
+    <!-- Login Screen -->
+    <string name="login_button">Login</string>
+    <string name="navigate_register_button">Don\'t you have an Edumy account?</string>
+
+    <!-- Register Screen -->
+    <string name="register_as_teacher_checkbox">Register as Teacher</string>
+    <string name="register_button">Register</string>
+
+    <!-- Profile Screen -->
+    <string name="logout_button">Logout</string>
+
+    <!-- Edit Profile Screen -->
+    <string name="change_password_button">Change Password</string>
+    <string name="change_password_dialog_title">Change Password</string>
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="confirm_new_password_hint">Confirm New Password</string>
+
+    <!-- Classrooms Screen -->
+    <string name="search_classroom_hint">Search Classroom</string>
+
+    <!-- Classroom Detail Screen -->
+    <plurals name="classroom_size_text">
+        <item quantity="zero">Empty Classroom</item>
+        <item quantity="other">Size - %1$d</item>
+    </plurals>
+    <string name="assign_user_dialog_title">Assign User</string>
+    <string name="assign_button">Assign</string>
+    <string name="students_button">Students</string>
+    <string name="leave_classroom_button">Leave Classroom</string>
+    <string name="delete_classroom_button">Delete Classroom</string>
+
+    <!-- Create Classroom Screen -->
+    <string name="classroom_name_hint">Classroom Name</string>
+    <string name="create_classroom_button">Create Classroom</string>
+
+    <!-- Questions Screen -->
+    <string name="no_more_questions_text">No more questions</string>
+
+    <!-- Question Detail Screen -->
+    <string name="write_answer_button">Write Answer</string>
+
+    <!-- Ask Question Screen -->
+    <string name="ask_anonymously_text">Ask Anonymously</string>
+    <string name="send_question_button">Send Question</string>
+
+    <!-- Write Answers Screen -->
+    <string name="send_anonymously_text">Send Anonymously</string>
+    <string name="send_answer_button">Send Answer</string>
+
+    <!-- Studies Screen -->
+    <string name="correct_answers_text">Correct Answers</string>
+    <string name="wrong_answers_text">Wrong Answers</string>
+    <string name="empty_questions_text">Empty Questions</string>
+
+    <!-- Send Study Screen -->
+    <string name="send_study_button">Send Study</string>
+
+    <!-- Schedule Meeting Screen -->
+    <string name="meeting_date_hint">Meeting Date</string>
+    <string name="meeting_duration_hint">Duration</string>
+    <string name="meeting_duration_suffix_text">Minutes</string>
+    <string name="schedule_meeting_button">Schedule Meeting</string>
+
+    <!-- endregion -->
+
+    <!-- region Components -->
+
+    <!-- Meeting Card -->
+    <string name="active_text">Active</string>
+    <string name="passive_text">Passive</string>
+    <string name="duration_text">Duration - %1$d min</string>
+    <string name="status_text">Status - %1$s</string>
+
+    <!-- endregion -->
 
 </resources>

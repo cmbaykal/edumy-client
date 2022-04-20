@@ -5,12 +5,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.nav.NavRoute
 
 object ProfileRoute : NavRoute<ProfileViewModel> {
     const val USER_ID = "userId"
 
-    override val title = "Profile"
+    override val title = R.string.profile_screen
     override val route = "profile?userId={$USER_ID}"
 
     fun get(userId: String) = route.replace("{${USER_ID}}", userId)

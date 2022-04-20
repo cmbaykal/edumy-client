@@ -49,7 +49,7 @@ class EdumySession(context: Context, val gson: Gson) {
         deleteUser()
     }
 
-    val user get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
+    val user: User get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
 
     val token get() = preferences.getString(TOKEN, null)
 
@@ -61,7 +61,7 @@ class EdumySession(context: Context, val gson: Gson) {
 }
 
 fun <T> EdumySession.withUserId(block: (String) -> T): T? {
-    return this.user?.id?.let {
+    return user?.id?.let {
         block(it)
     } ?: run {
         null
@@ -69,7 +69,7 @@ fun <T> EdumySession.withUserId(block: (String) -> T): T? {
 }
 
 fun <T> EdumySession.withUser(block: (User) -> T): T? {
-    return this.user?.let {
+    return user?.let {
         block(it)
     } ?: run {
         null

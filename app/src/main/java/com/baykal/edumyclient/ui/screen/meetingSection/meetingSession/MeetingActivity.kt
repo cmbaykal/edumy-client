@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -64,7 +63,6 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
         receiver = object : BroadcastReceiver(this) {
             override fun onReceive(context: Context, intent: Intent) {
                 intent.action?.let {
-                    Log.d("MeetingActivity", "onReceive: $it")
                     when (it) {
                         BroadcastEvent.Type.CONFERENCE_JOINED.action -> {}
                         BroadcastEvent.Type.CONFERENCE_TERMINATED.action -> {

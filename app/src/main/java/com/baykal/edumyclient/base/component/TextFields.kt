@@ -39,7 +39,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import com.baykal.edumyclient.base.extension.color
 import com.baykal.edumyclient.base.ui.theme.*
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -66,11 +65,11 @@ fun ETextField(
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
         unfocusedLabelColor = Color.Gray,
-        errorLabelColor = "#ff6d64".color,
+        errorLabelColor = ErrorColor,
         focusedIndicatorColor = Orange,
         unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = "#ff6d64".color,
-        errorTrailingIconColor = "#ff6d64".color
+        errorIndicatorColor = ErrorColor,
+        errorTrailingIconColor = ErrorColor
     )
 
     onChange.invoke(InputState(text, isSuccess))
@@ -115,7 +114,7 @@ fun ETextField(
                     if (text.isNotEmpty() && !focused) {
                         Icon(
                             imageVector = if (isSuccess) Icons.Default.Check else Icons.Default.Close,
-                            tint = if (isSuccess) "#66c95b".color else "#ff6d64".color,
+                            tint = if (isSuccess) SuccessColor else ErrorColor,
                             contentDescription = ""
                         )
                     }
@@ -156,7 +155,7 @@ fun ETextField(
                 fontSize = 12.sp,
                 textAlign = TextAlign.Start,
                 text = errorText,
-                color = "#ff6d64".color
+                color = ErrorColor
             )
         }
     }
@@ -289,11 +288,11 @@ fun EDialogField(
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
         unfocusedLabelColor = Color.Gray,
-        errorLabelColor = "#ff6d64".color,
+        errorLabelColor = ErrorColor,
         focusedIndicatorColor = Orange,
         unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = "#ff6d64".color,
-        errorTrailingIconColor = "#ff6d64".color
+        errorIndicatorColor = ErrorColor,
+        errorTrailingIconColor = ErrorColor
     )
 
     Box(
@@ -372,11 +371,11 @@ fun EDropDown(
     val colors = TextFieldDefaults.textFieldColors(
         focusedLabelColor = Orange,
         unfocusedLabelColor = Color.Gray,
-        errorLabelColor = "#ff6d64".color,
+        errorLabelColor = ErrorColor,
         focusedIndicatorColor = Orange,
         unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = "#ff6d64".color,
-        errorTrailingIconColor = "#ff6d64".color
+        errorIndicatorColor = ErrorColor,
+        errorTrailingIconColor = ErrorColor
     )
 
     Box(

@@ -5,7 +5,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.extension.toJson
 
@@ -37,20 +39,20 @@ fun ScheduleMeetingScreen(
             classrooms?.apply {
                 val items = this.map { it.name.toString() }.toMutableList()
                 EDropDown(
-                    label = "Classroom",
+                    label = stringResource(R.string.classroom_hint),
                     items = items,
                     selected = selectedClassroom?.name,
                     onChange = viewModel::setClassroom
                 )
                 ETextField(
-                    label = "Description",
+                    label = stringResource(id = R.string.description_hint),
                     value = description.text,
                     onChange = viewModel::setDescription,
                     success = { it.isNotBlank() },
                     maxLines = 3
                 )
                 EDialogField(
-                    label = "Meeting Date",
+                    label = stringResource(id = R.string.meeting_date_hint),
                     value = date.text,
                     dialogState = dateDialogState,
                     onClick = {
@@ -78,7 +80,7 @@ fun ScheduleMeetingScreen(
                         .padding(8.dp)
                         .fillMaxWidth()
                         .height(40.dp),
-                    text = "Schedule Meeting"
+                    text = stringResource(id = R.string.schedule_meeting_button)
                 ) {
                     viewModel.scheduleMeeting()
                 }

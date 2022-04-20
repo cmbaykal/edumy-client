@@ -15,10 +15,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.baykal.edumyclient.ui.component.ProfileCard
@@ -74,7 +76,7 @@ fun ProfileScreen(
                         )
                 ) {
                     ScreenButton(
-                        text = "Questions",
+                        text = stringResource(id = R.string.questions_screen),
                         icon = Icons.Filled.QuestionAnswer
                     ) {
                         it.id?.let { userId ->
@@ -82,7 +84,7 @@ fun ProfileScreen(
                         }
                     }
                     ScreenButton(
-                        text = "Answers",
+                        text = stringResource(id = R.string.studies_screen),
                         icon = Icons.Filled.RateReview
                     ) {
                         it.id?.let { userId ->
@@ -90,7 +92,7 @@ fun ProfileScreen(
                         }
                     }
                     ScreenButton(
-                        text = "Studies",
+                        text = stringResource(id = R.string.studies_screen),
                         icon = Icons.Filled.Leaderboard
                     ) {
                         it.id?.let { userId ->
@@ -99,7 +101,7 @@ fun ProfileScreen(
                     }
                     if (currentUser) {
                         ScreenButton(
-                            text = "Logout",
+                            text = stringResource(id = R.string.logout_button),
                             icon = Icons.Filled.Logout
                         ) {
                             viewModel.logout()
