@@ -10,12 +10,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ImageDialog
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.ui.component.AnswerCard
 import com.baykal.edumyclient.ui.component.ProfileCardCompact
 import com.baykal.edumyclient.ui.component.QuestionCard
@@ -39,15 +39,15 @@ fun QuestionDetailScreen(
             Column(
                 modifier = Modifier
                     .verticalScroll(scrollState)
-                    .padding(30.dp),
+                    .padding(dimensionResource(id = R.dimen.padding_huge)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 question.user?.let { user ->
                     ProfileCardCompact(
                         modifier = Modifier.padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            top = 10.dp
+                            start = dimensionResource(id = R.dimen.padding_standard),
+                            end = dimensionResource(id = R.dimen.padding_standard),
+                            top = dimensionResource(id = R.dimen.padding_standard)
                         ),
                         user = user
                     ) {
@@ -56,31 +56,31 @@ fun QuestionDetailScreen(
                 }
                 QuestionCard(
                     modifier = Modifier.padding(
-                        start = 10.dp,
-                        end = 10.dp,
-                        top = 12.dp
+                        start = dimensionResource(id = R.dimen.padding_standard),
+                        end = dimensionResource(id = R.dimen.padding_standard),
+                        top = dimensionResource(id = R.dimen.padding_standard)
                     ),
                     question = question
                 )
                 Row(
                     modifier = Modifier
                         .padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            top = 12.dp,
-                            bottom = 6.dp
+                            start = dimensionResource(id = R.dimen.padding_standard),
+                            end = dimensionResource(id = R.dimen.padding_standard),
+                            top = dimensionResource(id = R.dimen.padding_standard),
+                            bottom = dimensionResource(id = R.dimen.padding_medium)
                         )
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     EButton(
                         modifier = Modifier
-                            .padding(end = 6.dp)
+                            .padding(end = dimensionResource(id = R.dimen.padding_medium))
                             .fillMaxWidth()
                             .weight(0.4f),
-                        shape = RoundedCornerShape(50.dp),
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_massive)),
                         text = stringResource(id = R.string.answers_screen),
-                        textSize = 12.sp
+                        textSize = fontDimensionResource(id = R.dimen.font_size_small)
                     ) {
                         question.id?.let {
                             viewModel.fetchAnswers(it)
@@ -88,12 +88,12 @@ fun QuestionDetailScreen(
                     }
                     EButton(
                         modifier = Modifier
-                            .padding(start = 6.dp)
+                            .padding(start = dimensionResource(id = R.dimen.padding_medium))
                             .fillMaxWidth()
                             .weight(0.4f),
-                        shape = RoundedCornerShape(50.dp),
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_massive)),
                         text = stringResource(id = R.string.write_answer_button),
-                        textSize = 12.sp
+                        textSize = fontDimensionResource(id = R.dimen.font_size_small)
                     ) {
                         question.id?.let {
                             viewModel.navigate(WriteAnswerRoute.get(it))
@@ -103,10 +103,10 @@ fun QuestionDetailScreen(
                 answers.forEach {
                     AnswerCard(
                         modifier = Modifier.padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            bottom = 6.dp,
-                            top = 6.dp
+                            start = dimensionResource(id = R.dimen.padding_standard),
+                            end = dimensionResource(id = R.dimen.padding_standard),
+                            top = dimensionResource(id = R.dimen.padding_medium),
+                            bottom = dimensionResource(id = R.dimen.padding_medium)
                         ),
                         userId = userId.toString(),
                         answer = it,

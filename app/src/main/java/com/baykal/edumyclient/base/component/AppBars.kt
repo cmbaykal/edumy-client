@@ -12,15 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -51,7 +51,7 @@ fun EdumyToolbar(
             if (!topLevelScreen.contains(currentLabel)) {
                 EIconButton(
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(start = dimensionResource(id = R.dimen.padding_standard))
                         .align(Alignment.CenterStart),
                     icon = navigateIcon,
                 ) {
@@ -60,7 +60,7 @@ fun EdumyToolbar(
             }
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                fontSize = 18.sp,
+                fontSize = fontDimensionResource(id = R.dimen.font_size_big),
                 fontWeight = FontWeight.Bold,
                 text = title,
                 color = Gray
@@ -68,7 +68,7 @@ fun EdumyToolbar(
             if (menuIcon != null && currentRoute?.contains(menuRoute.toString()) == false)
                 EIconButton(
                     modifier = Modifier
-                        .padding(end = 8.dp)
+                        .padding(end = dimensionResource(id = R.dimen.padding_standard))
                         .align(Alignment.CenterEnd),
                     icon = menuIcon
                 ) {
@@ -104,7 +104,7 @@ fun EdumyBottomBar(
                     label = {
                         Text(
                             text = title,
-                            fontSize = 10.sp,
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_tiny),
                             fontWeight = FontWeight.Bold
                         )
                     },

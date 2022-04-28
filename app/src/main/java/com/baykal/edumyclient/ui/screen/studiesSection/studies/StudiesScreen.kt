@@ -5,8 +5,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -67,13 +67,13 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                     )
                     PieChart(
                         modifier = Modifier
-                            .padding(top = 20.dp)
+                            .padding(top = dimensionResource(id = R.dimen.padding_big))
                             .fillMaxWidth()
-                            .height(150.dp),
+                            .height(dimensionResource(id = R.dimen.pie_chart_height)),
                         data = chartData
                     )
                     ETabRow(
-                        modifier = Modifier.padding(top = 20.dp),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_big)),
                         data = lessonItems,
                         onSelect = { selected ->
                             viewModel.filterStudies(selected)
@@ -86,9 +86,9 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
-                            start = 20.dp,
-                            end = 20.dp,
-                            top = 10.dp
+                            start = dimensionResource(id = R.dimen.padding_big),
+                            end = dimensionResource(id = R.dimen.padding_big),
+                            top = dimensionResource(id = R.dimen.padding_standard)
                         ),
                     scrollState = scrollState,
                     swipeRefresh = true,
@@ -97,10 +97,10 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                 ) { item ->
                     StudyCard(
                         modifier = Modifier.padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            top = 6.dp,
-                            bottom = 6.dp
+                            start = dimensionResource(id = R.dimen.padding_standard),
+                            end = dimensionResource(id = R.dimen.padding_standard),
+                            top = dimensionResource(id = R.dimen.padding_medium),
+                            bottom = dimensionResource(id = R.dimen.padding_medium)
                         ),
                         study = item
                     )

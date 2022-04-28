@@ -16,8 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.extension.isScrolledToEnd
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -61,13 +62,13 @@ fun ETabRowItem(
     Box(
         modifier = Modifier
             .padding(
-                start = 5.dp,
-                end = 5.dp,
-                top = 8.dp,
-                bottom = 8.dp
+                start = dimensionResource(id = R.dimen.padding_medium),
+                end = dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(id = R.dimen.padding_standard),
+                bottom = dimensionResource(id = R.dimen.padding_standard)
             )
             .border(
-                border = BorderStroke(2.dp, Orange),
+                border = BorderStroke(dimensionResource(id = R.dimen.border_stroke_standard), Orange),
                 shape = RoundedCornerShape(50)
             )
             .clip(RoundedCornerShape(50))
@@ -77,9 +78,9 @@ fun ETabRowItem(
     ) {
         Text(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(id = R.dimen.padding_standard))
                 .align(Alignment.Center),
-            fontSize = 12.sp,
+            fontSize = fontDimensionResource(id = R.dimen.font_size_small),
             text = data,
             color = Orange
         )

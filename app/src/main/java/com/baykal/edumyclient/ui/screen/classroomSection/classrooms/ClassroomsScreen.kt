@@ -9,8 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
@@ -46,12 +46,12 @@ fun ClassroomsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        start = 20.dp,
-                        end = 20.dp
+                        start = dimensionResource(id = R.dimen.padding_big),
+                        end = dimensionResource(id = R.dimen.padding_big)
                     )
             ) {
                 ESearchView(
-                    modifier = Modifier.padding(top = 10.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard)),
                     placeHolder = stringResource(id = R.string.search_classroom_hint),
                     value = searchText,
                     onChange = viewModel::filterClasses,
@@ -60,7 +60,7 @@ fun ClassroomsScreen(
                 EList(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 10.dp),
+                        .padding(top = dimensionResource(id = R.dimen.padding_standard)),
                     swipeRefresh = true,
                     onRefresh = viewModel::getClassrooms,
                     listItems = classrooms,

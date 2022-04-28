@@ -19,8 +19,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 
 data class ChartData(
     val identifier: String,
@@ -34,6 +35,8 @@ fun PieChart(
     title: String? = null,
     data: List<ChartData>? = null
 ) {
+    val radiusMedium = dimensionResource(id = R.dimen.radius_medium)
+
     if (!data.isNullOrEmpty()) {
         val sum = data.sumOf { it.point }.toFloat()
         val path = Path()
@@ -57,7 +60,7 @@ fun PieChart(
             ) {
                 Canvas(
                     modifier = Modifier
-                        .padding(end = 10.dp)
+                        .padding(end = dimensionResource(id = R.dimen.padding_standard))
                         .size(this@BoxWithConstraints.maxHeight)
                 ) {
                     var startAngle = 0f
@@ -77,18 +80,18 @@ fun PieChart(
                     }
                 }
                 EList(
-                    modifier = Modifier.padding(start = 10.dp),
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
                     listItems = data
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Canvas(modifier = Modifier) {
-                            drawCircle(it.color, radius = 4.dp.toPx())
+                            drawCircle(it.color, radius = radiusMedium.toPx())
                         }
                         Text(
-                            modifier = Modifier.padding(start = 10.dp),
-                            fontSize = 12.sp,
+                            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                             text = it.identifier
                         )
                     }

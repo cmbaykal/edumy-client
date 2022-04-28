@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <dimen name="divider_height">1dp</dimen>
+
+    <dimen name="border_stroke_small">1.5dp</dimen>
+    <dimen name="border_stroke_standard">2dp</dimen>
+    <dimen name="border_stroke_big">3dp</dimen>
+
+    <dimen name="elevation_standard">4dp</dimen>
+    <dimen name="elevation_big">8dp</dimen>
+
+    <dimen name="radius_medium">4dp</dimen>
+    <dimen name="radius_standard">10dp</dimen>
+    <dimen name="radius_massive">50dp</dimen>
+
+    <dimen name="icon_size_medium">18dp</dimen>
+    <dimen name="icon_size_standard">24dp</dimen>
+    <dimen name="icon_size_big">36dp</dimen>
+
+    <dimen name="image_width_standard">200dp</dimen>
+    <dimen name="image_height_small">60dp</dimen>
+    <dimen name="image_height_standard">200dp</dimen>
+
+    <dimen name="button_height_standard">40dp</dimen>
+
+    <!-- Margin -->
+
+    <dimen name="margin_small">2dp</dimen>
+    <dimen name="margin_medium">4dp</dimen>
+    <dimen name="margin_standard">8dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
+    <dimen name="margin_huge">32dp</dimen>
+
+    <!-- Padding -->
+
+    <dimen name="padding_small">2dp</dimen>
+    <dimen name="padding_medium">4dp</dimen>
+    <dimen name="padding_standard">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="padding_huge">32dp</dimen>
+
+    <!-- Font Size -->
+
+    <dimen name="font_size_tiny">10sp</dimen>
+    <dimen name="font_size_small">12sp</dimen>
+    <dimen name="font_size_medium">14sp</dimen>
+    <dimen name="font_size_standard">16sp</dimen>
+    <dimen name="font_size_big">18sp</dimen>
+    <dimen name="font_size_huge">20sp</dimen>
+
+    <!-- Component -->
+
+    <dimen name="arrow_icon_size">30dp</dimen>
+
+    <dimen name="text_field_icon_size">30dp</dimen>
+
+    <dimen name="profile_card_icon_size">80dp</dimen>
+    <dimen name="profile_card_compact_icon_size">40dp</dimen>
+
+    <dimen name="classroom_card_icon_size">60dp</dimen>
+
+    <dimen name="text_field_line_height">20dp</dimen>
+
+    <dimen name="search_view_height">40dp</dimen>
+
+    <dimen name="pie_chart_height">150dp</dimen>
+
+    <dimen name="answer_card_button_size">35dp</dimen>
+
+    <!-- Screen -->
+
+    <dimen name="login_screen_title_size">40sp</dimen>
+
+
+</resources>

@@ -11,14 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EIconButton
 import com.baykal.edumyclient.base.component.EImage
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.extension.string
 import com.baykal.edumyclient.base.extension.stringWithoutTime
 import com.baykal.edumyclient.base.ui.theme.Gray
@@ -43,20 +44,20 @@ fun ClassroomListCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 10.dp,
-                    end = 10.dp,
-                    top = 6.dp,
-                    bottom = 6.dp
+                    start = dimensionResource(id = R.dimen.padding_standard),
+                    end = dimensionResource(id = R.dimen.padding_standard),
+                    top = dimensionResource(id = R.dimen.padding_medium),
+                    bottom = dimensionResource(id = R.dimen.padding_medium)
                 )
                 .then(modifier),
-            elevation = 4.dp,
+            elevation = dimensionResource(id = R.dimen.elevation_standard),
         ) {
             Box(
                 modifier = Modifier
                     .clickable { onClick.invoke() }
                     .padding(
-                        top = 8.dp,
-                        bottom = 8.dp
+                        top = dimensionResource(id = R.dimen.padding_standard),
+                        bottom = dimensionResource(id = R.dimen.padding_standard)
                     )
             ) {
                 Row(
@@ -64,23 +65,23 @@ fun ClassroomListCard(
                     modifier = Modifier.align(Alignment.CenterStart),
                 ) {
                     Icon(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
                         imageVector = Icons.Filled.Class,
                         tint = Gray,
                         contentDescription = ""
                     )
                     Column(
-                        modifier = Modifier.padding(start = 10.dp)
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
                     ) {
                         Text(
                             text = "$name - $lesson",
-                            fontSize = 14.sp,
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                             fontWeight = FontWeight.Bold
                         )
                         users?.size?.minus(1)?.let {
                             Text(
                                 text = resources.getQuantityString(R.plurals.classroom_size_text, it, it),
-                                fontSize = 12.sp
+                                fontSize = fontDimensionResource(id = R.dimen.font_size_small)
                             )
                         }
                     }
@@ -88,7 +89,7 @@ fun ClassroomListCard(
                 Icon(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
-                        .padding(end = 8.dp),
+                        .padding(end = dimensionResource(id = R.dimen.padding_standard)),
                     imageVector = Icons.Filled.KeyboardArrowRight,
                     tint = Gray,
                     contentDescription = ""
@@ -107,19 +108,19 @@ fun ProfileCard(
     Card(
         modifier = Modifier
             .padding(
-                start = 40.dp,
-                end = 40.dp
+                start = dimensionResource(id = R.dimen.padding_huge),
+                end = dimensionResource(id = R.dimen.padding_huge),
             )
             .then(modifier),
-        elevation = 8.dp
+        elevation = dimensionResource(id = R.dimen.elevation_big)
     ) {
         Box {
             EIconButton(
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_medium))
                     .align(Alignment.TopEnd),
                 icon = Icons.Filled.Edit,
-                iconSize = 20.dp,
+                iconSize = dimensionResource(id = R.dimen.icon_size_medium),
                 onClick = onEditClick
             )
             Column(
@@ -128,34 +129,34 @@ fun ProfileCard(
             ) {
                 Icon(
                     modifier = Modifier
-                        .padding(top = 20.dp)
-                        .size(80.dp),
+                        .padding(top = dimensionResource(id = R.dimen.padding_big))
+                        .size(dimensionResource(id = R.dimen.profile_card_icon_size)),
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Gray,
                     contentDescription = ""
                 )
                 Text(
-                    modifier = Modifier.padding(top = 10.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard)),
                     text = user.name.toString(),
-                    fontSize = 18.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_big),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.padding(
-                        bottom = if (user.bio != null) 0.dp else 20.dp
+                        bottom = if (user.bio != null) 0.dp else dimensionResource(id = R.dimen.padding_big)
                     ),
                     text = user.role.toString(),
-                    fontSize = 14.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                     fontWeight = FontWeight.Light
                 )
                 user.bio?.let {
                     Text(
                         modifier = Modifier.padding(
-                            top = 10.dp,
-                            bottom = 20.dp
+                            top = dimensionResource(id = R.dimen.padding_standard),
+                            bottom = dimensionResource(id = R.dimen.padding_big)
                         ),
                         text = it,
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Light
                     )
                 }
@@ -174,7 +175,7 @@ fun ProfileCardCompact(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
-        elevation = 4.dp
+        elevation = dimensionResource(id = R.dimen.elevation_standard)
     ) {
         Box(
             modifier = Modifier.clickable {
@@ -184,33 +185,33 @@ fun ProfileCardCompact(
             }
         ) {
             Row(
-                modifier = Modifier.padding(6.dp),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.profile_card_compact_icon_size)),
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Gray,
                     contentDescription = ""
                 )
                 Column(
-                    modifier = Modifier.padding(start = 10.dp)
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard))
                 ) {
                     Text(
                         text = user?.name.toString(),
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = user?.role.toString(),
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                         fontWeight = FontWeight.Light
                     )
                 }
             }
             Icon(
                 modifier = Modifier
-                    .size(30.dp)
+                    .size(dimensionResource(id = R.dimen.arrow_icon_size))
                     .align(Alignment.CenterEnd),
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 tint = Gray,
@@ -230,18 +231,18 @@ fun QuestionListCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                start = 10.dp,
-                end = 10.dp,
-                top = 6.dp,
-                bottom = 6.dp
+                start = dimensionResource(id = R.dimen.padding_standard),
+                end = dimensionResource(id = R.dimen.padding_standard),
+                top = dimensionResource(id = R.dimen.padding_medium),
+                bottom = dimensionResource(id = R.dimen.padding_medium)
             )
             .then(modifier),
-        elevation = 4.dp,
+        elevation = dimensionResource(id = R.dimen.elevation_standard),
     ) {
         Box(
             modifier = Modifier
                 .clickable { onClick.invoke() }
-                .padding(8.dp)
+                .padding(dimensionResource(id = R.dimen.padding_standard))
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -253,11 +254,11 @@ fun QuestionListCard(
                     contentDescription = ""
                 )
                 Column(
-                    modifier = Modifier.padding(start = 10.dp)
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard))
                 ) {
                     Text(
                         text = question.description.toString(),
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
@@ -265,7 +266,7 @@ fun QuestionListCard(
                     question.date?.let {
                         Text(
                             text = it.string,
-                            fontSize = 12.sp
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small)
                         )
                     }
                 }
@@ -289,16 +290,16 @@ fun QuestionCard(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
-        elevation = 4.dp
+        elevation = dimensionResource(id = R.dimen.elevation_standard)
     ) {
         Box(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard))
         ) {
             question.date?.let {
                 Text(
                     modifier = Modifier.align(Alignment.TopEnd),
                     text = it.string,
-                    fontSize = 12.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     fontWeight = FontWeight.Light
                 )
             }
@@ -307,20 +308,20 @@ fun QuestionCard(
             ) {
                 Text(
                     text = question.lesson.toString(),
-                    fontSize = 14.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(top = dimensionResource(id = R.dimen.padding_standard)),
                     text = question.description.toString(),
-                    fontSize = 14.sp
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium)
                 )
                 question.image?.let { image ->
                     EImage(
                         modifier = Modifier
-                            .height(60.dp)
-                            .padding(top = 8.dp),
+                            .height(dimensionResource(id = R.dimen.image_height_small))
+                            .padding(top = dimensionResource(id = R.dimen.padding_standard)),
                         file = image
                     )
                 }
@@ -344,7 +345,7 @@ fun AnswerCard(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
-        elevation = 4.dp
+        elevation = dimensionResource(id = R.dimen.elevation_standard)
     ) {
         Column(modifier = Modifier
             .clickable {
@@ -352,7 +353,7 @@ fun AnswerCard(
                     onClick.invoke(it)
                 }
             }
-            .padding(10.dp)
+            .padding(dimensionResource(id = R.dimen.padding_standard))
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -361,19 +362,19 @@ fun AnswerCard(
                 answer.user?.let { user ->
                     Text(
                         modifier = Modifier
-                            .padding(bottom = 6.dp)
+                            .padding(bottom = dimensionResource(id = R.dimen.padding_medium))
                             .clickable {
                                 onProfileClick.invoke()
                             },
                         text = user.name.toString(),
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold
                     )
                 }
                 answer.date?.let {
                     Text(
                         text = it.string,
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                         fontWeight = FontWeight.Light
                     )
                 }
@@ -381,19 +382,19 @@ fun AnswerCard(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = answer.description.toString(),
-                fontSize = 12.sp
+                fontSize = fontDimensionResource(id = R.dimen.font_size_small)
             )
             Row(
                 modifier = Modifier
-                    .padding(top = 6.dp)
+                    .padding(top = dimensionResource(id = R.dimen.padding_medium))
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row {
                     answer.image?.let {
                         EIconButton(
-                            size = 35.dp,
-                            iconSize = 20.dp,
+                            size = dimensionResource(id = R.dimen.answer_card_button_size),
+                            iconSize = dimensionResource(id = R.dimen.icon_size_medium),
                             icon = Icons.Filled.Photo
                         ) {
                             onImageClick.invoke(it)
@@ -401,8 +402,8 @@ fun AnswerCard(
                     }
                     answer.video?.let {
                         EIconButton(
-                            size = 35.dp,
-                            iconSize = 20.dp,
+                            size = dimensionResource(id = R.dimen.answer_card_button_size),
+                            iconSize = dimensionResource(id = R.dimen.icon_size_medium),
                             icon = Icons.Filled.Videocam
                         ) {
                             onUpVote.invoke()
@@ -411,8 +412,8 @@ fun AnswerCard(
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     EIconButton(
-                        size = 35.dp,
-                        iconSize = 20.dp,
+                        size = dimensionResource(id = R.dimen.answer_card_button_size),
+                        iconSize = dimensionResource(id = R.dimen.icon_size_medium),
                         icon = if (answer.downVote?.contains(userId) == true) Icons.Filled.ThumbDownAlt else Icons.Filled.ThumbDownOffAlt,
                     ) {
                         answer.id?.let {
@@ -422,12 +423,12 @@ fun AnswerCard(
                     if (!answer.downVote.isNullOrEmpty()) {
                         Text(
                             text = answer.downVote?.size.toString(),
-                            fontSize = 12.sp
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small)
                         )
                     }
                     EIconButton(
-                        size = 35.dp,
-                        iconSize = 20.dp,
+                        size = dimensionResource(id = R.dimen.answer_card_button_size),
+                        iconSize = dimensionResource(id = R.dimen.icon_size_medium),
                         icon = if (answer.upVote?.contains(userId) == true) Icons.Filled.ThumbUpAlt else Icons.Filled.ThumbUpOffAlt,
                     ) {
                         answer.id?.let {
@@ -437,7 +438,7 @@ fun AnswerCard(
                     if (!answer.upVote.isNullOrEmpty()) {
                         Text(
                             text = answer.upVote?.size.toString(),
-                            fontSize = 12.sp
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small)
                         )
                     }
                 }
@@ -455,11 +456,11 @@ fun StudyCard(
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),
-        elevation = 4.dp
+        elevation = dimensionResource(id = R.dimen.elevation_standard)
     ) {
         with(study) {
             Column(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard))
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -468,57 +469,57 @@ fun StudyCard(
                 ) {
                     Text(
                         text = stringResource(id = R.string.lesson_text, lesson.toString()),
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold
                     )
                     date?.let {
                         Text(
                             text = it.stringWithoutTime,
-                            fontSize = 12.sp,
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                             fontWeight = FontWeight.Light
                         )
                     }
                 }
                 Row(
-                    modifier = Modifier.padding(top = 6.dp),
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_medium)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = Icons.Default.Done,
                         tint = Gray,
                         contentDescription = "Icon Button",
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.icon_size_medium))
                     )
                     Text(
-                        modifier = Modifier.padding(start = 6.dp),
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                         text = correctA.toString(),
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     )
                     Icon(
                         modifier = Modifier
-                            .padding(start = 10.dp)
-                            .size(18.dp),
+                            .padding(start = dimensionResource(id = R.dimen.padding_standard))
+                            .size(dimensionResource(id = R.dimen.icon_size_medium)),
                         imageVector = Icons.Default.Close,
                         tint = Gray,
                         contentDescription = "Icon Button"
                     )
                     Text(
-                        modifier = Modifier.padding(start = 6.dp),
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                         text = wrongA.toString(),
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     )
                     Icon(
                         modifier = Modifier
-                            .padding(start = 10.dp)
-                            .size(18.dp),
+                            .padding(start = dimensionResource(id = R.dimen.padding_standard))
+                            .size(dimensionResource(id = R.dimen.icon_size_medium)),
                         imageVector = Icons.Default.CheckBoxOutlineBlank,
                         tint = Gray,
                         contentDescription = "Icon Button",
                     )
                     Text(
-                        modifier = Modifier.padding(start = 6.dp),
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                         text = emptyQ.toString(),
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     )
                 }
             }
@@ -540,12 +541,12 @@ fun MeetingCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(modifier),
-            elevation = 4.dp
+            elevation = dimensionResource(id = R.dimen.elevation_standard)
         ) {
             Column(
                 modifier = Modifier
                     .clickable(onClick = { onClick(meeting) }, enabled = status)
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_standard))
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -554,13 +555,13 @@ fun MeetingCard(
                 ) {
                     Text(
                         text = "${classroom?.name} - ${classroom?.lesson}",
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold
                     )
                     date?.let {
                         Text(
                             text = it.string,
-                            fontSize = 12.sp,
+                            fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                             fontWeight = FontWeight.Light
                         )
                     }
@@ -572,19 +573,19 @@ fun MeetingCard(
                 ) {
                     Text(
                         text = stringResource(id = R.string.teacher_text, user?.name.toString()),
-                        fontSize = 14.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = stringResource(id = R.string.duration_text, duration),
-                        fontSize = 12.sp,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                         fontWeight = FontWeight.Light
                     )
                 }
                 Text(
                     modifier = Modifier.align(Alignment.End),
                     text = stringResource(id = R.string.status_text, meetingStatus),
-                    fontSize = 12.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     fontWeight = FontWeight.Light
                 )
             }

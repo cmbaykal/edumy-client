@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.EDropDown
@@ -34,7 +34,7 @@ fun SendStudyScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(40.dp),
+                .padding(dimensionResource(id = R.dimen.padding_huge)),
             verticalArrangement = Arrangement.Center
         ) {
             EDropDown(
@@ -67,9 +67,9 @@ fun SendStudyScreen(
             )
             EButton(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_standard))
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(dimensionResource(id = R.dimen.button_height_standard)),
                 text = stringResource(id = R.string.send_study_button)
             ) {
                 viewModel.sendStudy()

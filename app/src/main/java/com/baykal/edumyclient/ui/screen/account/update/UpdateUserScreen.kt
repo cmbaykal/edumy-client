@@ -6,9 +6,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 
@@ -32,10 +32,10 @@ fun UpdateUserScreen(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
                     .padding(
-                        start = 32.dp,
-                        end = 32.dp,
-                        top = 10.dp,
-                        bottom = 10.dp
+                        start = dimensionResource(id = R.dimen.padding_huge),
+                        end = dimensionResource(id = R.dimen.padding_huge),
+                        top = dimensionResource(id = R.dimen.padding_standard),
+                        bottom = dimensionResource(id = R.dimen.padding_standard)
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -57,9 +57,9 @@ fun UpdateUserScreen(
                 )
                 EButton(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.padding_standard))
                         .fillMaxWidth()
-                        .height(40.dp),
+                        .height(dimensionResource(id = R.dimen.button_height_standard)),
                     text = stringResource(id = R.string.update_button)
                 ) {
                     viewModel.updateUser()
@@ -91,7 +91,10 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
         negativeButton = negativeButton
     ) {
         ETextField(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+            modifier = Modifier.padding(
+                start = dimensionResource(id = R.dimen.padding_standard),
+                end = dimensionResource(id = R.dimen.padding_standard)
+            ),
             label = stringResource(id = R.string.current_password_hint),
             onChange = viewModel::setOldPass,
             success = { it.length in 8..16 },
@@ -99,7 +102,10 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
             imeAction = ImeAction.Next
         )
         ETextField(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+            modifier = Modifier.padding(
+                start = dimensionResource(id = R.dimen.padding_standard),
+                end = dimensionResource(id = R.dimen.padding_standard)
+            ),
             label = stringResource(id = R.string.new_password_hint),
             onChange = viewModel::setPass,
             success = { it.length in 8..16 },
@@ -107,7 +113,10 @@ fun PasswordChangeDialog(viewModel: UpdateUserViewModel, onDismiss: () -> Unit) 
             imeAction = ImeAction.Next
         )
         ETextField(
-            modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+            modifier = Modifier.padding(
+                start = dimensionResource(id = R.dimen.padding_standard),
+                end = dimensionResource(id = R.dimen.padding_standard)
+            ),
             label = stringResource(id = R.string.confirm_new_password_hint),
             onChange = viewModel::setPassConfirm,
             success = { viewModel.checkPassword(it) },

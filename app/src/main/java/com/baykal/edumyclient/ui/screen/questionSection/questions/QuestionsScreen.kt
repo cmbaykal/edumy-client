@@ -9,15 +9,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ETabRow
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.data.model.classroom.Lesson
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.QuestionListCard
@@ -68,9 +68,9 @@ fun QuestionsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
-                            start = 20.dp,
-                            end = 20.dp,
-                            top = 10.dp
+                            start = dimensionResource(id = R.dimen.padding_big),
+                            end = dimensionResource(id = R.dimen.padding_big),
+                            top = dimensionResource(id = R.dimen.padding_standard)
                         ),
                     scrollState = scrollState,
                     swipeRefresh = true,
@@ -97,12 +97,12 @@ fun EndComponent() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 14.dp,
-                bottom = 14.dp
+                top = dimensionResource(id = R.dimen.padding_big),
+                bottom = dimensionResource(id = R.dimen.padding_big)
             ),
         text = stringResource(id = R.string.no_more_questions_text),
         textAlign = TextAlign.Center,
-        fontSize = 14.sp,
+        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
         fontWeight = FontWeight.Bold
     )
 }

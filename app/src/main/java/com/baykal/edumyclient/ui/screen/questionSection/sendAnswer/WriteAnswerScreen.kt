@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.baykal.edumyclient.R
@@ -74,7 +74,7 @@ fun WriteAnswerScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(25.dp)
+                .padding(dimensionResource(id = R.dimen.padding_huge))
         ) {
             ETextField(
                 label = stringResource(id = R.string.description_hint),
@@ -93,9 +93,9 @@ fun WriteAnswerScreen(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(8.dp)
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(10.dp))
+                        .padding(dimensionResource(id = R.dimen.padding_standard))
+                        .height(dimensionResource(id = R.dimen.image_height_standard))
+                        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)))
                 )
             }
             Row(
@@ -130,9 +130,9 @@ fun WriteAnswerScreen(
             }
             EButton(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_standard))
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(dimensionResource(id = R.dimen.button_height_standard)),
                 text = stringResource(id = R.string.send_answer_button)
             ) {
                 viewModel.sendAnswer()

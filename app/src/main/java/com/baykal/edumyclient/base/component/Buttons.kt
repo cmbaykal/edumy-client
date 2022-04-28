@@ -16,13 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.ui.theme.EdumyClientTheme
 import com.baykal.edumyclient.base.ui.theme.Gray
 import com.baykal.edumyclient.base.ui.theme.Orange
@@ -30,21 +32,21 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 @Composable
 fun EButton(
     modifier: Modifier = Modifier,
-    shape: Shape = RoundedCornerShape(10.dp),
+    shape: Shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)),
     text: String,
     textColor: Color = Color.White,
     textSize: TextUnit = TextUnit.Unspecified,
     onClick: () -> Unit = {}
 ) {
     Button(
-        modifier = modifier.heightIn(0.dp, 40.dp),
+        modifier = modifier.heightIn(0.dp, dimensionResource(id = R.dimen.button_height_standard)),
         shape = shape,
         elevation = ButtonDefaults.elevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 8.dp,
+            defaultElevation = dimensionResource(id = R.dimen.elevation_standard),
+            pressedElevation = dimensionResource(id = R.dimen.elevation_big),
             disabledElevation = 0.dp
         ),
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_standard)),
         onClick = onClick
     ) {
         Text(
@@ -58,10 +60,10 @@ fun EButton(
 @Composable
 fun EIconButton(
     modifier: Modifier = Modifier,
-    size: Dp = 40.dp,
+    size: Dp = dimensionResource(id = R.dimen.button_height_standard),
     icon: ImageVector,
     iconColor: Color = Gray,
-    iconSize: Dp = 24.dp,
+    iconSize: Dp = dimensionResource(id = R.dimen.icon_size_standard),
     enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -95,10 +97,10 @@ fun ETextButton(
 ) {
     TextButton(
         modifier = Modifier
-            .padding(8.dp)
-            .defaultMinSize(minHeight = 40.dp)
+            .padding(dimensionResource(id = R.dimen.padding_standard))
+            .defaultMinSize(minHeight = dimensionResource(id = R.dimen.button_height_standard))
             .then(modifier),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)),
         onClick = onClick
     ) {
         Text(text = text)
@@ -136,12 +138,12 @@ fun ScreenButton(
     Card(
         modifier = Modifier
             .padding(
-                start = 20.dp,
-                end = 20.dp,
-                top = 10.dp
+                start = dimensionResource(id = R.dimen.padding_big),
+                end = dimensionResource(id = R.dimen.padding_big),
+                top = dimensionResource(id = R.dimen.padding_standard)
             )
             .then(modifier),
-        elevation = 4.dp
+        elevation = dimensionResource(id = R.dimen.elevation_standard)
     ) {
         Box(
             modifier = Modifier.clickable(onClick = onClick)
@@ -152,8 +154,8 @@ fun ScreenButton(
                 icon?.let {
                     Icon(
                         modifier = Modifier
-                            .padding(start = 10.dp)
-                            .size(20.dp),
+                            .padding(start = dimensionResource(id = R.dimen.padding_standard))
+                            .size(dimensionResource(id = R.dimen.icon_size_medium)),
                         imageVector = icon,
                         tint = iconColor,
                         contentDescription = ""
@@ -163,20 +165,20 @@ fun ScreenButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
-                            start = 10.dp,
-                            end = 20.dp,
-                            top = 15.dp,
-                            bottom = 15.dp,
+                            start = dimensionResource(id = R.dimen.padding_standard),
+                            end = dimensionResource(id = R.dimen.padding_big),
+                            top = dimensionResource(id = R.dimen.padding_big),
+                            bottom = dimensionResource(id = R.dimen.padding_big)
                         ),
                     text = text,
                     textAlign = TextAlign.Start,
-                    fontSize = 16.sp,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_standard),
                     fontWeight = FontWeight.Bold
                 )
             }
             Icon(
                 modifier = Modifier
-                    .size(30.dp)
+                    .size(dimensionResource(id = R.dimen.arrow_icon_size))
                     .align(Alignment.CenterEnd),
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 tint = Gray,

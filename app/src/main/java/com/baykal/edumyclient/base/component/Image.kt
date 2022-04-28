@@ -7,9 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.di.BASE_URL
 
 @Composable
@@ -30,7 +31,7 @@ fun EImage(
         contentScale = ContentScale.FillHeight,
         modifier = Modifier
             .then(modifier)
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)))
             .clickable {
                 dialogState = true
             }

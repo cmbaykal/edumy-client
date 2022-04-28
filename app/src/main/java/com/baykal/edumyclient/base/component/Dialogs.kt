@@ -30,16 +30,16 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.di.BASE_URL
 import java.util.*
 
@@ -55,10 +55,10 @@ fun GenericDialog(
     onDismiss: () -> Unit = {}
 ) {
     AlertDialog(
-        modifier = Modifier.clip(RoundedCornerShape(10.dp)),
+        modifier = Modifier.clip(RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard))),
         onDismissRequest = onDismiss,
-        title = { Text(title, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
-        text = { Text(message, fontSize = 14.sp) },
+        title = { Text(title, fontWeight = FontWeight.Bold, fontSize = fontDimensionResource(id = R.dimen.font_size_big)) },
+        text = { Text(message, fontSize = fontDimensionResource(id = R.dimen.font_size_medium)) },
         confirmButton = {
             ETextButton(text = stringResource(id = R.string.okay_button)) {
                 onDismiss.invoke()
@@ -85,24 +85,24 @@ fun EDialog(
     ) {
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)))
                 .background(Color.White),
         ) {
             Column {
                 Text(
                     modifier = Modifier.padding(
-                        start = 18.dp,
-                        top = 15.dp
+                        start = dimensionResource(id = R.dimen.padding_big),
+                        top = dimensionResource(id = R.dimen.padding_big)
                     ),
                     text = title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_big)
                 )
                 content()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 10.dp),
+                        .padding(end = dimensionResource(id = R.dimen.padding_standard)),
                     horizontalArrangement = Arrangement.End
                 ) {
                     negativeButton?.let {
@@ -210,16 +210,16 @@ fun LoadingDialog() {
     ) {
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard)))
                 .background(color = Color.White)
-                .padding(20.dp),
+                .padding(dimensionResource(id = R.dimen.padding_big)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             CircularProgressIndicator()
             Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = "Please Wait...",
+                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard)),
+                text = stringResource(id = R.string.please_wait_text),
                 color = Color.Black
             )
         }
@@ -270,7 +270,7 @@ fun ImageDialog(
                 contentDescription = description,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .defaultMinSize(minWidth = 200.dp)
+                    .defaultMinSize(minWidth = dimensionResource(id = R.dimen.image_width_standard))
                     .align(Alignment.Center)
                     .graphicsLayer(
                         scaleX = maxOf(1f, minOf(2f, scale)),

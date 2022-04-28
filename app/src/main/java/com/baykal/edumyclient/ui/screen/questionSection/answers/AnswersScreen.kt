@@ -7,7 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ImageDialog
 import com.baykal.edumyclient.ui.component.AnswerCard
@@ -34,7 +35,12 @@ fun AnswersScreen(
             listItems = answers
         ) {
             AnswerCard(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 6.dp, top = 6.dp),
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.padding_standard),
+                    end = dimensionResource(id = R.dimen.padding_standard),
+                    bottom = dimensionResource(id = R.dimen.padding_medium),
+                    top = dimensionResource(id = R.dimen.padding_medium)
+                ),
                 userId = userId.toString(),
                 answer = it,
                 onUpVote = {

@@ -5,8 +5,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.extension.toJson
@@ -33,7 +33,7 @@ fun ScheduleMeetingScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(40.dp),
+                .padding(dimensionResource(id = R.dimen.padding_huge)),
             verticalArrangement = Arrangement.Center
         ) {
             classrooms?.apply {
@@ -78,9 +78,9 @@ fun ScheduleMeetingScreen(
                 )
                 EButton(
                     modifier = Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(id = R.dimen.padding_standard))
                         .fillMaxWidth()
-                        .height(40.dp),
+                        .height(dimensionResource(id = R.dimen.button_height_standard)),
                     text = stringResource(id = R.string.schedule_meeting_button)
                 ) {
                     viewModel.scheduleMeeting()

@@ -8,15 +8,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EButton
 import com.baykal.edumyclient.base.component.ETextButton
 import com.baykal.edumyclient.base.component.ETextField
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.ui.screen.account.register.RegisterRoute
 
 @Composable
@@ -29,7 +29,7 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(32.dp),
+            .padding(dimensionResource(id = R.dimen.padding_huge)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -37,7 +37,7 @@ fun LoginScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                fontSize = 40.sp,
+                fontSize = fontDimensionResource(id = R.dimen.login_screen_title_size),
                 fontWeight = FontWeight.ExtraBold,
                 text = stringResource(id = R.string.app_name)
             )
@@ -59,9 +59,9 @@ fun LoginScreen(
             )
             EButton(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_standard))
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(dimensionResource(id = R.dimen.button_height_standard)),
                 text = "Login"
             ) {
                 viewModel.login()

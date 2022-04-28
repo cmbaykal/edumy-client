@@ -25,6 +25,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,12 +34,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.baykal.edumyclient.R
+import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.ui.theme.*
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -75,13 +76,13 @@ fun ETextField(
     onChange.invoke(InputState(text, isSuccess))
 
     Column(
-        Modifier.padding(8.dp),
+        Modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height((maxLines * 62).dp)
+                .height(dimensionResource(id = R.dimen.text_field_line_height) * maxLines)
                 .onFocusChanged { focused = it.isFocused }
                 .then(modifier),
             colors = colors,
@@ -108,7 +109,7 @@ fun ETextField(
             visualTransformation = if (charVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 Row(
-                    modifier = Modifier.padding(10.dp),
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     if (text.isNotEmpty() && !focused) {
@@ -120,7 +121,7 @@ fun ETextField(
                     }
                     if (passwordToggle && focused) {
                         IconButton(
-                            modifier = Modifier.size(30.dp),
+                            modifier = Modifier.size(dimensionResource(id = R.dimen.text_field_icon_size)),
                             onClick = {
                                 charVisibility = !charVisibility
                             }) {
@@ -151,8 +152,11 @@ fun ETextField(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 5.dp, start = 16.dp),
-                fontSize = 12.sp,
+                    .padding(
+                        top = dimensionResource(id = R.dimen.padding_medium),
+                        start = dimensionResource(id = R.dimen.padding_big)
+                    ),
+                fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                 textAlign = TextAlign.Start,
                 text = errorText,
                 color = ErrorColor
@@ -166,57 +170,68 @@ fun ETextField(
 fun ESearchView(
     modifier: Modifier = Modifier,
     placeHolder: String,
-    textSize: TextUnit = 16.sp,
+    textSize: TextUnit = fontDimensionResource(id = R.dimen.font_size_standard),
     textColor: Color = Color.Black,
     borderColor: Color = Orange,
     value: String = "",
     onChange: (String) -> Unit,
     onAction: (() -> Unit)? = null,
 ) {
+    val marginStandard = dimensionResource(id = R.dimen.margin_standard)
+    val marginMedium = dimensionResource(id = R.dimen.margin_medium)
+
     val constraintSet: ConstraintSet = ConstraintSet {
-        val input = createRefFor("input")
-        val placeHolder = createRefFor("placeHolder")
-        val icon = createRefFor("icon")
-        constrain(input) {
+        val inputRef = createRefFor("input")
+        val placeHolderRef = createRefFor("placeHolder")
+        val iconRef = createRefFor("icon")
+        constrain(inputRef) {
             width = Dimension.fillToConstraints
             height = Dimension.wrapContent
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
-            start.linkTo(anchor = parent.start, margin = 12.dp)
-            end.linkTo(anchor = icon.start, margin = 8.dp)
+            start.linkTo(anchor = parent.start, margin = marginStandard)
+            end.linkTo(anchor = iconRef.start, margin = marginStandard)
         }
-        constrain(placeHolder) {
+        constrain(placeHolderRef) {
             width = Dimension.fillToConstraints
             height = Dimension.wrapContent
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
-            start.linkTo(anchor = parent.start, margin = 12.dp)
-            end.linkTo(anchor = icon.start, margin = 8.dp)
+            start.linkTo(anchor = parent.start, margin = marginStandard)
+            end.linkTo(anchor = iconRef.start, margin = marginStandard)
         }
-        constrain(icon) {
+        constrain(iconRef) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
-            end.linkTo(anchor = parent.end, margin = 6.dp)
+            end.linkTo(anchor = parent.end, margin = marginMedium)
         }
     }
 
     var text by remember { mutableStateOf(value) }
     var focused by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val borderWidth = if (focused)
+        dimensionResource(id = R.dimen.border_stroke_big)
+    else
+        dimensionResource(id = R.dimen.border_stroke_small)
+
 
     ConstraintLayout(
         modifier = modifier.then(
             Modifier
-                .padding(start = 8.dp, end = 8.dp)
+                .padding(
+                    start = dimensionResource(id = R.dimen.padding_standard),
+                    end = dimensionResource(id = R.dimen.padding_standard)
+                )
                 .border(
                     border = BorderStroke(
-                        width = if (focused) 3.dp else 1.5.dp,
+                        width = borderWidth,
                         color = borderColor
                     ),
                     shape = RoundedCornerShape(20)
                 )
                 .clip(RoundedCornerShape(20))
-                .height(40.dp)
+                .height(dimensionResource(id = R.dimen.search_view_height))
                 .fillMaxWidth()
                 .background(color = GrayLight)
         ),
@@ -297,7 +312,7 @@ fun EDialogField(
 
     Box(
         Modifier
-            .padding(8.dp)
+            .padding(dimensionResource(id = R.dimen.padding_standard))
             .clickable(onClick = onClick)
     ) {
         OutlinedTextField(
@@ -339,7 +354,7 @@ fun EDialogField(
                             easing = LinearEasing
                         )
                     ),
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.radius_standard))
             ) {
                 Column {
                     dialogContent()
@@ -382,7 +397,7 @@ fun EDropDown(
 
     Box(
         Modifier
-            .padding(8.dp)
+            .padding(dimensionResource(id = R.dimen.padding_standard))
             .clickable {
                 expanded = true
             },

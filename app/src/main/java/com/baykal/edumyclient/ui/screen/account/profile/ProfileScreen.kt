@@ -15,8 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -70,9 +70,9 @@ fun ProfileScreen(
                     modifier = Modifier
                         .layoutId("screenButtons")
                         .padding(
-                            start = 20.dp,
-                            end = 20.dp,
-                            bottom = 20.dp
+                            start = dimensionResource(id = R.dimen.padding_big),
+                            end = dimensionResource(id = R.dimen.padding_big),
+                            bottom = dimensionResource(id = R.dimen.padding_big)
                         )
                 ) {
                     ScreenButton(
