@@ -50,6 +50,11 @@
     <dimen name="font_size_big">18sp</dimen>
     <dimen name="font_size_huge">20sp</dimen>
 
+    <dimen name="text_field_text_size">14sp</dimen>
+
+    <dimen name="login_screen_title_size">40sp</dimen>
+
+
     <!-- Component -->
 
     <dimen name="arrow_icon_size">30dp</dimen>
@@ -61,17 +66,13 @@
 
     <dimen name="classroom_card_icon_size">60dp</dimen>
 
-    <dimen name="text_field_line_height">20dp</dimen>
+    <dimen name="text_field_default_height">60dp</dimen>
 
     <dimen name="search_view_height">40dp</dimen>
 
     <dimen name="pie_chart_height">150dp</dimen>
 
     <dimen name="answer_card_button_size">35dp</dimen>
-
-    <!-- Screen -->
-
-    <dimen name="login_screen_title_size">40sp</dimen>
 
 
 </resources>

@@ -26,14 +26,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -41,6 +44,22 @@ import androidx.constraintlayout.compose.Dimension
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.ui.theme.*
+
+data class InputState(
+    var text: String = "",
+    var isSuccess: Boolean = false
+)
+
+@Composable
+fun ETextFieldColors() = TextFieldDefaults.textFieldColors(
+    focusedLabelColor = Orange,
+    unfocusedLabelColor = Color.Gray,
+    errorLabelColor = ErrorColor,
+    focusedIndicatorColor = Orange,
+    unfocusedIndicatorColor = OrangeVariant,
+    errorIndicatorColor = ErrorColor,
+    errorTrailingIconColor = ErrorColor
+)
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -62,16 +81,11 @@ fun ETextField(
     var isSuccess by remember { mutableStateOf(success.invoke(value)) }
     var charVisibility by remember { mutableStateOf(!passwordToggle) }
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val colors = TextFieldDefaults.textFieldColors(
-        focusedLabelColor = Orange,
-        unfocusedLabelColor = Color.Gray,
-        errorLabelColor = ErrorColor,
-        focusedIndicatorColor = Orange,
-        unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = ErrorColor,
-        errorTrailingIconColor = ErrorColor
-    )
+    val labelSize = if (focused) {
+        fontDimensionResource(id = R.dimen.font_size_tiny)
+    } else {
+        fontDimensionResource(id = R.dimen.font_size_medium)
+    }
 
     onChange.invoke(InputState(text, isSuccess))
 
@@ -82,15 +96,20 @@ fun ETextField(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.text_field_line_height) * maxLines)
+                .height(dimensionResource(id = R.dimen.text_field_default_height) * maxLines)
                 .onFocusChanged { focused = it.isFocused }
                 .then(modifier),
-            colors = colors,
+            textStyle = TextStyle(
+                fontSize = fontDimensionResource(id = R.dimen.text_field_text_size),
+                textDecoration = TextDecoration.None
+            ),
+            colors = ETextFieldColors(),
             maxLines = maxLines,
             label = {
                 Text(
-                    text = if (focused || text.isNotEmpty()) label.uppercase() else label,
-                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                    text = label,
+                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal,
+                    fontSize = labelSize,
                 )
             },
             value = text,
@@ -170,7 +189,7 @@ fun ETextField(
 fun ESearchView(
     modifier: Modifier = Modifier,
     placeHolder: String,
-    textSize: TextUnit = fontDimensionResource(id = R.dimen.font_size_standard),
+    textSize: TextUnit = fontDimensionResource(id = R.dimen.font_size_medium),
     textColor: Color = Color.Black,
     borderColor: Color = Orange,
     value: String = "",
@@ -214,7 +233,6 @@ fun ESearchView(
         dimensionResource(id = R.dimen.border_stroke_big)
     else
         dimensionResource(id = R.dimen.border_stroke_small)
-
 
     ConstraintLayout(
         modifier = modifier.then(
@@ -298,18 +316,6 @@ fun EDialogField(
     onDismiss: () -> Unit = {},
     dialogContent: @Composable () -> Unit = {},
 ) {
-    var focused by remember { mutableStateOf(false) }
-
-    val colors = TextFieldDefaults.textFieldColors(
-        focusedLabelColor = Orange,
-        unfocusedLabelColor = Color.Gray,
-        errorLabelColor = ErrorColor,
-        focusedIndicatorColor = Orange,
-        unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = ErrorColor,
-        errorTrailingIconColor = ErrorColor
-    )
-
     Box(
         Modifier
             .padding(dimensionResource(id = R.dimen.padding_standard))
@@ -319,19 +325,24 @@ fun EDialogField(
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.text_field_default_height))
                 .onFocusChanged {
-                    focused = it.isFocused
                     if (it.isFocused) {
                         onClick.invoke()
                     }
                 },
-            colors = colors,
+            textStyle = TextStyle(
+                fontSize = fontDimensionResource(id = R.dimen.text_field_text_size),
+                textDecoration = TextDecoration.None
+            ),
+            colors = ETextFieldColors(),
             value = value.toString(),
             onValueChange = {},
             label = {
                 Text(
-                    text = if (focused || value.toString().isNotEmpty()) label.uppercase() else label,
-                    fontWeight = if (focused || value.toString().isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                    text = label,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium)
                 )
             },
         )
@@ -382,18 +393,7 @@ fun EDropDown(
     onChange: (InputState) -> Unit
 ) {
     var text by remember { mutableStateOf(selected ?: "") }
-    var focused by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-
-    val colors = TextFieldDefaults.textFieldColors(
-        focusedLabelColor = Orange,
-        unfocusedLabelColor = Color.Gray,
-        errorLabelColor = ErrorColor,
-        focusedIndicatorColor = Orange,
-        unfocusedIndicatorColor = OrangeVariant,
-        errorIndicatorColor = ErrorColor,
-        errorTrailingIconColor = ErrorColor
-    )
 
     Box(
         Modifier
@@ -406,19 +406,24 @@ fun EDropDown(
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.text_field_default_height))
                 .onFocusChanged {
-                    focused = it.isFocused
                     if (it.isFocused) {
                         expanded = true
                     }
                 },
-            colors = colors,
+            textStyle = TextStyle(
+                fontSize = fontDimensionResource(id = R.dimen.text_field_text_size),
+                textDecoration = TextDecoration.None
+            ),
+            colors = ETextFieldColors(),
             value = text,
             onValueChange = { text = it },
             label = {
                 Text(
-                    text = if (focused || text.isNotEmpty()) label.uppercase() else label,
-                    fontWeight = if (focused || text.isNotEmpty()) FontWeight.Bold else FontWeight.Normal
+                    text = label,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium)
                 )
             },
         )
@@ -435,22 +440,26 @@ fun EDropDown(
             items.forEach {
                 val string = "$itemPrefix $it $itemSuffix".trim()
 
-                DropdownMenuItem(onClick = {
-                    text = string
-                    onChange.invoke(InputState(it, true))
-                    expanded = false
-                }) {
-                    Text(text = string)
+                DropdownMenuItem(
+                    contentPadding = PaddingValues(
+                        horizontal = 0.dp,
+                        vertical = 0.dp
+                    ),
+                    onClick = {
+                        text = string
+                        onChange.invoke(InputState(it, true))
+                        expanded = false
+                    }) {
+                    Text(
+                        modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
+                        text = string,
+                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium)
+                    )
                 }
             }
         }
     }
 }
-
-data class InputState(
-    var text: String = "",
-    var isSuccess: Boolean = false
-)
 
 @Preview(showBackground = true)
 @Composable

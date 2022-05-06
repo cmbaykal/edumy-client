@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
-const val BASE_URL = "http://192.168.1.110:8080"
+const val BASE_URL = "http://192.168.1.111:8080"
 const val TIME_OUT = 60L
 
 @Module

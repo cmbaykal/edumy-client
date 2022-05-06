@@ -35,7 +35,7 @@
     <string name="please_wait_text">Please wait...</string>
     <string name="name_hint">Name</string>
     <string name="surname_hint">Surname</string>
-    <string name="email_hint">E-mail</string>
+    <string name="email_hint">E-Mail Address</string>
     <string name="birth_hint">Birth Date</string>
     <string name="biography_hint">Biography</string>
     <string name="password_hint">Password</string>
