@@ -49,7 +49,7 @@ class EdumySession(context: Context, val gson: Gson) {
         deleteUser()
     }
 
-    val user: User get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
+    val user: User? get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
 
     val token get() = preferences.getString(TOKEN, null)
 
