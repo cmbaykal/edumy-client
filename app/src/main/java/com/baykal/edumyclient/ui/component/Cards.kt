@@ -540,6 +540,7 @@ fun MeetingCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.meeting_card_height))
                 .then(modifier),
             elevation = dimensionResource(id = R.dimen.elevation_standard)
         ) {
@@ -548,42 +549,39 @@ fun MeetingCard(
                     .clickable(onClick = { onClick(meeting) }, enabled = status)
                     .padding(dimensionResource(id = R.dimen.padding_standard))
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                Text(
+                    text = "${classroom?.name} - ${classroom?.lesson}",
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = user?.name.toString(),
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(top = dimensionResource(id = R.dimen.padding_standard))
+                        .height(dimensionResource(id = R.dimen.meeting_card_description_height)),
+                    text = meeting.description.toString(),
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                date?.let {
                     Text(
-                        text = "${classroom?.name} - ${classroom?.lesson}",
-                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
-                        fontWeight = FontWeight.Bold
-                    )
-                    date?.let {
-                        Text(
-                            text = it.string,
-                            fontSize = fontDimensionResource(id = R.dimen.font_size_small),
-                            fontWeight = FontWeight.Light
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.teacher_text, user?.name.toString()),
-                        fontSize = fontDimensionResource(id = R.dimen.font_size_medium),
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = stringResource(id = R.string.duration_text, duration),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard)),
+                        text = it.string,
                         fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                         fontWeight = FontWeight.Light
                     )
                 }
                 Text(
-                    modifier = Modifier.align(Alignment.End),
+                    text = stringResource(id = R.string.duration_text, duration),
+                    fontSize = fontDimensionResource(id = R.dimen.font_size_small),
+                    fontWeight = FontWeight.Light
+                )
+                Text(
                     text = stringResource(id = R.string.status_text, meetingStatus),
                     fontSize = fontDimensionResource(id = R.dimen.font_size_small),
                     fontWeight = FontWeight.Light
