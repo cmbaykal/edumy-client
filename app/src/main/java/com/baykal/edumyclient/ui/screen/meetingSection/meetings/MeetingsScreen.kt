@@ -15,6 +15,8 @@ import androidx.compose.ui.res.dimensionResource
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
+import com.baykal.edumyclient.base.component.ListSwipeRefreshSettings
+import com.baykal.edumyclient.base.component.ListType
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.MeetingCard
 import com.baykal.edumyclient.ui.screen.meetingSection.meetingSession.MeetingActivity
@@ -54,8 +56,8 @@ fun MeetingsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = dimensionResource(id = R.dimen.padding_standard)),
-                    swipeRefresh = true,
-                    onRefresh = viewModel::fetchData,
+                    listType = ListType.Grid(spanCount = 2),
+                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::fetchData),
                     listItems = meetings
                 ) { item ->
                     MeetingCard(

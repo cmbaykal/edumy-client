@@ -74,5 +74,8 @@
 
     <dimen name="answer_card_button_size">35dp</dimen>
 
+    <dimen name="meeting_card_height">164dp</dimen>
+    <dimen name="meeting_card_description_height">40dp</dimen>
+
 
 </resources>

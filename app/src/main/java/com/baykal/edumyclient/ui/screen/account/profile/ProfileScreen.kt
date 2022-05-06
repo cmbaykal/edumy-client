@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.ScreenButton
 import com.baykal.edumyclient.base.ui.theme.Orange
+import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.ProfileCard
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
 import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
@@ -80,15 +81,22 @@ fun ProfileScreen(
                         icon = Icons.Filled.QuestionAnswer
                     ) {
                         it.id?.let { userId ->
-                            viewModel.navigate(QuestionsRoute.userQuestions(userId))
+                            val route = if (it.role == UserRole.Student) {
+                                QuestionsRoute.userQuestions(userId)
+                            } else {
+                                QuestionsRoute.feedQuestions()
+                            }
+                            viewModel.navigate(route)
                         }
                     }
-                    ScreenButton(
-                        text = stringResource(id = R.string.studies_screen),
-                        icon = Icons.Filled.RateReview
-                    ) {
-                        it.id?.let { userId ->
-                            viewModel.navigate(AnswersRoute.userAnswers(userId))
+                    if(it.role == UserRole.Student) {
+                        ScreenButton(
+                            text = stringResource(id = R.string.answers_screen),
+                            icon = Icons.Filled.RateReview
+                        ) {
+                            it.id?.let { userId ->
+                                viewModel.navigate(AnswersRoute.userAnswers(userId))
+                            }
                         }
                     }
                     ScreenButton(

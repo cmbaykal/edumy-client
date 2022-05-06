@@ -15,6 +15,7 @@ import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ESearchView
+import com.baykal.edumyclient.base.component.ListSwipeRefreshSettings
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.ClassroomListCard
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
@@ -61,8 +62,7 @@ fun ClassroomsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = dimensionResource(id = R.dimen.padding_standard)),
-                    swipeRefresh = true,
-                    onRefresh = viewModel::getClassrooms,
+                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::getClassrooms),
                     listItems = classrooms,
                 ) { classroom ->
                     ClassroomListCard(classroom = classroom) {

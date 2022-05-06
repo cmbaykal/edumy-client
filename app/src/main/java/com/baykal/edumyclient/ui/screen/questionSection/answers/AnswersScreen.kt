@@ -11,6 +11,7 @@ import androidx.compose.ui.res.dimensionResource
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ImageDialog
+import com.baykal.edumyclient.base.component.ListSwipeRefreshSettings
 import com.baykal.edumyclient.ui.component.AnswerCard
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
@@ -30,8 +31,10 @@ fun AnswersScreen(
 
         EList(
             modifier = Modifier.fillMaxSize(),
-            swipeRefresh = true,
-            onRefresh = { viewModel.getAnswers(true) },
+            swipeRefreshSettings = ListSwipeRefreshSettings(
+                enabled = true,
+                onRefresh = { viewModel.getAnswers(true) }
+            ),
             listItems = answers
         ) {
             AnswerCard(

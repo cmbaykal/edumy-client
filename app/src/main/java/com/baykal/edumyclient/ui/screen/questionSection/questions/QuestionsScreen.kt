@@ -14,9 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.baykal.edumyclient.R
-import com.baykal.edumyclient.base.component.EFab
-import com.baykal.edumyclient.base.component.EList
-import com.baykal.edumyclient.base.component.ETabRow
+import com.baykal.edumyclient.base.component.*
 import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.data.model.classroom.Lesson
 import com.baykal.edumyclient.data.model.user.response.UserRole
@@ -73,11 +71,13 @@ fun QuestionsScreen(
                             top = dimensionResource(id = R.dimen.padding_standard)
                         ),
                     scrollState = scrollState,
-                    swipeRefresh = true,
-                    onRefresh = viewModel::fetchQuestions,
-                    loadMore = isMoreData,
-                    onLoadMore = viewModel::getQuestions,
-                    endContent = { EndComponent() },
+                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::fetchQuestions),
+                    loadMoreSettings = ListLoadMoreSettings(
+                        enabled = isMoreData,
+                        onLoadMore = viewModel::getQuestions,
+                        loadMoreContent = {},
+                        endContent = { EndComponent() },
+                    ),
                     listItems = questions
                 ) { item ->
                     QuestionListCard(question = item) {

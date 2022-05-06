@@ -1,9 +1,11 @@
 package com.baykal.edumyclient.base.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +26,8 @@ import com.baykal.edumyclient.base.ui.theme.Orange
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+
+// region Tab Row
 
 @Composable
 fun ETabRow(
@@ -87,21 +91,63 @@ fun ETabRowItem(
     }
 }
 
+// endregion
+
+// region List
+
+enum class ListOrientation {
+    Vertical,
+    Horizontal
+}
+
+sealed class ListType {
+    data class Default(val orientation: ListOrientation = ListOrientation.Vertical) : ListType()
+    data class Grid(val spanCount: Int = 2) : ListType()
+}
+
+data class ListSwipeRefreshSettings(
+    val enabled: Boolean,
+    val onRefresh: () -> Unit,
+) {
+    companion object {
+        val Default
+            get() = ListSwipeRefreshSettings(
+                enabled = true,
+                onRefresh = {}
+            )
+    }
+}
+
+data class ListLoadMoreSettings(
+    val enabled: Boolean,
+    val onLoadMore: () -> Unit,
+    val loadMoreContent: @Composable () -> Unit,
+    val endContent: @Composable () -> Unit,
+) {
+    companion object {
+        val Default
+            get() = ListLoadMoreSettings(
+                enabled = false,
+                onLoadMore = {},
+                loadMoreContent = {},
+                endContent = {}
+            )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> EList(
     modifier: Modifier = Modifier,
-    isVertical: Boolean = true,
     scrollState: LazyListState = rememberLazyListState(),
-    swipeRefreshState: SwipeRefreshState = rememberSwipeRefreshState(false),
-    swipeRefresh: Boolean = false,
-    onRefresh: () -> Unit = {},
-    loadMore: Boolean = false,
-    onLoadMore: () -> Unit = {},
-    loadMoreContent: @Composable () -> Unit = {},
-    endContent: @Composable () -> Unit = {},
+    listType: ListType = ListType.Default(),
+    swipeRefreshSettings: ListSwipeRefreshSettings = ListSwipeRefreshSettings.Default,
+    loadMoreSettings: ListLoadMoreSettings = ListLoadMoreSettings.Default,
     listItems: List<T>? = null,
     itemContent: @Composable (item: T) -> Unit
 ) {
+    val swipeRefreshState: SwipeRefreshState = rememberSwipeRefreshState(false)
+
     val scrollEndState by remember {
         derivedStateOf {
             with(scrollState) {
@@ -111,53 +157,80 @@ fun <T> EList(
     }
 
     LaunchedEffect(scrollEndState) {
-        if (scrollEndState && loadMore) {
-            onLoadMore.invoke()
+        if (scrollEndState && loadMoreSettings.enabled) {
+            loadMoreSettings.onLoadMore()
             scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
         }
     }
 
     SwipeRefresh(
         state = swipeRefreshState,
-        swipeEnabled = swipeRefresh,
-        onRefresh = onRefresh
+        swipeEnabled = swipeRefreshSettings.enabled,
+        onRefresh = swipeRefreshSettings.onRefresh
     ) {
-        if (isVertical) {
-            LazyColumn(
-                modifier = modifier,
-                state = scrollState
-            ) {
-                listItems?.let {
-                    items(listItems) { item ->
-                        itemContent.invoke(item)
+        when (listType) {
+            is ListType.Default -> {
+                if (listType.orientation == ListOrientation.Vertical) {
+                    LazyColumn(
+                        modifier = modifier,
+                        state = scrollState
+                    ) {
+                        listItems?.let {
+                            items(listItems) { item ->
+                                itemContent.invoke(item)
+                            }
+                            item {
+                                if (scrollEndState && loadMoreSettings.enabled) {
+                                    loadMoreSettings.loadMoreContent()
+                                } else if (!loadMoreSettings.enabled) {
+                                    loadMoreSettings.endContent()
+                                }
+                            }
+                        }
                     }
-                    item {
-                        if (scrollEndState && loadMore) {
-                            loadMoreContent()
-                        } else if (!loadMore) {
-                            endContent()
+                } else {
+                    LazyRow(
+                        modifier = modifier,
+                        state = scrollState
+                    ) {
+                        listItems?.let {
+                            items(listItems) { item ->
+                                itemContent.invoke(item)
+                            }
+                            item {
+                                if (scrollEndState && loadMoreSettings.enabled) {
+                                    loadMoreSettings.loadMoreContent()
+                                } else if (!loadMoreSettings.enabled) {
+                                    loadMoreSettings.endContent()
+                                }
+                            }
                         }
                     }
                 }
             }
-        } else {
-            LazyRow(
-                modifier = modifier,
-                state = scrollState
-            ) {
-                listItems?.let {
-                    items(listItems) { item ->
-                        itemContent.invoke(item)
-                    }
-                    item {
-                        if (scrollEndState && loadMore) {
-                            loadMoreContent()
-                        } else if (!loadMore) {
-                            endContent()
+
+            is ListType.Grid -> {
+                Column {
+                    LazyVerticalGrid(
+                        modifier = modifier,
+                        cells = GridCells.Fixed(listType.spanCount),
+                        state = scrollState
+                    ) {
+                        listItems?.let {
+                            items(listItems) { item ->
+                                itemContent.invoke(item)
+                            }
                         }
+                    }
+                    if (scrollEndState && loadMoreSettings.enabled) {
+                        loadMoreSettings.loadMoreContent()
+                    } else if (!loadMoreSettings.enabled) {
+                        loadMoreSettings.endContent()
                     }
                 }
             }
         }
     }
 }
+
+// endregion

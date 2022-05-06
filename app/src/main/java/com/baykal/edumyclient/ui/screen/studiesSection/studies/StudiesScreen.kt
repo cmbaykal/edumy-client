@@ -91,8 +91,7 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                             top = dimensionResource(id = R.dimen.padding_standard)
                         ),
                     scrollState = scrollState,
-                    swipeRefresh = true,
-                    onRefresh = viewModel::fetchStudies,
+                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::fetchStudies),
                     listItems = studies
                 ) { item ->
                     StudyCard(
