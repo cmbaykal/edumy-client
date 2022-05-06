@@ -535,7 +535,7 @@ fun MeetingCard(
 ) {
     with(meeting) {
         val status = date?.time ?: 0 > Date().time
-        val meetingStatus = if (status) R.string.active_text else R.string.passive_text
+        val meetingStatus = stringResource(id = if (status) R.string.active_text else R.string.passive_text)
 
         Card(
             modifier = Modifier
