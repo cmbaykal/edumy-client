@@ -59,7 +59,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                             topLevelScreen = setOf(
                                 stringResource(id = ClassroomsRoute.title),
                                 stringResource(id = QuestionsRoute.BASE_TITLE),
-                                stringResource(id = StudiesRoute.title),
+                                stringResource(id = StudiesRoute.BASE_TITLE),
                                 stringResource(id = MeetingsRoute.title)
                             ),
                             menuIcon = if (mainState.loggedIn == true) {

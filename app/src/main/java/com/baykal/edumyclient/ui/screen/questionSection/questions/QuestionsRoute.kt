@@ -14,22 +14,18 @@ object QuestionsRoute : NavRoute<QuestionsViewModel> {
     const val BASE_TITLE = R.string.questions_screen
 
     override var title = BASE_TITLE
-    override var route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
+    override val route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
 
-    override fun feed(): String {
-        title = BASE_TITLE
-        return route
+    override fun bottomBarVisibility() = title == BASE_TITLE
+    override fun topBarVisibility() = true
+
+    @Composable
+    override fun Content(viewModel: QuestionsViewModel) {
+        QuestionsScreen(viewModel)
     }
 
-    fun userQuestions(userId: String): String {
-        title = R.string.user_questions_screen
-        return route.replace("{${USER_ID}}", userId)
-    }
-
-    fun classQuestions(classId: String): String {
-        title = R.string.classroom_questions_screen
-        return route.replace("{${CLASS_ID}}", classId)
-    }
+    @Composable
+    override fun viewModel(): QuestionsViewModel = hiltViewModel()
 
     override fun getArguments(): List<NamedNavArgument> = listOf(
         navArgument(USER_ID) {
@@ -44,14 +40,18 @@ object QuestionsRoute : NavRoute<QuestionsViewModel> {
         }
     )
 
-    override fun bottomBarVisibility() = title == BASE_TITLE
-    override fun topBarVisibility() = true
-
-    @Composable
-    override fun Content(viewModel: QuestionsViewModel) {
-        QuestionsScreen(viewModel)
+    override fun feed(): String {
+        title = BASE_TITLE
+        return route
     }
 
-    @Composable
-    override fun viewModel(): QuestionsViewModel = hiltViewModel()
+    fun userQuestions(userId: String): String {
+        title = R.string.user_questions_screen
+        return route.replace("{${USER_ID}}", userId)
+    }
+
+    fun classroomQuestions(classId: String): String {
+        title = R.string.classroom_questions_screen
+        return route.replace("{${CLASS_ID}}", classId)
+    }
 }

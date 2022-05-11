@@ -21,7 +21,7 @@ object AnswersRoute : NavRoute<AnswersViewModel> {
         return route.replace("{${USER_ID}}", userId)
     }
 
-    fun classAnswers(classId: String): String {
+    fun classroomAnswers(classId: String): String {
         title = R.string.classroom_answers_screen
         return route.replace("{${CLASS_ID}}", classId)
     }

@@ -14,6 +14,14 @@ class StudyRepository @Inject constructor(
     }
 
     fun getStudies(userId: String) = fetch {
+        service.getStudies(userId)
+    }
+
+    fun getUserStudies(userId: String) = fetch {
         service.getUserStudies(userId)
+    }
+
+    fun getClassroomStudies(classId: String) = fetch {
+        service.getClassroomStudies(classId)
     }
 }

@@ -37,6 +37,7 @@ import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 import com.baykal.edumyclient.ui.screen.questionSection.answers.AnswersRoute
 import com.baykal.edumyclient.ui.screen.questionSection.questions.QuestionsRoute
+import com.baykal.edumyclient.ui.screen.studiesSection.studies.StudiesRoute
 
 @Composable
 fun ClassroomDetailScreen(
@@ -117,7 +118,7 @@ fun ClassroomDetailScreen(
                         icon = Icons.Filled.QuestionAnswer
                     ) {
                         it.id?.let { classId ->
-                            viewModel.navigate(QuestionsRoute.classQuestions(classId))
+                            viewModel.navigate(QuestionsRoute.classroomQuestions(classId))
                         }
                     }
                     ScreenButton(
@@ -125,7 +126,17 @@ fun ClassroomDetailScreen(
                         icon = Icons.Filled.RateReview
                     ) {
                         it.id?.let { classId ->
-                            viewModel.navigate(AnswersRoute.classAnswers(classId))
+                            viewModel.navigate(AnswersRoute.classroomAnswers(classId))
+                        }
+                    }
+                    if(user?.role == UserRole.Teacher) {
+                        ScreenButton(
+                            text = stringResource(id = R.string.studies_screen),
+                            icon = Icons.Filled.RateReview
+                        ) {
+                            it.id?.let { classId ->
+                                viewModel.navigate(StudiesRoute.classroomStudies(classId))
+                            }
                         }
                     }
                     it.id?.let { classId ->

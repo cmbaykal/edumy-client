@@ -106,7 +106,7 @@ interface EdumyService {
         @Query("limit") limit: Int
     ): BaseResult<ApiResponse<MutableList<Question>>>
 
-    @POST("/question/class")
+    @POST("/question/classroom")
     suspend fun getClassroomQuestions(
         @Query("classId") classId: String,
         @Query("page") page: Int,
@@ -161,8 +161,8 @@ interface EdumyService {
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<MutableList<Answer>>>
 
-    @POST("/answer/class")
-    suspend fun getClassAnswers(
+    @POST("/answer/classroom")
+    suspend fun getClassroomAnswers(
         @Query("classId") classId: String
     ): BaseResult<ApiResponse<MutableList<Answer>>>
 
@@ -180,10 +180,21 @@ interface EdumyService {
         @Query("studyId") studyId: String
     ): BaseResult<ApiResponse<Unit>>
 
+    @POST("/study/feed")
+    suspend fun getStudies(
+        @Query("userId") userId: String
+    ): BaseResult<ApiResponse<MutableList<Study>>>
+
     @POST("/study/user")
     suspend fun getUserStudies(
         @Query("userId") userId: String
     ): BaseResult<ApiResponse<MutableList<Study>>>
+
+    @POST("/study/classroom")
+    suspend fun getClassroomStudies(
+        @Query("classId") classId: String
+    ): BaseResult<ApiResponse<MutableList<Study>>>
+
     // endregion
 
     // region Usages

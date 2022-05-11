@@ -22,6 +22,8 @@
     <string name="user_answers_screen">User Answers</string>
     <string name="classroom_answers_screen">Classroom Answers</string>
     <string name="studies_screen">Studies</string>
+    <string name="user_studies_screen">User Studies</string>
+    <string name="classroom_studies_screen">Classroom Studies</string>
     <string name="send_study_screen">Send Study</string>
     <string name="app_usages_screen">App Usages</string>
     <string name="meetings_screen">Meetings</string>

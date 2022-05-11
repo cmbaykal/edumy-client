@@ -18,7 +18,7 @@ class AnswerRepository @Inject constructor(
     }
 
     fun getClassAnswers(classId: String) = fetch {
-        service.getClassAnswers(classId)
+        service.getClassroomAnswers(classId)
     }
 
     fun upVoteAnswer(answerId: String, userId: String) = fetch {

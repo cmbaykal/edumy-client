@@ -104,7 +104,7 @@ fun ProfileScreen(
                         icon = Icons.Filled.Leaderboard
                     ) {
                         it.id?.let { userId ->
-                            viewModel.navigate(StudiesRoute.get(userId))
+                            viewModel.navigate(StudiesRoute.userStudies(userId))
                         }
                     }
                     if (currentUser) {
