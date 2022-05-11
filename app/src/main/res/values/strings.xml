@@ -9,7 +9,7 @@
     <string name="register_screen">Register</string>
     <string name="profile_screen">Profile</string>
     <string name="edit_profile_screen">Edit Profile</string>
-    <string name="classrooms_screen">Classrooms</string>
+    <string name="classrooms_screen">Classes</string>
     <string name="classroom_detail_screen">Classroom Detail</string>
     <string name="create_classroom_screen">Create Class</string>
     <string name="questions_screen">Questions</string>

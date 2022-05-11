@@ -25,7 +25,11 @@ fun CreateClassScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(dimensionResource(id = R.dimen.padding_huge)),
+            .padding(
+                start = dimensionResource(id = R.dimen.padding_huge),
+                end = dimensionResource(id = R.dimen.padding_huge),
+                bottom = dimensionResource(id = R.dimen.padding_huge)
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
