@@ -16,7 +16,7 @@ object QuestionsRoute : NavRoute<QuestionsViewModel> {
     override var title = BASE_TITLE
     override var route = "questions?userId={${USER_ID}}&classId={$CLASS_ID}"
 
-    fun feedQuestions(): String {
+    override fun feed(): String {
         title = BASE_TITLE
         return route
     }
@@ -44,7 +44,7 @@ object QuestionsRoute : NavRoute<QuestionsViewModel> {
         }
     )
 
-    override fun bottomBarVisibility() = true
+    override fun bottomBarVisibility() = title == BASE_TITLE
     override fun topBarVisibility() = true
 
     @Composable

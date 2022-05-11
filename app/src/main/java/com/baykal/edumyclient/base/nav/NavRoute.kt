@@ -27,6 +27,8 @@ interface NavRoute<T : BaseViewModel> {
 
     fun topBarVisibility(): Boolean = false
 
+    fun feed(): String = route
+
     @Composable
     fun Content(viewModel: T)
 

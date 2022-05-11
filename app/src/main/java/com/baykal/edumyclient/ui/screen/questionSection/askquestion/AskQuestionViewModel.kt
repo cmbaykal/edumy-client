@@ -75,7 +75,7 @@ class AskQuestionViewModel @Inject constructor(
                             "Question Sent",
                             "Your question is successfully send.",
                         ) {
-                            navigate(QuestionsRoute.feedQuestions(), true)
+                            navigate(QuestionsRoute.feed(), true)
                         }
                     }
                 }

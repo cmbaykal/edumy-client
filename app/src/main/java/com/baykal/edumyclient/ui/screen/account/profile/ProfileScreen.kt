@@ -84,7 +84,7 @@ fun ProfileScreen(
                             val route = if (it.role == UserRole.Student) {
                                 QuestionsRoute.userQuestions(userId)
                             } else {
-                                QuestionsRoute.feedQuestions()
+                                QuestionsRoute.feed()
                             }
                             viewModel.navigate(route)
                         }

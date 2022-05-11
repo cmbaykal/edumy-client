@@ -39,7 +39,7 @@ object AnswersRoute : NavRoute<AnswersViewModel> {
         }
     )
 
-    override fun bottomBarVisibility() = true
+    override fun bottomBarVisibility() = false
     override fun topBarVisibility() = true
 
     @Composable

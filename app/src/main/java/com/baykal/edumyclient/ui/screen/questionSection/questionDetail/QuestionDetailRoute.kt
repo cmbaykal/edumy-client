@@ -22,7 +22,7 @@ object QuestionDetailRoute : NavRoute<QuestionDetailViewModel> {
         }
     )
 
-    override fun bottomBarVisibility() = true
+    override fun bottomBarVisibility() = false
     override fun topBarVisibility() = true
 
     @Composable

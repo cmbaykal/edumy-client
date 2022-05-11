@@ -109,7 +109,7 @@ fun EdumyBottomBar(
                         )
                     },
                     onClick = {
-                        navigate(item.route) {
+                        navigate(item.route.feed()) {
                             graph.startDestinationRoute?.let { screen_route ->
                                 popUpTo(screen_route) {
                                     saveState = true

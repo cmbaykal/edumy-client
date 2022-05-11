@@ -30,7 +30,9 @@ fun AnswersScreen(
         }
 
         EList(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(dimensionResource(id = R.dimen.padding_huge)),
             swipeRefreshSettings = ListSwipeRefreshSettings(
                 enabled = true,
                 onRefresh = { viewModel.getAnswers(true) }
