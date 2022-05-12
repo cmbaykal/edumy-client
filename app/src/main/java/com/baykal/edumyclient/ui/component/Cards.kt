@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -511,8 +512,8 @@ fun StudyCard(
                     Icon(
                         modifier = Modifier
                             .padding(start = dimensionResource(id = R.dimen.padding_standard))
-                            .size(dimensionResource(id = R.dimen.icon_size_medium)),
-                        imageVector = Icons.Default.CheckBoxOutlineBlank,
+                            .size(dimensionResource(id = R.dimen.icon_size_small)),
+                        imageVector = Icons.Outlined.Circle,
                         tint = Gray,
                         contentDescription = "Icon Button",
                     )

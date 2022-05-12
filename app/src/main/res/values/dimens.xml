@@ -15,6 +15,7 @@
     <dimen name="radius_standard">10dp</dimen>
     <dimen name="radius_massive">50dp</dimen>
 
+    <dimen name="icon_size_small">14dp</dimen>
     <dimen name="icon_size_medium">18dp</dimen>
     <dimen name="icon_size_standard">24dp</dimen>
     <dimen name="icon_size_big">36dp</dimen>
