@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.ui.screen.studiesSection.studies
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
@@ -47,24 +48,24 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
             Column(
                 modifier = Modifier
             ) {
-                if (!studies.isNullOrEmpty()) {
                     val chartData = listOf(
                         ChartData(
                             identifier = stringResource(id = R.string.correct_answers_text),
-                            point = studies.sumOf { it.correctA.toString().toInt() },
+                            point = studies?.sumOf { it.correctA.toString().toInt() } ?: 0,
                             color = Orange
                         ),
                         ChartData(
                             identifier = stringResource(id = R.string.wrong_answers_text),
-                            point = studies.sumOf { it.wrongA.toString().toInt() },
+                            point = studies?.sumOf { it.wrongA.toString().toInt() } ?: 0,
                             color = Red
                         ),
                         ChartData(
                             identifier = stringResource(id = R.string.empty_questions_text),
-                            point = studies.sumOf { it.emptyQ.toString().toInt() },
+                            point = studies?.sumOf { it.emptyQ.toString().toInt() } ?: 0,
                             color = Purple
                         )
                     )
+                AnimatedVisibility(visible = !studies.isNullOrEmpty()) {
                     PieChart(
                         modifier = Modifier
                             .padding(top = dimensionResource(id = R.dimen.padding_big))
@@ -72,16 +73,16 @@ fun StudiesScreen(viewModel: StudiesViewModel) {
                             .height(dimensionResource(id = R.dimen.pie_chart_height)),
                         data = chartData
                     )
-                    ETabRow(
-                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_big)),
-                        data = lessonItems,
-                        onSelect = { selected ->
-                            viewModel.filterStudies(selected)
-                            coroutineScope.launch {
-                                scrollState.scrollToItem(0)
-                            }
-                        })
                 }
+                ETabRow(
+                    modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_big)),
+                    data = lessonItems,
+                    onSelect = { selected ->
+                        viewModel.filterStudies(selected)
+                        coroutineScope.launch {
+                            scrollState.scrollToItem(0)
+                        }
+                    })
                 EList(
                     modifier = Modifier
                         .fillMaxSize()

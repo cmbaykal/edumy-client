@@ -52,7 +52,6 @@ fun QuestionsScreen(
             }
         ) {
             Column {
-                if (!questions.isNullOrEmpty()) {
                     userRole?.let {
                         ETabRow(data = lessonItems, onSelect = {
                             viewModel.filterQuestions(it)
@@ -61,7 +60,6 @@ fun QuestionsScreen(
                             }
                         })
                     }
-                }
                 EList(
                     modifier = Modifier
                         .fillMaxSize()
