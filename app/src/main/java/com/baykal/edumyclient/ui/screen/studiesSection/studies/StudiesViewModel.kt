@@ -44,10 +44,10 @@ class StudiesViewModel @Inject constructor(
     }
 
     fun fetchStudies() {
-        studyList.clear()
         userId?.let { id ->
             userStudiesUseCase.observe(id).collectData { response ->
                 response?.let { list ->
+                    studyList.clear()
                     studyList.addAll(list)
                     _uiState.update { it.copy(studies = studyList) }
                 }
@@ -55,6 +55,7 @@ class StudiesViewModel @Inject constructor(
         } ?: classId?.let { id ->
             classroomStudiesUseCase.observe(id).collectData { response ->
                 response?.let { list ->
+                    studyList.clear()
                     studyList.addAll(list)
                     _uiState.update { it.copy(studies = studyList) }
                 }
@@ -63,6 +64,7 @@ class StudiesViewModel @Inject constructor(
             session.withUserId { id ->
                 studiesUseCase.observe(id).collectData { response ->
                     response?.let { list ->
+                        studyList.clear()
                         studyList.addAll(list)
                         _uiState.update { it.copy(studies = studyList) }
                     }

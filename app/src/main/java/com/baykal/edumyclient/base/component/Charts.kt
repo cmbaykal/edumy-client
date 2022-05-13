@@ -71,9 +71,10 @@ fun PieChart(
                     val rect = Rect(Offset(-radius, -radius), Size(size, size))
 
                     translate(radius, radius) {
-                        data.forEach {
-                            val ratio = it.point / sum
-                            val angle = round(ratio * 360f)
+                        data.forEachIndexed { index, item ->
+                            val ratio = item.point / sum
+                            val maxAngle = if (index == data.lastIndex) 360f else 359f
+                            val angle = round(ratio * maxAngle)
                             path.moveTo(0f, 0f)
                             path.arcTo(
                                 rect = rect,
@@ -83,7 +84,7 @@ fun PieChart(
                             angles.add(angle)
                             drawPath(
                                 path = path,
-                                color = it.color
+                                color = item.color
                             )
                             drawPath(
                                 path = path,
