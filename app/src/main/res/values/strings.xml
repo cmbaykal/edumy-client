@@ -67,6 +67,9 @@
     <!-- Profile Screen -->
     <string name="logout_button">Logout</string>
 
+    <!-- Settings Screen -->
+    <string name="settings_screen">Settings</string>
+
     <!-- Edit Profile Screen -->
     <string name="change_password_button">Change Password</string>
     <string name="change_password_dialog_title">Change Password</string>

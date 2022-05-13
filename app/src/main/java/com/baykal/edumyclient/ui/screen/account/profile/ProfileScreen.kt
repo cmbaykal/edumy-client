@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Leaderboard
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.QuestionAnswer
-import androidx.compose.material.icons.filled.RateReview
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -76,20 +73,15 @@ fun ProfileScreen(
                             bottom = dimensionResource(id = R.dimen.padding_big)
                         )
                 ) {
-                    ScreenButton(
-                        text = stringResource(id = R.string.questions_screen),
-                        icon = Icons.Filled.QuestionAnswer
-                    ) {
-                        it.id?.let { userId ->
-                            val route = if (it.role == UserRole.Student) {
-                                QuestionsRoute.userQuestions(userId)
-                            } else {
-                                QuestionsRoute.feed()
-                            }
-                            viewModel.navigate(route)
-                        }
-                    }
                     if(it.role == UserRole.Student) {
+                        ScreenButton(
+                            text = stringResource(id = R.string.questions_screen),
+                            icon = Icons.Filled.QuestionAnswer
+                        ) {
+                            it.id?.let { userId ->
+                                viewModel.navigate(QuestionsRoute.userQuestions(userId))
+                            }
+                        }
                         ScreenButton(
                             text = stringResource(id = R.string.answers_screen),
                             icon = Icons.Filled.RateReview
@@ -98,16 +90,22 @@ fun ProfileScreen(
                                 viewModel.navigate(AnswersRoute.userAnswers(userId))
                             }
                         }
-                    }
-                    ScreenButton(
-                        text = stringResource(id = R.string.studies_screen),
-                        icon = Icons.Filled.Leaderboard
-                    ) {
-                        it.id?.let { userId ->
-                            viewModel.navigate(StudiesRoute.userStudies(userId))
+                        ScreenButton(
+                            text = stringResource(id = R.string.studies_screen),
+                            icon = Icons.Filled.Leaderboard
+                        ) {
+                            it.id?.let { userId ->
+                                viewModel.navigate(StudiesRoute.userStudies(userId))
+                            }
                         }
                     }
                     if (currentUser) {
+                        ScreenButton(
+                            text = stringResource(id = R.string.settings_screen),
+                            icon = Icons.Filled.Settings
+                        ) {
+
+                        }
                         ScreenButton(
                             text = stringResource(id = R.string.logout_button),
                             icon = Icons.Filled.Logout
