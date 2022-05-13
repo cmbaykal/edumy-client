@@ -18,10 +18,12 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.dimensionResource
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.extension.fontDimensionResource
+import kotlin.math.round
 
 data class ChartData(
     val identifier: String,
@@ -65,18 +67,37 @@ fun PieChart(
                 ) {
                     var startAngle = 0f
                     val radius = this@BoxWithConstraints.maxHeight.toPx() / 2f
-                    val rect = Rect(Offset(-radius, -radius), Size(2 * radius, 2 * radius))
+                    val size = radius * 2
+                    val rect = Rect(Offset(-radius, -radius), Size(size, size))
 
                     translate(radius, radius) {
                         data.forEach {
-                            val angle = it.point / sum * 360f
+                            val ratio = it.point / sum
+                            val angle = round(ratio * 360f)
                             path.moveTo(0f, 0f)
-                            path.arcTo(rect = rect, startAngle, angle * animation.value, false)
+                            path.arcTo(
+                                rect = rect,
+                                startAngleDegrees = startAngle,
+                                sweepAngleDegrees = angle * animation.value, false
+                            )
                             angles.add(angle)
-                            drawPath(path = path, color = it.color)
+                            drawPath(
+                                path = path,
+                                color = it.color
+                            )
+                            drawPath(
+                                path = path,
+                                style = Stroke(width = 8f),
+                                color = Color.White
+                            )
                             path.reset()
                             startAngle += angle
                         }
+                        drawCircle(
+                            color = Color.White,
+                            center = Offset(0f, 0f),
+                            radius = radius / 2
+                        )
                     }
                 }
                 EList(
