@@ -4,8 +4,6 @@ import com.baykal.edumyclient.base.network.AuthInterceptor
 import com.baykal.edumyclient.base.network.EdumyAuthenticator
 import com.baykal.edumyclient.data.service.AuthServiceImp
 import com.baykal.edumyclient.data.service.EdumyServiceImp
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -115,24 +113,14 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideAuthService(
-        @Named("AuthClient") httpClient: HttpClient
+        httpClient: HttpClient
     ) = AuthServiceImp(httpClient)
 
     @Singleton
     @Provides
     fun provideService(
-        httpClient: HttpClient
+        @Named("AuthClient") httpClient: HttpClient
     ) = EdumyServiceImp(httpClient)
-
-
-    // region Retrofit
-    @Singleton
-    @Provides
-    fun provideGson(): Gson = GsonBuilder()
-        .setPrettyPrinting()
-        .setLenient()
-        .setDateFormat("dd.MM.yyyy HH:mm:ss")
-        .create()
 
     @Singleton
     @Provides

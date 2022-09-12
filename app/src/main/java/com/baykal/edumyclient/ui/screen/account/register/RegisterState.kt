@@ -13,5 +13,5 @@ data class RegisterState(
     val role: UserRole = UserRole.Student
 ) {
     val isFormValid get() = name.isSuccess && surname.isSuccess && mail.isSuccess && birth.isSuccess && pass.isSuccess && passConfirm.isSuccess
-    val birthDate get() = "${birth.text} 00.00.00"
+    val birthDate get() = "${birth.text} 00:00:00"
 }
