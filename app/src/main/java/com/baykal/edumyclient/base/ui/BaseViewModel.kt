@@ -44,7 +44,7 @@ abstract class BaseViewModel : ViewModel() {
         if (loading) setLoading(true)
         return onEach {
             setLoading(true)
-            if (it.error != null) {
+            if (it.error == null) {
                 delay(200)
                 setLoading(false)
                 delay(200)
