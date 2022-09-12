@@ -31,13 +31,16 @@ fun MeetingsScreen(
 
     with(viewState) {
         LaunchedEffect(meetings) {
-            if (meetings == null)
-                viewModel.fetchData()
+            if (classrooms.isNullOrEmpty()) {
+                viewModel.getClassrooms()
+            } else if (meetings == null) {
+                viewModel.getMeetings()
+            }
         }
 
         Scaffold(
             floatingActionButton = {
-                if (userRole == UserRole.Teacher) {
+                if (userRole == UserRole.Teacher && meetings != null) {
                     EFab(onClick = {
                         viewModel.navigate(ScheduleMeetingRoute.route)
                     })
@@ -57,7 +60,7 @@ fun MeetingsScreen(
                         .fillMaxSize()
                         .padding(top = dimensionResource(id = R.dimen.padding_standard)),
                     listType = ListType.Grid(spanCount = 2),
-                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::fetchData),
+                    swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::getMeetings),
                     listItems = meetings
                 ) { item ->
                     MeetingCard(
