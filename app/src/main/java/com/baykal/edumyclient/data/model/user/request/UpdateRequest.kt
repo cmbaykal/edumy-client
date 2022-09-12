@@ -1,21 +1,24 @@
 package com.baykal.edumyclient.data.model.user.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateCredentials(
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("bio")
+    @SerialName("bio")
     val bio: String? = null,
 )
 
+@Serializable
 data class PasswordCredentials(
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("oldPass")
+    @SerialName("oldPass")
     val oldPass: String,
-    @SerializedName("newPass")
+    @SerialName("newPass")
     val newPass: String,
 )

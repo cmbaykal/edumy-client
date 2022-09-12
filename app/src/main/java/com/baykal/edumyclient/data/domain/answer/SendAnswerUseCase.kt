@@ -1,15 +1,13 @@
 package com.baykal.edumyclient.data.domain.answer
 
-import com.baykal.edumyclient.base.data.ApiResponse
-import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.data.BaseUseCase
 import com.baykal.edumyclient.data.repository.AnswerRepository
-import okhttp3.MultipartBody
+import io.ktor.http.content.*
 import javax.inject.Inject
 
 class SendAnswerUseCase @Inject constructor(
     private val answerRepository: AnswerRepository
-) : BaseUseCase<MultipartBody, BaseResult<ApiResponse<Unit>>>() {
+) : BaseUseCase<List<PartData>, Unit>() {
 
-    override fun build(params: MultipartBody) = answerRepository.sendAnswer(params)
+    override fun build(params: List<PartData>) = answerRepository.sendAnswer(params)
 }

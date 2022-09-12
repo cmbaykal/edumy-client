@@ -1,13 +1,32 @@
 package com.baykal.edumyclient.base.data
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 open class BaseResponse(
-    @SerializedName("success") val success: Boolean = false,
-    @SerializedName("error") val error: String? = null
+    @SerialName("success")
+    var success: Boolean? = null,
+
+    @SerialName("error")
+    var error: String? = null
 )
 
-data class ApiResponse<out T>(
-    @SerializedName("data") val data: T?
-) : BaseResponse()
+@Serializable
+data class ApiResponse<T>(
+    @SerialName("data")
+    var data: T? = null
+) : BaseResponse() {
+    companion object {
+        fun loading() = ApiResponse(null)
+
+        fun <T> success(data: T? = null) = ApiResponse(data).apply {
+            success = true
+        }
+
+        fun error(message: String? = null) = BaseResponse(
+            success = false,
+            error = message ?: "Oops, an error occurred. Please try again.",
+        )
+    }
+}

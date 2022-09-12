@@ -1,19 +1,23 @@
 package com.baykal.edumyclient.data.model.study.response
 
-import com.google.gson.annotations.SerializedName
+import com.baykal.edumyclient.base.data.DateSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.util.*
 
+@Serializable
 data class Study(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("lesson")
+    @SerialName("lesson")
     val lesson: String? = null,
-    @SerializedName("correctA")
+    @SerialName("correctA")
     val correctA: String? = null,
-    @SerializedName("wrongA")
+    @SerialName("wrongA")
     val wrongA: String? = null,
-    @SerializedName("emptyQ")
+    @SerialName("emptyQ")
     val emptyQ: String? = null,
-    @SerializedName("date")
+    @Serializable(with = DateSerializer::class)
+    @SerialName("date")
     val date: Date? = null
 )

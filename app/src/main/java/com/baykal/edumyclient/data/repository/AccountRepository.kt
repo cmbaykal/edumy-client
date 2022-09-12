@@ -5,11 +5,11 @@ import com.baykal.edumyclient.data.model.user.request.LoginCredentials
 import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
-import com.baykal.edumyclient.data.service.EdumyService
+import com.baykal.edumyclient.data.service.EdumyServiceImp
 import javax.inject.Inject
 
 class AccountRepository @Inject constructor(
-    private val service: EdumyService
+    private val service: EdumyServiceImp
 ) : BaseRepository() {
 
     fun loginUser(loginCredentials: LoginCredentials) = fetch {

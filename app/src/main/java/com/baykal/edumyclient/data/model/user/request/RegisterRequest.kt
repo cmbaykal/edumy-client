@@ -1,19 +1,21 @@
 package com.baykal.edumyclient.data.model.user.request
 
 import com.baykal.edumyclient.data.model.user.response.UserRole
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RegisterCredentials(
-    @SerializedName("role")
+    @SerialName("role")
     val role: UserRole? = null,
-    @SerializedName("mail")
+    @SerialName("mail")
     val mail: String? = null,
-    @SerializedName("birth")
+    @SerialName("birth")
     val birth: String? = null,
-    @SerializedName("pass")
+    @SerialName("pass")
     val pass: String? = null,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("bio")
+    @SerialName("bio")
     val bio: String? = null,
 )

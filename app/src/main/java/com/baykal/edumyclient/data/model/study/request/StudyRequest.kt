@@ -1,18 +1,20 @@
 package com.baykal.edumyclient.data.model.study.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StudyBody(
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("lesson")
+    @SerialName("lesson")
     val lesson: String,
-    @SerializedName("correctA")
+    @SerialName("correctA")
     val correctA: String,
-    @SerializedName("wrongA")
+    @SerialName("wrongA")
     val wrongA: String,
-    @SerializedName("emptyQ")
+    @SerialName("emptyQ")
     val emptyQ: String,
-    @SerializedName("date")
+    @SerialName("date")
     val date: String
 )

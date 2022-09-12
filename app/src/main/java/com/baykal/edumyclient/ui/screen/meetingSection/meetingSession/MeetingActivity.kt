@@ -27,7 +27,7 @@ class MeetingActivity : FragmentActivity(), JitsiMeetActivityInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
 
-        val item = intent.getParcelableExtra<Meeting>("meeting")
+        val item = intent.getSerializableExtra("meeting") as Meeting?
 
         item?.let { meeting ->
             session.withUser {

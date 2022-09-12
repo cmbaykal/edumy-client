@@ -1,16 +1,18 @@
 package com.baykal.edumyclient.data.model.meeting.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MeetingBody(
-    @SerializedName("classId")
+    @SerialName("classId")
     val classId: String,
-    @SerializedName("creatorId")
+    @SerialName("creatorId")
     val creatorId: String,
-    @SerializedName("description")
+    @SerialName("description")
     var description: String,
-    @SerializedName("duration")
+    @SerialName("duration")
     val duration: Int,
-    @SerializedName("date")
+    @SerialName("date")
     var date: String
 )

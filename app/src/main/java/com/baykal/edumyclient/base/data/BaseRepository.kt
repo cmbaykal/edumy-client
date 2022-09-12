@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.flow
 
 open class BaseRepository {
 
-    protected fun <T> fetch(apiCall: suspend () -> BaseResult<T>) = flow {
-        emit(BaseResult.Loading)
+    protected fun <T> fetch(apiCall: suspend () -> ApiResponse<T>) = flow {
+        emit(ApiResponse.loading())
         emit(apiCall())
     }
 

@@ -1,30 +1,131 @@
 package com.baykal.edumyclient.di
 
-import com.baykal.edumyclient.base.network.NetworkAdapterFactory
-import com.baykal.edumyclient.base.network.auth.AuthInterceptor
-import com.baykal.edumyclient.base.network.auth.EdumyAuthenticator
-import com.baykal.edumyclient.data.service.EdumyService
-import com.baykal.edumyclient.data.service.auth.AuthService
+import com.baykal.edumyclient.base.network.AuthInterceptor
+import com.baykal.edumyclient.base.network.EdumyAuthenticator
+import com.baykal.edumyclient.data.service.AuthServiceImp
+import com.baykal.edumyclient.data.service.EdumyServiceImp
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
+import io.ktor.client.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
-const val BASE_URL = "http://192.168.1.111:8081"
-const val TIME_OUT = 60L
+const val BASE_URL = "192.168.1.112:8081"
+const val TIME_OUT = 60000L
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideClient(
+        loggingInterceptor: HttpLoggingInterceptor
+    ) = HttpClient(OkHttp) {
+        Charsets {
+            register(Charsets.UTF_8)
+        }
+        engine {
+            addInterceptor(loggingInterceptor)
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = TIME_OUT
+        }
+        install(ContentNegotiation) {
+            json(Json {
+                isLenient = true
+                prettyPrint = true
+                ignoreUnknownKeys = true
+            })
+        }
+        install(HttpCallValidator) {
+            validateResponse {
+                val code = it.status.value
+
+                when {
+                    code in 300..399 -> throw RedirectResponseException(it, "Redirect Error")
+                    code in 400..499 -> throw ClientRequestException(it, "Client Error")
+                    code in 500..599 -> throw ServerResponseException(it, "Server Error")
+                    code >= 600 -> throw ResponseException(it, "Response Error")
+                }
+            }
+
+            handleResponseExceptionWithRequest { cause, _ ->
+                throw cause
+            }
+        }
+    }
+
+    @Singleton
+    @Provides
+    @Named("AuthClient")
+    fun provideAuthClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        authenticator: EdumyAuthenticator
+    ) = HttpClient(OkHttp) {
+        Charsets {
+            register(Charsets.UTF_8)
+        }
+        engine {
+            addInterceptor(loggingInterceptor)
+            addInterceptor(authInterceptor)
+            config {
+                authenticator(authenticator)
+            }
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = TIME_OUT
+        }
+        install(ContentNegotiation) {
+            json(Json {
+                isLenient = true
+                prettyPrint = true
+                ignoreUnknownKeys = true
+            })
+        }
+        install(HttpCallValidator) {
+            validateResponse {
+                val code = it.status.value
+
+                when {
+                    code in 300..399 -> throw RedirectResponseException(it, "Redirect Error")
+                    code in 400..499 -> throw ClientRequestException(it, "Client Error")
+                    code in 500..599 -> throw ServerResponseException(it, "Server Error")
+                    code >= 600 -> throw ResponseException(it, "Response Error")
+                }
+            }
+
+            handleResponseExceptionWithRequest { cause, _ ->
+                throw cause
+            }
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuthService(
+        @Named("AuthClient") httpClient: HttpClient
+    ) = AuthServiceImp(httpClient)
+
+    @Singleton
+    @Provides
+    fun provideService(
+        httpClient: HttpClient
+    ) = EdumyServiceImp(httpClient)
+
+
+    // region Retrofit
     @Singleton
     @Provides
     fun provideGson(): Gson = GsonBuilder()
@@ -35,77 +136,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
-
-    @Singleton
-    @Provides
     fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    @Named("AuthClient")
-    @Singleton
-    @Provides
-    fun provideAuthOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-    ) = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .callTimeout(TIME_OUT, TimeUnit.SECONDS)
-        .build()
-
-    @Named("AuthRetrofit")
-    @Singleton
-    @Provides
-    fun provideAuthRetrofit(
-        @Named("AuthClient") okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-        networkAdapterFactory: NetworkAdapterFactory
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(networkAdapterFactory)
-        .client(okHttpClient)
-        .build()
-
-    @Singleton
-    @Provides
-    fun provideAuthService(
-        @Named("AuthRetrofit") retrofit: Retrofit
-    ): AuthService = retrofit.create(AuthService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor,
-        edumyAuthenticator: EdumyAuthenticator
-    ) = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .addInterceptor(authInterceptor)
-        .authenticator(edumyAuthenticator)
-        .callTimeout(TIME_OUT, TimeUnit.SECONDS)
-        .build()
-
-    @Singleton
-    @Provides
-    fun provideCallAdapterFactory() = NetworkAdapterFactory()
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-        networkAdapterFactory: NetworkAdapterFactory
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(networkAdapterFactory)
-        .client(okHttpClient)
-        .build()
-
-    @Singleton
-    @Provides
-    fun provideApiService(
-        retrofit: Retrofit
-    ): EdumyService = retrofit.create(EdumyService::class.java)
+    // endregion Retrofit
 }

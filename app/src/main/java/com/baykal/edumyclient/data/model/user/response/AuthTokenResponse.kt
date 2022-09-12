@@ -1,11 +1,15 @@
 package com.baykal.edumyclient.data.model.user.response
 
-import com.google.gson.annotations.SerializedName
+import com.baykal.edumyclient.base.data.DateSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.util.*
 
+@Serializable
 data class AuthTokenResponse(
-    @SerializedName("token")
+    @SerialName("token")
     val token: String,
-    @SerializedName("expireTime")
+    @Serializable(with = DateSerializer::class)
+    @SerialName("expireTime")
     val expireTime: Date?
 )

@@ -1,20 +1,25 @@
 package com.baykal.edumyclient.data.model.usage
 
-import com.google.gson.annotations.SerializedName
+import com.baykal.edumyclient.base.data.DateSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.util.*
 
+@Serializable
 data class UsageData(
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String? = null,
-    @SerializedName("usages")
+    @SerialName("usages")
     val usages: MutableList<Usage>? = ArrayList()
 )
 
+@Serializable
 data class Usage(
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("usage")
+    @SerialName("usage")
     val usage: Int? = null,
-    @SerializedName("date")
+    @Serializable(with = DateSerializer::class)
+    @SerialName("date")
     val date: Date? = null
 )

@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baykal.edumyclient.EdumyApp
 import com.baykal.edumyclient.base.data.ApiResponse
-import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.base.nav.EdumyController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -37,30 +37,32 @@ abstract class BaseViewModel : ViewModel() {
         controller.navigateToRoute(route, singleTop)
     }
 
-    protected fun <T> Flow<BaseResult<ApiResponse<T>>>.collectData(
+    protected fun <T> Flow<ApiResponse<out T>>.collectData(
         loading: Boolean = true,
         onSuccess: (T?) -> Unit
     ): Job {
         if (loading) setLoading(true)
         return onEach {
-            when (it) {
-                is BaseResult.Success -> {
-                    if (loading) setLoading(false)
-                    if (it.response.success) {
-                        delay(200)
-                        onSuccess.invoke(it.response.data)
-                    } else {
-                        delay(200)
-                        showError(it.response.error)
-                    }
+            when (it.success) {
+                true -> {
+                    setLoading(false)
+                    delay(200)
+                    ApiResponse.success(it.data)
+                    onSuccess.invoke(it.data)
                 }
-                is BaseResult.Error -> {
-                    if (loading) setLoading(false)
+                false -> {
+                    setLoading(false)
                     delay(200)
                     showError(it.error)
                 }
-                else -> {}
+                else -> {
+                    setLoading(true)
+                }
             }
+        }.catch { e ->
+            if (loading) setLoading(false)
+            delay(200)
+            showError(e.message)
         }.launchIn(scope)
     }
 }

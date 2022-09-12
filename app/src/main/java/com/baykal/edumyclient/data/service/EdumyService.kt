@@ -1,7 +1,6 @@
 package com.baykal.edumyclient.data.service
 
 import com.baykal.edumyclient.base.data.ApiResponse
-import com.baykal.edumyclient.base.data.BaseResult
 import com.baykal.edumyclient.data.model.answer.Answer
 import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
@@ -16,212 +15,75 @@ import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
 import com.baykal.edumyclient.data.model.user.response.User
-import okhttp3.MultipartBody
-import retrofit2.http.*
+import io.ktor.http.content.*
 
 interface EdumyService {
 
     // region User
-    @Headers("No-Auth:true")
-    @POST("/user/register")
-    suspend fun registerUser(
-        @Body registerCredentials: RegisterCredentials
-    ): BaseResult<ApiResponse<Unit>>
 
-    @Headers("No-Auth:true")
-    @POST("/user/login")
-    suspend fun loginUser(
-        @Body loginCredentials: LoginCredentials
-    ): BaseResult<ApiResponse<User>>
-
-    @POST("/user/update")
-    suspend fun updateUser(
-        @Body updateCredentials: UpdateCredentials
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/user/changePassword")
-    suspend fun changePassword(
-        @Body passwordCredentials: PasswordCredentials
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("user/info")
-    suspend fun getUserInformation(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<User>>
+    suspend fun registerUser(registerCredentials: RegisterCredentials): ApiResponse<Unit>
+    suspend fun loginUser(loginCredentials: LoginCredentials): ApiResponse<User>
+    suspend fun updateUser(updateCredentials: UpdateCredentials): ApiResponse<Unit>
+    suspend fun changePassword(passwordCredentials: PasswordCredentials): ApiResponse<Unit>
+    suspend fun getUserInformation(userId: String): ApiResponse<User>
 
     // endregion
 
     // region Classrooms
 
-    @POST("/class/add")
-    suspend fun addClassroom(
-        @Body classroom: ClassroomBody
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/class/assign")
-    suspend fun assignUserToClassroom(
-        @Query("classId") classId: String?,
-        @Query("userMail") userMail: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/class/info")
-    suspend fun getClassroomInformation(
-        @Query("classId") classId: String
-    ): BaseResult<ApiResponse<Classroom>>
-
-    @POST("/class/user")
-    suspend fun getUserClassrooms(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Classroom>>>
-
-    @POST("/class/leave")
-    suspend fun leaveClassroom(
-        @Query("classId") classId: String,
-        @Query("userMail") userMail: String?
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/class/delete")
-    suspend fun deleteClassroom(
-        @Query("classId") classId: String,
-        @Query("userMail") userMail: String?
-    ): BaseResult<ApiResponse<Unit>>
+    suspend fun addClassroom(classroom: ClassroomBody): ApiResponse<Unit>
+    suspend fun assignUserToClassroom(classId: String?, userMail: String): ApiResponse<Unit>
+    suspend fun getClassroomInformation(classId: String): ApiResponse<Classroom>
+    suspend fun getUserClassrooms(userId: String): ApiResponse<MutableList<Classroom>>
+    suspend fun leaveClassroom(classId: String, userMail: String?): ApiResponse<Unit>
+    suspend fun deleteClassroom(classId: String, userMail: String?): ApiResponse<Unit>
 
     // endregion
 
     // region Questions
 
-    @POST("/question/add")
-    suspend fun addQuestion(
-        @Body body: MultipartBody
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/question/delete")
-    suspend fun deleteQuestion(
-        @Query("questionId") questionId: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/question/feed")
-    suspend fun getQuestions(
-        @Query("page") page: Int,
-        @Query("limit") limit: Int
-    ): BaseResult<ApiResponse<MutableList<Question>>>
-
-    @POST("/question/classroom")
-    suspend fun getClassroomQuestions(
-        @Query("classId") classId: String,
-        @Query("page") page: Int,
-        @Query("limit") limit: Int
-    ): BaseResult<ApiResponse<MutableList<Question>>>
-
-    @POST("/question/user")
-    suspend fun getUserQuestions(
-        @Query("userId") userId: String,
-        @Query("page") page: Int,
-        @Query("limit") limit: Int
-    ): BaseResult<ApiResponse<MutableList<Question>>>
-
-    @POST("/question/info")
-    suspend fun getQuestionInformation(
-        @Query("questionId") questionId: String
-    ): BaseResult<ApiResponse<Question>>
+    suspend fun addQuestion(parts: List<PartData>): ApiResponse<Unit>
+    suspend fun deleteQuestion(questionId: String): ApiResponse<Unit>
+    suspend fun getQuestions(page: Int, limit: Int): ApiResponse<MutableList<Question>>
+    suspend fun getClassroomQuestions(classId: String, page: Int, limit: Int): ApiResponse<MutableList<Question>>
+    suspend fun getUserQuestions(userId: String, page: Int, limit: Int): ApiResponse<MutableList<Question>>
+    suspend fun getQuestionInformation(questionId: String): ApiResponse<Question>
 
     // endregion
 
     // region Answers
 
-    @POST("/answer/add")
-    suspend fun sendAnswer(
-        @Body body: MultipartBody
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/answer/delete")
-    suspend fun deleteAnswer(
-        @Query("answerId") answerId: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/answer/upvote")
-    suspend fun upVoteAnswer(
-        @Query("answerId") answerId: String,
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/answer/downvote")
-    suspend fun downVoteAnswer(
-        @Query("answerId") answerId: String,
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/answer/question")
-    suspend fun getQuestionAnswers(
-        @Query("questionId") questionId: String
-    ): BaseResult<ApiResponse<MutableList<Answer>>>
-
-    @POST("/answer/user")
-    suspend fun getUserAnswers(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Answer>>>
-
-    @POST("/answer/classroom")
-    suspend fun getClassroomAnswers(
-        @Query("classId") classId: String
-    ): BaseResult<ApiResponse<MutableList<Answer>>>
+    suspend fun sendAnswer(parts: List<PartData>): ApiResponse<Unit>
+    suspend fun deleteAnswer(answerId: String): ApiResponse<Unit>
+    suspend fun upVoteAnswer(answerId: String, userId: String): ApiResponse<Unit>
+    suspend fun downVoteAnswer(answerId: String, userId: String): ApiResponse<Unit>
+    suspend fun getQuestionAnswers(questionId: String): ApiResponse<MutableList<Answer>>
+    suspend fun getUserAnswers(userId: String): ApiResponse<MutableList<Answer>>
+    suspend fun getClassroomAnswers(classId: String): ApiResponse<MutableList<Answer>>
 
     // endregion
 
     // region Studies
 
-    @POST("/study/add")
-    suspend fun sendStudy(
-        @Body studyBody: StudyBody
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/study/delete")
-    suspend fun deleteStudy(
-        @Query("studyId") studyId: String
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/study/feed")
-    suspend fun getStudies(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Study>>>
-
-    @POST("/study/user")
-    suspend fun getUserStudies(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Study>>>
-
-    @POST("/study/classroom")
-    suspend fun getClassroomStudies(
-        @Query("classId") classId: String
-    ): BaseResult<ApiResponse<MutableList<Study>>>
+    suspend fun sendStudy(studyBody: StudyBody): ApiResponse<Unit>
+    suspend fun deleteStudy(studyId: String): ApiResponse<Unit>
+    suspend fun getStudies(userId: String): ApiResponse<MutableList<Study>>
+    suspend fun getUserStudies(userId: String): ApiResponse<MutableList<Study>>
+    suspend fun getClassroomStudies(classId: String): ApiResponse<MutableList<Study>>
 
     // endregion
 
     // region Usages
 
-    @POST("/usage/add")
-    suspend fun addUsage(
-        @Body usageBody: UsageData
-    ): BaseResult<ApiResponse<Unit>>
-
-    @GET("/usage/{userId}")
-    suspend fun getUserUsages(
-        @Path("userId") userId: String
-    ): BaseResult<ApiResponse<UsageData>>
+    suspend fun addUsage(usageBody: UsageData): ApiResponse<Unit>
+    suspend fun getUserUsages(userId: String): ApiResponse<UsageData>
 
     // endregion
 
     // region Meetings
 
-    @POST("/meeting/schedule")
-    suspend fun scheduleMeeting(
-        @Body meetingBody: MeetingBody
-    ): BaseResult<ApiResponse<Unit>>
-
-    @POST("/meeting/user")
-    suspend fun getUserMeetings(
-        @Query("userId") userId: String
-    ): BaseResult<ApiResponse<MutableList<Meeting>>>
+    suspend fun scheduleMeeting(meetingBody: MeetingBody): ApiResponse<Unit>
+    suspend fun getUserMeetings(userId: String): ApiResponse<MutableList<Meeting>>
 
     // endregion Meetings
 

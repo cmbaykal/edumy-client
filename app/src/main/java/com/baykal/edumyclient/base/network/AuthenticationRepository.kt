@@ -1,12 +1,12 @@
-package com.baykal.edumyclient.base.network.auth
+package com.baykal.edumyclient.base.network
 
 import com.baykal.edumyclient.base.data.BaseRepository
 import com.baykal.edumyclient.data.model.user.response.AuthTokenResponse
-import com.baykal.edumyclient.data.service.auth.AuthService
+import com.baykal.edumyclient.data.service.AuthServiceImp
 import javax.inject.Inject
 
 class AuthenticationRepository @Inject constructor(
-    private val service: AuthService
+    private val service: AuthServiceImp
 ) : BaseRepository() {
 
     suspend fun fetchToken(userId: String): AuthTokenResponse? {

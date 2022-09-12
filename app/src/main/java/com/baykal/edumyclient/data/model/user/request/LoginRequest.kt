@@ -1,10 +1,12 @@
 package com.baykal.edumyclient.data.model.user.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LoginCredentials(
-    @SerializedName("mail")
+    @SerialName("mail")
     val mail: String,
-    @SerializedName("pass")
+    @SerialName("pass")
     val pass: String
 )

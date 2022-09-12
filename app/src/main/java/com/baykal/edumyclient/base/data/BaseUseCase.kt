@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.flowOn
 
 abstract class BaseUseCase<in P, R>(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
-    protected abstract fun build(params: P): Flow<R>
+    protected abstract fun build(params: P): Flow<ApiResponse<out R>>
 
-    fun observe(params: P): Flow<R> = build(params).flowOn(dispatcher)
+    fun observe(params: P): Flow<ApiResponse<out R>> = build(params).flowOn(dispatcher)
 
 }

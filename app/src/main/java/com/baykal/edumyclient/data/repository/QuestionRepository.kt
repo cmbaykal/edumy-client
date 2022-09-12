@@ -1,15 +1,15 @@
 package com.baykal.edumyclient.data.repository
 
 import com.baykal.edumyclient.base.data.BaseRepository
-import com.baykal.edumyclient.data.service.EdumyService
-import okhttp3.MultipartBody
+import com.baykal.edumyclient.data.service.EdumyServiceImp
+import io.ktor.http.content.*
 import javax.inject.Inject
 
 class QuestionRepository @Inject constructor(
-    private val service: EdumyService
+    private val service: EdumyServiceImp
 ) : BaseRepository() {
 
-    fun askQuestion(body: MultipartBody) = fetch {
+    fun askQuestion(body: List<PartData>) = fetch {
         service.addQuestion(body)
     }
 

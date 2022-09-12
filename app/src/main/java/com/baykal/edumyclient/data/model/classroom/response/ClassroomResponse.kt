@@ -1,20 +1,19 @@
 package com.baykal.edumyclient.data.model.classroom.response
 
-import android.os.Parcelable
 import com.baykal.edumyclient.data.model.user.response.User
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class Classroom(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("lesson")
+    @SerialName("lesson")
     val lesson: String? = null,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("creatorId")
+    @SerialName("creatorId")
     val creatorId: String? = null,
-    @SerializedName("users")
+    @SerialName("users")
     val users: MutableList<User>? = ArrayList()
-):Parcelable
+)

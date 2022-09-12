@@ -1,32 +1,34 @@
 package com.baykal.edumyclient.data.model.user.response
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import com.baykal.edumyclient.base.data.DateSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.util.*
 
-@Parcelize
+@Serializable
 data class User(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("role")
+    @SerialName("role")
     val role: UserRole? = null,
-    @SerializedName("mail")
+    @SerialName("mail")
     val mail: String? = null,
-    @SerializedName("birth")
+    @Serializable(with = DateSerializer::class)
+    @SerialName("birth")
     val birth: Date? = null,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("bio")
+    @SerialName("bio")
     val bio: String? = null,
-    @SerializedName("classes")
+    @SerialName("classes")
     val classes: MutableList<String>? = ArrayList()
-) : Parcelable
+)
 
+@Serializable
 enum class UserRole {
-    @SerializedName("Student")
+    @SerialName("Student")
     Student,
 
-    @SerializedName("Teacher")
+    @SerialName("Teacher")
     Teacher;
 }

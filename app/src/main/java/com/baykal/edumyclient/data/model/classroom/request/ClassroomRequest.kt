@@ -1,12 +1,14 @@
 package com.baykal.edumyclient.data.model.classroom.request
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ClassroomBody(
-    @SerializedName("lesson")
+    @SerialName("lesson")
     val lesson: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("creatorId")
+    @SerialName("creatorId")
     val creatorId: String
 )
