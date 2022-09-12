@@ -5,9 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 open class BaseResponse(
-    @SerialName("success")
-    var success: Boolean? = null,
-
     @SerialName("error")
     var error: String? = null
 )
@@ -20,12 +17,9 @@ data class ApiResponse<T>(
     companion object {
         fun loading() = ApiResponse(null)
 
-        fun <T> success(data: T? = null) = ApiResponse(data).apply {
-            success = true
-        }
+        fun <T> success(data: T? = null) = ApiResponse(data)
 
         fun error(message: String? = null) = BaseResponse(
-            success = false,
             error = message ?: "Oops, an error occurred. Please try again.",
         )
     }

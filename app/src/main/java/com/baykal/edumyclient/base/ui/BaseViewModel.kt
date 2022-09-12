@@ -43,21 +43,18 @@ abstract class BaseViewModel : ViewModel() {
     ): Job {
         if (loading) setLoading(true)
         return onEach {
-            when (it.success) {
-                true -> {
-                    setLoading(false)
-                    delay(200)
-                    ApiResponse.success(it.data)
-                    onSuccess.invoke(it.data)
-                }
-                false -> {
-                    setLoading(false)
-                    delay(200)
-                    showError(it.error)
-                }
-                else -> {
-                    setLoading(true)
-                }
+            setLoading(true)
+            if (it.error != null) {
+                delay(200)
+                setLoading(false)
+                delay(200)
+                ApiResponse.success(it.data)
+                onSuccess.invoke(it.data)
+            } else {
+                delay(200)
+                setLoading(false)
+                delay(200)
+                showError(it.error)
             }
         }.catch { e ->
             if (loading) setLoading(false)
