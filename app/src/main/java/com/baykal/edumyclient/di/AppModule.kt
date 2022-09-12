@@ -2,7 +2,6 @@ package com.baykal.edumyclient.di
 
 import android.app.Application
 import com.baykal.edumyclient.base.preference.EdumySession
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +15,5 @@ object AppModule {
     @Provides
     fun provideSession(
         application: Application,
-        gson: Gson
-    ) = EdumySession(application, gson)
+    ) = EdumySession(application)
 }

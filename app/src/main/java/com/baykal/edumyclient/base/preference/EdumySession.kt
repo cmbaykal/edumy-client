@@ -6,9 +6,11 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.baykal.edumyclient.data.model.user.response.AuthTokenResponse
 import com.baykal.edumyclient.data.model.user.response.User
-import com.google.gson.Gson
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-class EdumySession(context: Context, val gson: Gson) {
+class EdumySession(context: Context) {
     private val preferences = EncryptedSharedPreferences.create(
         context,
         FILE_NAME,
@@ -18,7 +20,7 @@ class EdumySession(context: Context, val gson: Gson) {
     )
 
     fun saveUser(user: User) {
-        val userData = gson.toJson(user)
+        val userData = Json.encodeToString(user)
         preferences.edit {
             putString(USER, userData)
             commit()
@@ -49,7 +51,12 @@ class EdumySession(context: Context, val gson: Gson) {
         deleteUser()
     }
 
-    val user: User? get() = gson.fromJson(preferences.getString(USER, null), User::class.java)
+    val user: User? get() = preferences.getString(USER, null)?.let {
+            Json.decodeFromString<User>(it)
+        } ?: run {
+            null
+        }
+
 
     val token get() = preferences.getString(TOKEN, null)
 

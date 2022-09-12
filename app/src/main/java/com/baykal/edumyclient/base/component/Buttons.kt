@@ -188,7 +188,9 @@ fun ScreenButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+)
 @Composable
 fun ButtonsPreview() {
     EdumyClientTheme {
