@@ -264,7 +264,7 @@ fun ImageDialog(
             }
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data("$BASE_URL/image/$file")
+                    .data("http://$BASE_URL/image/$file")
                     .crossfade(true)
                     .build(),
                 contentDescription = description,

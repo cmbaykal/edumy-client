@@ -11,6 +11,7 @@ import com.baykal.edumyclient.data.domain.answer.SendAnswerUseCase
 import com.baykal.edumyclient.ui.screen.questionSection.questionDetail.QuestionDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -66,25 +67,27 @@ class WriteAnswerViewModel @Inject constructor(
                         append("description", description.text)
                         append("date", date)
 
-                        // TODO : Image File Part
-//                        imageUri?.let { uri ->
-//                            val fileBody = ContentUriRequestBody(application.contentResolver, uri)
-//                            body.addFormDataPart(
-//                                "image",
-//                                "questionImage.jpg",
-//                                fileBody
-//                            )
-//                        }
-//
-                        // TODO : Video File Part
-//                        videoUri?.let { uri ->
-//                            val fileBody = ContentUriRequestBody(application.contentResolver, uri)
-//                            body.addFormDataPart(
-//                                "video",
-//                                "questionVideo.mp4",
-//                                fileBody
-//                            )
-//                        }
+                        imageUri?.let { uri ->
+                            val inputStream = application.contentResolver.openInputStream(uri)
+                            val imageByteArray = inputStream?.readBytes()
+                            imageByteArray?.let {
+                                append("image", imageByteArray, Headers.build {
+                                    append(HttpHeaders.ContentType, "image/jpeg")
+                                    append(HttpHeaders.ContentDisposition, "filename=answerImage.png")
+                                })
+                            }
+                        }
+
+                        videoUri?.let { uri ->
+                            val inputStream = application.contentResolver.openInputStream(uri)
+                            val viewByteArray = inputStream?.readBytes()
+                            viewByteArray?.let {
+                                append("video", viewByteArray, Headers.build {
+                                    append(HttpHeaders.ContentType, "image/jpeg")
+                                    append(HttpHeaders.ContentDisposition, "filename=answerVideo.png")
+                                })
+                            }
+                        }
                     }
 
                     sendAnswerUseCase.observe(
