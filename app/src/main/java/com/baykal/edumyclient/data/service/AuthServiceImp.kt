@@ -19,9 +19,6 @@ class AuthServiceImp(
                 path("/user/auth/token")
                 parameter("userId", userId)
             }
-            headers {
-                append("No-Auth", "true")
-            }
         }.body()
     }
 }

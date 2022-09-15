@@ -1,5 +1,6 @@
 package com.baykal.edumyclient.di
 
+import com.baykal.edumyclient.base.data.BaseResponse
 import com.baykal.edumyclient.base.network.AuthInterceptor
 import com.baykal.edumyclient.base.network.EdumyAuthenticator
 import com.baykal.edumyclient.data.service.AuthServiceImp
@@ -9,9 +10,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
@@ -94,13 +97,16 @@ object NetworkModule {
         }
         install(HttpCallValidator) {
             validateResponse {
-                val code = it.status.value
+                if(!it.status.isSuccess()){
+                    val code = it.status.value
+                    val response:BaseResponse = it.body()
 
-                when {
-                    code in 300..399 -> throw RedirectResponseException(it, "Redirect Error")
-                    code in 400..499 -> throw ClientRequestException(it, "Client Error")
-                    code in 500..599 -> throw ServerResponseException(it, "Server Error")
-                    code >= 600 -> throw ResponseException(it, "Response Error")
+                    when {
+                        code in 300..399 -> throw RedirectResponseException(it, "Redirect Error")
+                        code in 400..499 -> throw Exception(response.error)
+                        code in 500..599 -> throw ServerResponseException(it, "Server Error")
+                        code >= 600 -> throw ResponseException(it, "Response Error")
+                    }
                 }
             }
 
