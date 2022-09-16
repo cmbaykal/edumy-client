@@ -1,6 +1,6 @@
 package com.baykal.edumyclient.ui.screen.meetingSection.meetings
 
-import android.content.Intent
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,10 +18,15 @@ import com.baykal.edumyclient.base.component.EFab
 import com.baykal.edumyclient.base.component.EList
 import com.baykal.edumyclient.base.component.ListSwipeRefreshSettings
 import com.baykal.edumyclient.base.component.ListType
+import com.baykal.edumyclient.data.model.meeting.response.Meeting
+import com.baykal.edumyclient.data.model.user.response.User
 import com.baykal.edumyclient.data.model.user.response.UserRole
 import com.baykal.edumyclient.ui.component.MeetingCard
-import com.baykal.edumyclient.ui.screen.meetingSection.meetingSession.MeetingActivity
 import com.baykal.edumyclient.ui.screen.meetingSection.scheduleMeeting.ScheduleMeetingRoute
+import org.jitsi.meet.sdk.JitsiMeetActivity
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
+import org.jitsi.meet.sdk.JitsiMeetUserInfo
+
 
 @Composable
 fun MeetingsScreen(
@@ -39,7 +44,7 @@ fun MeetingsScreen(
 
         Scaffold(
             floatingActionButton = {
-                if (userRole == UserRole.Teacher && meetings != null) {
+                if (user?.role == UserRole.Teacher && meetings != null) {
                     EFab(onClick = {
                         viewModel.navigate(ScheduleMeetingRoute.route)
                     })
@@ -72,13 +77,38 @@ fun MeetingsScreen(
                         ),
                         meeting = item,
                         onClick = {
-                            val intent = Intent(context, MeetingActivity::class.java)
-                            intent.putExtra("meeting", item)
-                            context.startActivity(intent)
+                            openMeetingActivity(context, user, item)
                         }
                     )
                 }
             }
         }
     }
+}
+
+fun openMeetingActivity(context: Context, user: User?, meeting: Meeting) {
+    val jitsiUser = JitsiMeetUserInfo()
+    jitsiUser.displayName = user?.name
+    jitsiUser.email = user?.mail
+
+    val options = JitsiMeetConferenceOptions.Builder()
+        .setRoom(meeting.id)
+        .setSubject(meeting.classroom?.lesson)
+        .setUserInfo(jitsiUser)
+        .setAudioMuted(false)
+        .setVideoMuted(false)
+        .setFeatureFlag("pip.enabled", true)
+        .setFeatureFlag("add-people.enabled", false)
+        .setFeatureFlag("invite.enabled", false)
+        .setFeatureFlag("notifications.enabled", false)
+        .setFeatureFlag("kick-out.enabled", false)
+        .setFeatureFlag("add-people.enabled", false)
+
+
+    if (user?.role == UserRole.Teacher) {
+        options.setFeatureFlag("kick-out.enabled", true)
+            .setFeatureFlag("add-people.enabled", true)
+    }
+
+    JitsiMeetActivity.launch(context, options.build())
 }

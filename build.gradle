@@ -10,7 +10,7 @@ buildscript {
         retrofit_version = "2.9.0"
         okhttp_version = "4.9.3"
         bcrypt_version = "1.0.9"
-        jitsi_version = "5.0.2"
+        jitsi_version = "6.1.0"
     }
 
     repositories {

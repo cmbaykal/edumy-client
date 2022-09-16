@@ -30,14 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.screen.meetingSection.meetingSession.MeetingActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:supportsPictureInPicture="true"
-            tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity" />
         <provider
             android:name=".base.data.BaseFileProvider"
             android:authorities="${applicationId}.provider"

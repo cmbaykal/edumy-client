@@ -23,7 +23,6 @@ import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
 import com.baykal.edumyclient.ui.screen.account.profile.ProfileRoute
 import com.baykal.edumyclient.ui.screen.account.register.RegisterRoute
 import com.baykal.edumyclient.ui.screen.account.update.UpdateUserRoute
-import com.baykal.edumyclient.ui.screen.appUsage.AppUsageRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classroomDetail.ClassroomDetailRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import com.baykal.edumyclient.ui.screen.classroomSection.createClass.CreateClassRoute
@@ -55,7 +54,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     ) {
                         EdumyToolbar(
                             navHostController = navController,
-                            title = mainState.pageTitle,
+                            title = stringResource(mainState.screenTitle),
                             topLevelScreen = setOf(
                                 stringResource(id = ClassroomsRoute.title),
                                 stringResource(id = QuestionsRoute.BASE_TITLE),
@@ -102,7 +101,6 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                     SendStudyRoute.composable(this, navController, state)
                     MeetingsRoute.composable(this, navController, state)
                     ScheduleMeetingRoute.composable(this, navController, state)
-                    AppUsageRoute.composable(this, navController, state)
                 }
             }
             AnimatedVisibility(

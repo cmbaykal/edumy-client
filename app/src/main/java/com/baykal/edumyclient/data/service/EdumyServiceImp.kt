@@ -15,7 +15,7 @@ import com.baykal.edumyclient.data.model.user.request.PasswordCredentials
 import com.baykal.edumyclient.data.model.user.request.RegisterCredentials
 import com.baykal.edumyclient.data.model.user.request.UpdateCredentials
 import com.baykal.edumyclient.data.model.user.response.User
-import com.baykal.edumyclient.di.BASE_URL
+import com.baykal.edumyclient.base.di.BASE_URL
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

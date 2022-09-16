@@ -40,7 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.extension.fontDimensionResource
-import com.baykal.edumyclient.di.BASE_URL
+import com.baykal.edumyclient.base.di.BASE_URL
 import java.util.*
 
 data class DialogButton(

@@ -1,8 +1,10 @@
 package com.baykal.edumyclient.ui
 
+import androidx.annotation.StringRes
+
 data class MainState(
     val startRoute: String? = null,
-    val pageTitle: String = "",
+    @StringRes val screenTitle: Int = 0,
     val bottomBarVisibility: Boolean = false,
     val topBarVisibility: Boolean = false,
     val menuVisibility: Boolean = true,

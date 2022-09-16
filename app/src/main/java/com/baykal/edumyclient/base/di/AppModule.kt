@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.di
+package com.baykal.edumyclient.base.di
 
 import android.app.Application
 import com.baykal.edumyclient.base.preference.EdumySession

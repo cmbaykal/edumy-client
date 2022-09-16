@@ -2,7 +2,7 @@ package com.baykal.edumyclient.data.service
 
 import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.data.model.user.response.AuthTokenResponse
-import com.baykal.edumyclient.di.BASE_URL
+import com.baykal.edumyclient.base.di.BASE_URL
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

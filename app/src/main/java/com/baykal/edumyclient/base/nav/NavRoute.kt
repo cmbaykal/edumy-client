@@ -49,7 +49,7 @@ interface NavRoute<T : BaseViewModel> {
 
             mainStateFlow.update { state ->
                 state.copy(
-                    pageTitle = stringResource(id = title),
+                    screenTitle = title,
                     bottomBarVisibility = bottomBarVisibility(),
                     topBarVisibility = topBarVisibility(),
                     menuVisibility = menuVisibility()

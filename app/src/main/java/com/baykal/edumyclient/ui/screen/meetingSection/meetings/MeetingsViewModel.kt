@@ -36,7 +36,7 @@ class MeetingsViewModel @Inject constructor(
 
     fun getMeetings() {
         session.withUser { user ->
-            _uiState.update { it.copy(userRole = user.role) }
+            _uiState.update { it.copy(user = user) }
             user.id?.let { userId ->
                 userMeetingsUseCase.observe(userId).collectData { response ->
                     _uiState.update { it.copy(meetings = response) }

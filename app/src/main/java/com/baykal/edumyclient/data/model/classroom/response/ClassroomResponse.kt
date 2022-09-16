@@ -1,6 +1,8 @@
 package com.baykal.edumyclient.data.model.classroom.response
 
+import android.os.Parcelable
 import com.baykal.edumyclient.data.model.user.response.User
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

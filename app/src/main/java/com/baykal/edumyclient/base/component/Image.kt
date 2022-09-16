@@ -11,7 +11,7 @@ import androidx.compose.ui.res.dimensionResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.baykal.edumyclient.R
-import com.baykal.edumyclient.di.BASE_URL
+import com.baykal.edumyclient.base.di.BASE_URL
 
 @Composable
 fun EImage(

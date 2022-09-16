@@ -1,4 +1,4 @@
-package com.baykal.edumyclient.di
+package com.baykal.edumyclient.base.di
 
 import com.baykal.edumyclient.base.data.BaseResponse
 import com.baykal.edumyclient.base.network.AuthInterceptor
