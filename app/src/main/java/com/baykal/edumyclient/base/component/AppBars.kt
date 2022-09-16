@@ -34,6 +34,7 @@ fun EdumyToolbar(
     title: String = stringResource(id = R.string.default_toolbar_title),
     navigateIcon: ImageVector = Icons.Filled.ArrowBack,
     topLevelScreen: Set<String> = setOf(),
+    menuVisibility: Boolean = false,
     menuIcon: ImageVector? = null,
     menuRoute: String? = null
 ) {
@@ -45,8 +46,7 @@ fun EdumyToolbar(
         backgroundColor = Color.White
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             if (!topLevelScreen.contains(currentLabel)) {
                 EIconButton(
@@ -65,7 +65,7 @@ fun EdumyToolbar(
                 text = title,
                 color = Gray
             )
-            if (menuIcon != null && currentRoute?.contains(menuRoute.toString()) == false)
+            if (menuVisibility && menuIcon != null && currentRoute?.contains(menuRoute.toString()) == false)
                 EIconButton(
                     modifier = Modifier
                         .padding(end = dimensionResource(id = R.dimen.padding_standard))

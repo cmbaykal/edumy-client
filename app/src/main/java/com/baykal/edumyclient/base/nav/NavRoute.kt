@@ -12,8 +12,6 @@ import androidx.navigation.compose.composable
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.ui.DialogState
 import com.baykal.edumyclient.ui.MainState
-import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
-import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -26,6 +24,8 @@ interface NavRoute<T : BaseViewModel> {
     fun bottomBarVisibility(): Boolean = false
 
     fun topBarVisibility(): Boolean = false
+
+    fun menuVisibility(): Boolean = true
 
     fun feed(): String = route
 
@@ -51,7 +51,8 @@ interface NavRoute<T : BaseViewModel> {
                 state.copy(
                     pageTitle = stringResource(id = title),
                     bottomBarVisibility = bottomBarVisibility(),
-                    topBarVisibility = topBarVisibility()
+                    topBarVisibility = topBarVisibility(),
+                    menuVisibility = menuVisibility()
                 )
             }
 
@@ -77,20 +78,6 @@ interface NavRoute<T : BaseViewModel> {
         mainState: MutableStateFlow<MainState>,
     ) {
         when (screenState) {
-            is ScreenState.Login -> {
-                mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
-                navHostController.currentBackStackEntry?.destination?.route?.let {
-                    navHostController.popBackStack(it, false)
-                }
-                navHostController.navigate(ClassroomsRoute.route)
-            }
-            is ScreenState.Logout -> {
-                mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
-                navHostController.currentBackStackEntry?.destination?.route?.let {
-                    navHostController.popBackStack(it, false)
-                }
-                navHostController.navigate(LoginRoute.route)
-            }
             is ScreenState.NavigateToRoute -> {
                 if (screenState.clearHistory) {
                     mainState.update { it.copy(startRoute = screenState.route) }

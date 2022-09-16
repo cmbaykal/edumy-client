@@ -18,7 +18,6 @@ abstract class BaseViewModel : ViewModel() {
     var args: Bundle? = null
     val controller: EdumyController = EdumyApp.screenController
 
-
     fun setArguments(bundle: Bundle) {
         args = bundle
     }

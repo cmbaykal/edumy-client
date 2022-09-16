@@ -19,9 +19,9 @@ class MainViewModel @Inject constructor(
 
     init {
         session.withUserId {
-            mainState.update { it.copy(loggedIn = true, startRoute = ClassroomsRoute.route) }
+            mainState.update { it.copy(startRoute = ClassroomsRoute.route) }
         } ?: run {
-            mainState.update { it.copy(loggedIn = false, startRoute = LoginRoute.route) }
+            mainState.update { it.copy(startRoute = LoginRoute.route) }
         }
     }
 }

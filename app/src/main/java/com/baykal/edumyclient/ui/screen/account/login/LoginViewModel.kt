@@ -5,6 +5,7 @@ import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.account.LoginUseCase
 import com.baykal.edumyclient.data.model.user.request.LoginCredentials
+import com.baykal.edumyclient.ui.screen.classroomSection.classrooms.ClassroomsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,7 +38,7 @@ class LoginViewModel @Inject constructor(
                 ).collectData { response ->
                     response?.let {
                         session.saveUser(it)
-                        controller.login()
+                        controller.navigateToRoute(ClassroomsRoute.route, true)
                     }
                 }
             }

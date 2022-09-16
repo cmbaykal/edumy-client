@@ -16,10 +16,6 @@ interface ScreenController {
     fun setLoading(visibility: Boolean)
     fun showDialog(title: String, message: String, onDismiss: () -> Unit = {})
 
-    // account
-    fun login()
-    fun logout()
-
     val screenState: StateFlow<ScreenState>
 }
 
@@ -33,13 +29,9 @@ class EdumyController : ScreenController {
 
     override fun popToRoute(route: String) = setState(ScreenState.PopToRoute(route))
 
-    override fun login() = setState(ScreenState.Login)
-
-    override fun logout() = setState(ScreenState.Logout)
-
     override fun navigateUp() = setState(ScreenState.NavigateUp())
 
-    override fun navigateToRoute(route: String, singleTop: Boolean) = setState(ScreenState.NavigateToRoute(route, singleTop))
+    override fun navigateToRoute(route: String, clearHistory: Boolean) = setState(ScreenState.NavigateToRoute(route, clearHistory))
 
     override fun setLoading(visibility: Boolean) = setState(ScreenState.SetLoading(visibility))
 

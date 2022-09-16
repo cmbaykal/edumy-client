@@ -4,6 +4,7 @@ import com.baykal.edumyclient.base.preference.EdumySession
 import com.baykal.edumyclient.base.preference.withUser
 import com.baykal.edumyclient.base.ui.BaseViewModel
 import com.baykal.edumyclient.data.domain.account.UserInformationUseCase
+import com.baykal.edumyclient.ui.screen.account.login.LoginRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,6 +38,6 @@ class ProfileViewModel @Inject constructor(
 
     fun logout() {
         session.drop()
-        controller.logout()
+        controller.navigateToRoute(LoginRoute.route, true)
     }
 }

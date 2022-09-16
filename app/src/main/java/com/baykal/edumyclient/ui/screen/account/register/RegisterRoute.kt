@@ -11,6 +11,8 @@ object RegisterRoute : NavRoute<RegisterViewModel> {
 
     override fun topBarVisibility() = true
 
+    override fun menuVisibility() = false
+
     @Composable
     override fun Content(viewModel: RegisterViewModel) {
         RegisterScreen(viewModel)

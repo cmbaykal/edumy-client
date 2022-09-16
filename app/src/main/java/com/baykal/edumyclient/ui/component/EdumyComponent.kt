@@ -62,9 +62,8 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                                 stringResource(id = StudiesRoute.BASE_TITLE),
                                 stringResource(id = MeetingsRoute.title)
                             ),
-                            menuIcon = if (mainState.loggedIn == true) {
-                                Icons.Filled.AccountCircle
-                            } else null,
+                            menuVisibility = mainState.menuVisibility,
+                            menuIcon = Icons.Filled.AccountCircle,
                             menuRoute = ProfileRoute.route
                         )
                     }
@@ -85,8 +84,7 @@ fun EdumyComponent(state: MutableStateFlow<MainState>) {
                 NavHost(
                     navController = navController,
                     startDestination = mainState.startRoute ?: LoginRoute.route,
-                    modifier = Modifier
-                        .padding(it)
+                    modifier = Modifier.padding(it)
                 ) {
                     LoginRoute.composable(this, navController, state)
                     RegisterRoute.composable(this, navController, state)
