@@ -28,6 +28,7 @@ class MeetingsViewModel @Inject constructor(
                 .collectData { classList ->
                     classList?.let { list ->
                         _uiState.update { it.copy(classrooms = list) }
+                        getMeetings()
                     }
                 }
         }

@@ -415,6 +415,7 @@ class EdumyServiceImp(
                 path("/meeting/schedule")
             }
             contentType(ContentType.Application.Json)
+            setBody(meetingBody)
         }.body()
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,8 +34,6 @@ fun MeetingsScreen(
         LaunchedEffect(meetings) {
             if (classrooms.isNullOrEmpty()) {
                 viewModel.getClassrooms()
-            } else if (meetings == null) {
-                viewModel.getMeetings()
             }
         }
 
@@ -59,6 +58,7 @@ fun MeetingsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = dimensionResource(id = R.dimen.padding_standard)),
+                    scrollState = rememberLazyGridState(),
                     listType = ListType.Grid(spanCount = 2),
                     swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::getMeetings),
                     listItems = meetings

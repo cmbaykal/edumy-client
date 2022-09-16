@@ -2,6 +2,7 @@ package com.baykal.edumyclient.ui.screen.questionSection.answers
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,6 +34,7 @@ fun AnswersScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(dimensionResource(id = R.dimen.padding_huge)),
+            scrollState = rememberLazyListState(),
             swipeRefreshSettings = ListSwipeRefreshSettings(
                 enabled = true,
                 onRefresh = { viewModel.getAnswers(true) }

@@ -1,13 +1,20 @@
 package com.baykal.edumyclient.base.component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.TabRowDefaults
@@ -22,6 +29,7 @@ import androidx.compose.ui.res.dimensionResource
 import com.baykal.edumyclient.R
 import com.baykal.edumyclient.base.extension.fontDimensionResource
 import com.baykal.edumyclient.base.extension.isScrolledToEnd
+import com.baykal.edumyclient.base.extension.scrollToEnd
 import com.baykal.edumyclient.base.ui.theme.Orange
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
@@ -135,11 +143,10 @@ data class ListLoadMoreSettings(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> EList(
     modifier: Modifier = Modifier,
-    scrollState: LazyListState = rememberLazyListState(),
+    scrollState: ScrollableState,
     listType: ListType = ListType.Default(),
     swipeRefreshSettings: ListSwipeRefreshSettings = ListSwipeRefreshSettings.Default,
     loadMoreSettings: ListLoadMoreSettings = ListLoadMoreSettings.Default,
@@ -150,16 +157,14 @@ fun <T> EList(
 
     val scrollEndState by remember {
         derivedStateOf {
-            with(scrollState) {
-                isScrolledToEnd()
-            }
+            scrollState.isScrolledToEnd()
         }
     }
 
     LaunchedEffect(scrollEndState) {
         if (scrollEndState && loadMoreSettings.enabled) {
             loadMoreSettings.onLoadMore()
-            scrollState.scrollToItem(scrollState.layoutInfo.totalItemsCount - 1)
+            scrollState.scrollToEnd()
         }
     }
 
@@ -173,7 +178,7 @@ fun <T> EList(
                 if (listType.orientation == ListOrientation.Vertical) {
                     LazyColumn(
                         modifier = modifier,
-                        state = scrollState
+                        state = scrollState as LazyListState
                     ) {
                         listItems?.let {
                             items(listItems) { item ->
@@ -191,7 +196,7 @@ fun <T> EList(
                 } else {
                     LazyRow(
                         modifier = modifier,
-                        state = scrollState
+                        state = scrollState as LazyListState
                     ) {
                         listItems?.let {
                             items(listItems) { item ->
@@ -213,8 +218,8 @@ fun <T> EList(
                 Column {
                     LazyVerticalGrid(
                         modifier = modifier,
-                        cells = GridCells.Fixed(listType.spanCount),
-                        state = scrollState
+                        columns = GridCells.Fixed(listType.spanCount),
+                        state = scrollState as LazyGridState
                     ) {
                         listItems?.let {
                             items(listItems) { item ->

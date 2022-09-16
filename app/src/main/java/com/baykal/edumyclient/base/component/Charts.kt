@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -103,6 +104,7 @@ fun PieChart(
                 }
                 EList(
                     modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
+                    scrollState = rememberLazyListState(),
                     listItems = data
                 ) {
                     Row(

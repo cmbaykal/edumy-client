@@ -3,6 +3,7 @@ package com.baykal.edumyclient.ui.screen.classroomSection.classrooms
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,6 +63,7 @@ fun ClassroomsScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = dimensionResource(id = R.dimen.padding_standard)),
+                    scrollState = rememberLazyListState(),
                     swipeRefreshSettings = ListSwipeRefreshSettings(enabled = true, onRefresh = viewModel::getClassrooms),
                     listItems = classrooms,
                 ) { classroom ->
