@@ -60,6 +60,7 @@ android {
             }
         }
     }
+    namespace 'com.baykal.edumyclient'
 }
 
 dependencies {

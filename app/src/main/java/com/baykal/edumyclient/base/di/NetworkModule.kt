@@ -21,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
 import javax.inject.Singleton
 
-const val BASE_URL = "192.168.1.112:8081"
+const val BASE_URL = "192.168.1.113:8081"
 const val TIME_OUT = 60000L
 
 @Module
