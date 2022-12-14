@@ -47,10 +47,7 @@ fun ClassroomsScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(
-                        start = dimensionResource(id = R.dimen.padding_big),
-                        end = dimensionResource(id = R.dimen.padding_big)
-                    )
+                    .padding(it)
             ) {
                 ESearchView(
                     modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard)),
