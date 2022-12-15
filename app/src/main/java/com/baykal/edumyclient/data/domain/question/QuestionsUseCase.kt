@@ -1,13 +1,12 @@
 package com.baykal.edumyclient.data.domain.question
 
-import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseUseCase
 import com.baykal.edumyclient.data.model.question.Question
-import com.baykal.edumyclient.data.repository.QuestionRepository
+import com.baykal.edumyclient.data.repository.QuestionRepositoryImpl
 import javax.inject.Inject
 
 class QuestionsUseCase @Inject constructor(
-    private val questionRepository: QuestionRepository
+    private val questionRepository: QuestionRepositoryImpl
 ) : BaseUseCase<QuestionsUseCase.Params, MutableList<Question>>() {
 
     override fun build(params: Params) = questionRepository.getQuestions(params.page, params.limit)

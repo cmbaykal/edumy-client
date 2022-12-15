@@ -14,12 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
-    private val session: EdumySession
+    private val session: EdumySession,
+    private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(LoginState())
-    private val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
 
     fun setEmail(state: InputState) {

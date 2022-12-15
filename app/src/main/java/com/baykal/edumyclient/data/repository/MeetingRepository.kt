@@ -1,19 +1,12 @@
 package com.baykal.edumyclient.data.repository
 
+import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseRepository
 import com.baykal.edumyclient.data.model.meeting.request.MeetingBody
-import com.baykal.edumyclient.data.service.EdumyServiceImp
-import javax.inject.Inject
+import com.baykal.edumyclient.data.model.meeting.response.Meeting
+import kotlinx.coroutines.flow.Flow
 
-class MeetingRepository @Inject constructor(
-    private val service: EdumyServiceImp
-) : BaseRepository() {
-
-    fun scheduleMeeting(meetingBody: MeetingBody) = fetch {
-        service.scheduleMeeting(meetingBody)
-    }
-
-    fun getUserMeetings(userId: String) = fetch {
-        service.getUserMeetings(userId)
-    }
+abstract class MeetingRepository : BaseRepository() {
+    abstract fun scheduleMeeting(meetingBody: MeetingBody): Flow<ApiResponse<out Unit>>
+    abstract fun getUserMeetings(userId: String): Flow<ApiResponse<out MutableList<Meeting>>>
 }

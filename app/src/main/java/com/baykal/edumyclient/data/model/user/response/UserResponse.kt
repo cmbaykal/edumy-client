@@ -21,7 +21,7 @@ data class User(
     @SerialName("bio")
     val bio: String? = null,
     @SerialName("classes")
-    val classes: MutableList<String>? = ArrayList()
+    val classes: MutableList<String>? = null
 )
 
 @Serializable

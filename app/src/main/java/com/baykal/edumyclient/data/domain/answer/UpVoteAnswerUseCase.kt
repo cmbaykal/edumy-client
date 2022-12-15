@@ -1,12 +1,11 @@
 package com.baykal.edumyclient.data.domain.answer
 
-import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseUseCase
-import com.baykal.edumyclient.data.repository.AnswerRepository
+import com.baykal.edumyclient.data.repository.AnswerRepositoryImpl
 import javax.inject.Inject
 
 class UpVoteAnswerUseCase @Inject constructor(
-    private val answerRepository: AnswerRepository
+    private val answerRepository: AnswerRepositoryImpl
 ) : BaseUseCase<UpVoteAnswerUseCase.Params, Unit>() {
 
     override fun build(params: Params) = answerRepository.upVoteAnswer(params.answerId, params.userId)

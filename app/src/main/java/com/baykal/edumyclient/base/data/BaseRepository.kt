@@ -8,5 +8,4 @@ open class BaseRepository {
         emit(ApiResponse.loading())
         emit(apiCall())
     }
-
 }

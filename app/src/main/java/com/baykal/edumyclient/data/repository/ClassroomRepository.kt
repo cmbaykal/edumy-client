@@ -1,35 +1,16 @@
 package com.baykal.edumyclient.data.repository
 
+import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseRepository
 import com.baykal.edumyclient.data.model.classroom.request.ClassroomBody
-import com.baykal.edumyclient.data.service.EdumyServiceImp
-import javax.inject.Inject
+import com.baykal.edumyclient.data.model.classroom.response.Classroom
+import kotlinx.coroutines.flow.Flow
 
-class ClassroomRepository @Inject constructor(
-    private val service: EdumyServiceImp
-) : BaseRepository() {
-
-    fun getUserClassrooms(userId: String) = fetch {
-        service.getUserClassrooms(userId)
-    }
-
-    fun addClass(classroomBody: ClassroomBody) = fetch {
-        service.addClassroom(classroomBody)
-    }
-
-    fun assignClass(classId: String?, userMail: String) = fetch {
-        service.assignUserToClassroom(classId, userMail)
-    }
-
-    fun leaveClass(classId: String, userMail: String?) = fetch {
-        service.leaveClassroom(classId, userMail)
-    }
-
-    fun deleteClass(classId: String, userMail: String?) = fetch {
-        service.deleteClassroom(classId, userMail)
-    }
-
-    fun getClassInformation(classId: String) = fetch {
-        service.getClassroomInformation(classId)
-    }
+abstract class ClassroomRepository : BaseRepository() {
+    abstract fun addClassroom(classroom: ClassroomBody): Flow<ApiResponse<out Unit>>
+    abstract fun assignUserToClassroom(classId: String?, userMail: String): Flow<ApiResponse<out Unit>>
+    abstract fun getClassroomInformation(classId: String): Flow<ApiResponse<out Classroom>>
+    abstract fun getUserClassrooms(userId: String): Flow<ApiResponse<out MutableList<Classroom>>>
+    abstract fun leaveClassroom(classId: String, userMail: String?): Flow<ApiResponse<out Unit>>
+    abstract fun deleteClassroom(classId: String, userMail: String?): Flow<ApiResponse<out Unit>>
 }

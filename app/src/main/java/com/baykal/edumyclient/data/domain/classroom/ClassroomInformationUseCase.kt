@@ -1,15 +1,13 @@
 package com.baykal.edumyclient.data.domain.classroom
 
-import com.baykal.edumyclient.base.data.ApiResponse
 import com.baykal.edumyclient.base.data.BaseUseCase
 import com.baykal.edumyclient.data.model.classroom.response.Classroom
-import com.baykal.edumyclient.data.repository.ClassroomRepository
+import com.baykal.edumyclient.data.repository.ClassroomRepositoryImpl
 import javax.inject.Inject
 
 class ClassroomInformationUseCase @Inject constructor(
-    private val classroomsRepository: ClassroomRepository
+    private val classroomsRepository: ClassroomRepositoryImpl
 ) : BaseUseCase<String, Classroom>() {
 
-    override fun build(params: String) = classroomsRepository.getClassInformation(params)
-
+    override fun build(params: String) = classroomsRepository.getClassroomInformation(params)
 }
